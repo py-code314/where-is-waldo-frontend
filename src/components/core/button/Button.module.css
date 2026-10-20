@@ -1,0 +1,8 @@
+/* Default button styles */
+.btn {
+  background-color: transparent;
+  border: transparent;
+  cursor: pointer;
+  font-family: var(--ff-secondary), sans-serif;
+  font-size: var(--fs-20, 1.25rem);
+}
