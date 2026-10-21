@@ -4,7 +4,7 @@ import styles from './Header.module.css'
 import wallyImg from '../../../assets/images/wally-waving.png'
 /* -------------------- Components -------------------- */
 import { Link } from 'react-router'
-// import Navbar from '../navbar/Navbar'
+import Navbar from '../navbar/Navbar'
 
 /* Component for header */
 const Header = () => {
@@ -16,9 +16,11 @@ const Header = () => {
         {/* Logo  */}
         <img src={wallyImg} alt="" width={70} height={50} />
         {/* Title */}
-        <h1 className={styles.title}><span>Where Is</span> Waldo</h1>
+        <h1 className={styles.title}>
+          <span>Where Is</span> Waldo
+        </h1>
       </Link>
-      {/* <Navbar /> */}
+      <Navbar />
     </header>
   )
 }
