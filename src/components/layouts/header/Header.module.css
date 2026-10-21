@@ -14,12 +14,13 @@
 }
 
 .title {
-  font-family: var(--ff-title), serif;
+  font-family: var(--ff-title);
+  font-weight: 900;
   text-transform: uppercase;
 }
 
 .title span {
   color: var(--clr-white, white);
-  background-color: var(--clr-red, red) ;
+  background-color: var(--clr-accent-1, red);
   padding-inline: var(--space-4, 0.25rem);
 }

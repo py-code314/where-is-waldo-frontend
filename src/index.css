@@ -73,83 +73,87 @@ a {
    =================== */
 
 /* Declare custom fonts */
+
+/* Playfair Display */
 @font-face {
-  font-family: 'Libre Baskerville Bold';
+  font-family: 'Playfair Display';
   src:
-    url('LibreBaskerville-Bold.woff2') format('woff2'),
-    url('LibreBaskerville-Bold.woff') format('woff');
+    url('PlayfairDisplay-Black.woff2') format('woff2'),
+    url('PlayfairDisplay-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src:
+    url('PlayfairDisplay-Bold.woff2') format('woff2'),
+    url('PlayfairDisplay-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Libre Baskerville Bold Italic';
+  font-family: 'Playfair Display';
   src:
-    url('LibreBaskerville-BoldItalic.woff2') format('woff2'),
-    url('LibreBaskerville-BoldItalic.woff') format('woff');
-  font-weight: bold;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Libre Baskerville Semi Bold';
-  src:
-    url('LibreBaskerville-SemiBold.woff2') format('woff2'),
-    url('LibreBaskerville-SemiBold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Libre Baskerville Semi Bold Italic';
-  src:
-    url('LibreBaskerville-SemiBoldItalic.woff2') format('woff2'),
-    url('LibreBaskerville-SemiBoldItalic.woff') format('woff');
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Libre Baskerville Medium';
-  src:
-    url('LibreBaskerville-Medium.woff2') format('woff2'),
-    url('LibreBaskerville-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Libre Baskerville Medium Italic';
-  src:
-    url('LibreBaskerville-MediumItalic.woff2') format('woff2'),
-    url('LibreBaskerville-MediumItalic.woff') format('woff');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Libre Baskerville Regular';
-  src:
-    url('LibreBaskerville-Regular.woff2') format('woff2'),
-    url('LibreBaskerville-Regular.woff') format('woff');
+    url('PlayfairDisplay-Regular.woff2') format('woff2'),
+    url('PlayfairDisplay-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Libre Baskerville Regular Italic';
+  font-family: 'Playfair Display';
   src:
-    url('LibreBaskerville-Italic.woff2') format('woff2'),
-    url('LibreBaskerville-Italic.woff') format('woff');
+    url('PlayfairDisplay-SemiBold.woff2') format('woff2'),
+    url('PlayfairDisplay-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Montserrat */
+
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('Montserrat-Italic.woff2') format('woff2'),
+    url('Montserrat-Italic.woff') format('woff');
   font-weight: normal;
   font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('Montserrat-Medium.woff2') format('woff2'),
+    url('Montserrat-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('Montserrat-Regular.woff2') format('woff2'),
+    url('Montserrat-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('Montserrat-SemiBold.woff2') format('woff2'),
+    url('Montserrat-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -163,8 +167,9 @@ a {
   /* Typography
   ============== */
   /* Fonts */
-  --ff-primary: 'Libre Baskerville Regular';
-  --ff-title: 'Libre Baskerville Bold';
+  --ff-primary: 'Montserrat', sans-serif;
+  /* --ff-title: 'Libre Baskerville', serif; */
+  --ff-title: 'Playfair Display', serif;
 
   /* Font sizes */
   --font-base-unit: var(--base-unit);
@@ -187,8 +192,10 @@ a {
   --fs-64: calc(var(--space-base-unit) * 16);
 
   /* Font weights */
-  --fw-medium: 500;
   --fw-bold: 700;
+  --fw-semibold: 600;
+  --fw-medium: 500;
+  --fw-regular: 400;
 
   /* Space
   ========= */
@@ -233,7 +240,7 @@ a {
   --clr-gray-8: #444;
   --clr-white: #fff;
   --clr-black: #000;
-  --clr-red: #ef2d24;
+  --clr-accent-1: #ef2d24;
 
   /* Border
   ========== */
@@ -257,6 +264,6 @@ a {
 /* Page styles  */
 #root {
   min-height: 100svh;
-  font-family: var(--ff-primary), serif;
+  font-family: var(--ff-primary);
   font-size: var(--fs-18, 1.125rem);
 }

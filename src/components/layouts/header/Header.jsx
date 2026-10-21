@@ -20,6 +20,7 @@ const Header = () => {
           <span>Where Is</span> Waldo
         </h1>
       </Link>
+
       <Navbar />
     </header>
   )
