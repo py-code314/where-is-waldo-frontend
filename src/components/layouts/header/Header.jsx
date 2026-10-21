@@ -12,7 +12,7 @@ const Header = () => {
     <header className={styles.header}>
       <title>Where's Waldo</title>
 
-      <Link to={`/home`}>
+      <Link to={`/home`} className={styles.link}>
         {/* Logo  */}
         <img src={wallyImg} alt="" width={70} height={50} />
         {/* Title */}

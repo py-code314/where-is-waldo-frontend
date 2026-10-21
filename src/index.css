@@ -73,16 +73,83 @@ a {
    =================== */
 
 /* Declare custom fonts */
+@font-face {
+  font-family: 'Libre Baskerville Bold';
+  src:
+    url('LibreBaskerville-Bold.woff2') format('woff2'),
+    url('LibreBaskerville-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face {
-  font-family: 'Quattrocento Sans Regular';
+  font-family: 'Libre Baskerville Bold Italic';
   src:
-    url('/src/assets/fonts/quattrocento-sans/QuattrocentoSans.woff2')
-      format('woff2'),
-    url('/src/assets/fonts/quattrocento-sans/QuattrocentoSans.woff')
-      format('woff');
+    url('LibreBaskerville-BoldItalic.woff2') format('woff2'),
+    url('LibreBaskerville-BoldItalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville Semi Bold';
+  src:
+    url('LibreBaskerville-SemiBold.woff2') format('woff2'),
+    url('LibreBaskerville-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville Semi Bold Italic';
+  src:
+    url('LibreBaskerville-SemiBoldItalic.woff2') format('woff2'),
+    url('LibreBaskerville-SemiBoldItalic.woff') format('woff');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville Medium';
+  src:
+    url('LibreBaskerville-Medium.woff2') format('woff2'),
+    url('LibreBaskerville-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville Medium Italic';
+  src:
+    url('LibreBaskerville-MediumItalic.woff2') format('woff2'),
+    url('LibreBaskerville-MediumItalic.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville Regular';
+  src:
+    url('LibreBaskerville-Regular.woff2') format('woff2'),
+    url('LibreBaskerville-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville Regular Italic';
+  src:
+    url('LibreBaskerville-Italic.woff2') format('woff2'),
+    url('LibreBaskerville-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -96,7 +163,8 @@ a {
   /* Typography
   ============== */
   /* Fonts */
-  --ff-primary: 'Quattrocento Sans Regular';
+  --ff-primary: 'Libre Baskerville Regular';
+  --ff-title: 'Libre Baskerville Bold';
 
   /* Font sizes */
   --font-base-unit: var(--base-unit);
@@ -165,7 +233,7 @@ a {
   --clr-gray-8: #444;
   --clr-white: #fff;
   --clr-black: #000;
-  --clr-red: #ff0000;
+  --clr-red: #ef2d24;
 
   /* Border
   ========== */
@@ -186,10 +254,9 @@ a {
   --shadow-2: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
 
-
 /* Page styles  */
 #root {
   min-height: 100svh;
-  font-family: var(--ff-primary), sans-serif;
+  font-family: var(--ff-primary), serif;
   font-size: var(--fs-18, 1.125rem);
 }

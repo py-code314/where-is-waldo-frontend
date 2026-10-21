@@ -1,0 +1,25 @@
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-32, 2rem);
+  border: 1px solid #000;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8, 0.5rem);
+}
+
+.title {
+  font-family: var(--ff-title), serif;
+  text-transform: uppercase;
+}
+
+.title span {
+  color: var(--clr-white, white);
+  background-color: var(--clr-red, red) ;
+  padding-inline: var(--space-4, 0.25rem);
+}
