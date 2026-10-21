@@ -11,7 +11,9 @@ const Homepage = () => {
     <>
       <div className={styles.home}>
         <Header />
-        <Outlet />
+        <div className={styles.main}>
+          <Outlet />
+        </div>
         <Footer />
       </div>
     </>
