@@ -1,0 +1,21 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: var(--space-16, 1rem);
+  padding: var(--space-16, 1rem) var(--space-32, 2rem);
+  color: var(--clr-glossy-silver, silver);
+  background-color: var(--clr-nautical-blue, midnightblue);
+}
+
+.footerList {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+hr {
+  border: none; /* Remove border to make the line thinner */
+  height: 0.1px;
+  background-color: var(--clr-glossy-silver, silver);
+}
