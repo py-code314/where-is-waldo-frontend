@@ -13,7 +13,7 @@
 .link {
   position: relative;
   display: inline-block;
-  padding: 0 2px;
+  padding: 5px;
   transition: color ease 0.3s;
 
   &::after {
@@ -35,4 +35,64 @@
       height: 100%;
     }
   }
+}
+
+/* Hide button in desktop mode */
+.toggleMenuBtn {
+  display: none;
+}
+
+/* Mobile styles */
+@media (max-width: 68.75rem) {
+  /* Show 'toggle menu' button */
+  .toggleMenuBtn {
+    display: block;
+    position: relative;
+  }
+
+  .toggleMenuBtn:focus {
+    outline: var(--space-2, 00.125rem) solid;
+  }
+
+  .menu {
+  /* Hide the element */
+  opacity: 0;
+  visibility: hidden;
+
+  /* Placement */
+  position: absolute;
+  right: var(--space-48, 3rem);
+
+  width: var(--space-200, 12.5rem);
+  padding: var(--space-16, 1rem);
+  box-shadow: var(
+    --shadow-1,
+    rgba(0, 0, 0, 0.16) 0px 1px 4px
+  );
+  border-radius: var(--radius-5, 00.3125rem);
+  background-color: var(--clr-accent-2, midnightblue);
+  color: var(--clr-white, white);
+  flex-direction: column;
+  
+
+  /* Animation */
+  transform: translateY(-10px);
+  transition:
+    opacity 500ms ease-in-out,
+    transform 500ms ease-in-out;
+}
+
+/* Change link text color separately  */
+.link {
+  color: var(--clr-white, white);
+}
+
+/* Show dropdown */
+.open {
+  composes: menu;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  z-index: 99;
+}
 }
