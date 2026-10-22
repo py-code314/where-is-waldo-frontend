@@ -16,11 +16,18 @@
 .title {
   font-family: var(--ff-title);
   font-weight: 900;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
+  display: flex;
+  align-items: center;
+  gap: var(--space-4, 00.25rem);
 }
 
-.title span {
+.titlePrefix {
   color: var(--clr-white, white);
   background-color: var(--clr-accent-1, red);
   padding-inline: var(--space-4, 0.25rem);
+}
+
+.titleMain {
+  font-size: var(--fs-40, 2.5rem);
 }

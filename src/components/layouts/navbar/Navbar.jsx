@@ -18,13 +18,16 @@ const Navbar = () => {
           </li>
           {/* Inactive links  */}
           <li className={styles.navItem}>
-            <span className={styles.placeholderLink}>Tools</span>
+            <span className={styles.placeholderLink}>Levels</span>
           </li>
           <li className={styles.navItem}>
-            <span className={styles.placeholderLink}>Blog</span>
+            <span className={styles.placeholderLink}>Leaderboard</span>
           </li>
           <li className={styles.navItem}>
-            <span className={styles.placeholderLink}>About Us</span>
+            <span className={styles.placeholderLink}>How to Play</span>
+          </li>
+          <li className={styles.navItem}>
+            <span className={styles.placeholderLink}>Characters</span>
           </li>
         </ul>
       </nav>

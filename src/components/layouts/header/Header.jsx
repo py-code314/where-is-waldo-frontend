@@ -17,7 +17,8 @@ const Header = () => {
         <img src={wallyImg} alt="" width={70} height={50} />
         {/* Title */}
         <h1 className={styles.title}>
-          <span>Where Is</span> Waldo
+          <span className={styles.titlePrefix}>where is</span> <span className={styles.titleMain}>Waldo</span>
+          {/* <span className={styles.titlePrefix}>Where Is</span> <span className={styles.titleMain}>Waldo</span> */}
         </h1>
       </Link>
 
