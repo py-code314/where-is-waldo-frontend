@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 /* ===================
    JOSH COMEAU'S RESET 
    =================== */
@@ -88,8 +78,10 @@ a {
 @font-face {
   font-family: 'Playfair Display';
   src:
-    url('PlayfairDisplay-Black.woff2') format('woff2'),
-    url('PlayfairDisplay-Black.woff') format('woff');
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-Black.woff2'),
+    /* url('PlayfairDisplay-Black.woff2') format('woff2'), */
+      url('./assets/fonts/Playfair-Display/PlayfairDisplay-Black.woff')
+      format('woff');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -98,9 +90,11 @@ a {
 @font-face {
   font-family: 'Playfair Display';
   src:
-    url('PlayfairDisplay-Bold.woff2') format('woff2'),
-    url('PlayfairDisplay-Bold.woff') format('woff');
-  font-weight: bold;
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-Bold.woff2')
+      format('woff2'),
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-Bold.woff')
+      format('woff');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -108,19 +102,23 @@ a {
 @font-face {
   font-family: 'Playfair Display';
   src:
-    url('PlayfairDisplay-Regular.woff2') format('woff2'),
-    url('PlayfairDisplay-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Playfair Display';
-  src:
-    url('PlayfairDisplay-SemiBold.woff2') format('woff2'),
-    url('PlayfairDisplay-SemiBold.woff') format('woff');
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-SemiBold.woff2')
+      format('woff2'),
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-SemiBold.woff')
+      format('woff');
   font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src:
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-Regular.woff2')
+      format('woff2'),
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-Regular.woff')
+      format('woff');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -130,9 +128,9 @@ a {
 @font-face {
   font-family: 'Montserrat';
   src:
-    url('Montserrat-Italic.woff2') format('woff2'),
-    url('Montserrat-Italic.woff') format('woff');
-  font-weight: normal;
+    url('./assets/fonts/Montserrat/Montserrat-Black.woff2') format('woff2'),
+    url('./assets/fonts/Montserrat/Montserrat-Black.woff') format('woff');
+  font-weight: 900;
   font-style: italic;
   font-display: swap;
 }
@@ -140,8 +138,28 @@ a {
 @font-face {
   font-family: 'Montserrat';
   src:
-    url('Montserrat-Medium.woff2') format('woff2'),
-    url('Montserrat-Medium.woff') format('woff');
+    url('./assets/fonts/Montserrat/Montserrat-Bold.woff2') format('woff2'),
+    url('./assets/fonts/Montserrat/Montserrat-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('./assets/fonts/Montserrat/Montserrat-SemiBold.woff2') format('woff2'),
+    url('./assets/fonts/Montserrat/Montserrat-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('./assets/fonts/Montserrat/Montserrat-Medium.woff2') format('woff2'),
+    url('./assets/fonts/Montserrat/Montserrat-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -150,9 +168,9 @@ a {
 @font-face {
   font-family: 'Montserrat';
   src:
-    url('Montserrat-Regular.woff2') format('woff2'),
-    url('Montserrat-Regular.woff') format('woff');
-  font-weight: normal;
+    url('./assets/fonts/Montserrat/Montserrat-Regular.woff2') format('woff2'),
+    url('./assets/fonts/Montserrat/Montserrat-Regular.woff') format('woff');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -160,10 +178,10 @@ a {
 @font-face {
   font-family: 'Montserrat';
   src:
-    url('Montserrat-SemiBold.woff2') format('woff2'),
-    url('Montserrat-SemiBold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
+    url('./assets/fonts/Montserrat/Montserrat-Italic.woff2') format('woff2'),
+    url('./assets/fonts/Montserrat/Montserrat-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -178,7 +196,6 @@ a {
   ============== */
   /* Fonts */
   --ff-primary: 'Montserrat', sans-serif;
-  /* --ff-title: 'Libre Baskerville', serif; */
   --ff-title: 'Playfair Display', serif;
 
   /* Font sizes */
@@ -202,10 +219,10 @@ a {
   --fs-64: calc(var(--space-base-unit) * 16);
 
   /* Font weights */
-  --fw-bold: 700;
+  /* --fw-bold: 700;
   --fw-semibold: 600;
   --fw-medium: 500;
-  --fw-regular: 400;
+  --fw-regular: 400; */
 
   /* Space
   ========= */
@@ -251,8 +268,8 @@ a {
   --clr-white: #fff;
   --clr-black: #000;
   --clr-accent-1: #ef2d24;
-  --clr-nautical-blue: #1E3557;
-  --clr-glossy-silver: #BCC2CD;
+  --clr-accent-2: #1e3557;
+  --clr-text-muted: #bcc2cd;
 
   /* Border
   ========== */
@@ -277,5 +294,5 @@ a {
 #root {
   min-height: 100svh;
   font-family: var(--ff-primary);
-  font-size: var(--fs-18, 1.125rem);
+  /* font-size: var(--fs-18, 1.125rem); */
 }

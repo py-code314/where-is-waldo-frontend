@@ -1,0 +1,40 @@
+.hero {
+  position: relative;
+  height: var(--space-400, 25rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: var(--fs-18, 1.125rem);
+}
+
+.hero::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: url('../../../assets/images/wally-with-friends.jpg');
+  background-repeat: repeat-x;
+  background-position: 50% 0;
+  background-size: contain;
+}
+
+.hero > * {
+  position: relative;
+}
+
+.sectionTitle {
+  color: var(--clr-accent-2, midnightblue);
+  font-family: var(--ff-title);
+  font-size: var(--fs-48, 3rem);
+  font-weight: 900;
+}
+
+.description {
+  font-weight: 600;
+}
