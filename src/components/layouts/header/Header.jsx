@@ -14,7 +14,7 @@ const Header = () => {
 
       <Link to={`/home`} className={styles.link}>
         {/* Logo  */}
-        <img src={wallyImg} alt="" width={70} height={50} />
+        <img className={styles.wallyImg} src={wallyImg} alt="" width={70} height={50} />
         {/* Title */}
         <h1 className={styles.title}>
           <span className={styles.titlePrefix}>where is</span> <span className={styles.titleMain}>Waldo</span>

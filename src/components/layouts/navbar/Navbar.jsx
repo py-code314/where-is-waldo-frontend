@@ -35,7 +35,7 @@ const Navbar = () => {
         onKeyDown={(e) => handleKeyDown(e)}
         ariaLabel="Main navigation menu"
         ariaExpanded={isMenuOpen}>
-        <img src={menuIcon} alt="" width={40} height={40} aria-hidden='true' />
+        <img className={styles.menuIcon} src={menuIcon} alt="" width={40} height={40} aria-hidden='true' />
       </Button>
 
       {/* Add 'open' class when the 'toggle menu' button is clicked */}
