@@ -26,23 +26,25 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={styles.navbar}>
-        {/* No need for 'onKeyDown' event handler to open menu because browser fires 'click' event when 'Enter' or 'Space bar' buttons are pressed while 'toggle menu' button is focused. Also, no need to check for 'e.key' as browser generates 'click' event only for those two keys */}
-        {/* Add 'onKeyDown' for 'Esc' key as pressing it doesn't fire 'click' event  */}
-        <Button
-          className="menuToggleBtn"
-          title="Toggle menu"
-          onClick={() => handleClick()}
-          onKeyDown={(e) => handleKeyDown(e)}
-          ariaLabel="Toggle navigation menu"
-          ariaExpanded={isMenuOpen}>
-          <img src={menuIcon} alt="" width={40} height={40} />
-        </Button>
+      {/* No need for 'onKeyDown' event handler to open menu because browser fires 'click' event when 'Enter' or 'Space bar' buttons are pressed while 'toggle menu' button is focused. Also, no need to check for 'e.key' as browser generates 'click' event only for those two keys */}
+      {/* Add 'onKeyDown' for 'Esc' key as pressing it doesn't fire 'click' event  */}
+      <Button
+        className="menuToggleBtn"
+        title="Toggle menu"
+        onClick={() => handleClick()}
+        onKeyDown={(e) => handleKeyDown(e)}
+        ariaLabel="Main navigation menu"
+        ariaExpanded={isMenuOpen}>
+        <img src={menuIcon} alt="" width={40} height={40} aria-hidden='true' />
+      </Button>
 
+      {/* Add 'open' class when the 'toggle menu' button is clicked */}
+      <nav
+        className={`${styles.navbar}  ${isMenuOpen ? styles.open : styles.hidden}`}
+        aria-label="Main navigation menu">
         {/* Navigation links */}
-        {/* Add 'open' class when the 'toggle menu' button is clicked */}
-        <ul
-          className={`${styles.navList}  ${isMenuOpen ? styles.open : styles.menu}`}>
+
+        <ul className={styles.navList}>
           <li className={styles.navItem}>
             {/* Home link  */}
             <Link className={styles.link} to={`/home`}>
