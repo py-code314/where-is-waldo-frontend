@@ -37,23 +37,8 @@
   }
 }
 
-/* Hide button in desktop mode */
-.toggleMenuBtn {
-  display: none;
-}
-
 /* Mobile styles */
 @media (max-width: 68.75rem) {
-  /* Show 'toggle menu' button */
-  .toggleMenuBtn {
-    display: block;
-    position: relative;
-  }
-
-  .toggleMenuBtn:focus {
-    outline: var(--space-2, 00.125rem) solid;
-  }
-
   .menu {
   /* Hide the element */
   opacity: 0;

@@ -3,6 +3,25 @@
   background-color: transparent;
   border: transparent;
   cursor: pointer;
-  font-family: var(--ff-secondary), sans-serif;
+  font-family: var(--ff-primary);
   font-size: var(--fs-20, 1.25rem);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Hide button in desktop mode */
+.menuToggleBtn {
+  display: none;
+}
+
+/* Mobile styles */
+@media (max-width: 68.75rem /* 1100px */) {
+  /* Show 'toggle menu' button */
+  .menuToggleBtn {
+    display: block;
+    position: relative;
+  }
 }
