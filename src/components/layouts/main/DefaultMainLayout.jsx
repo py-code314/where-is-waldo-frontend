@@ -2,6 +2,7 @@
 import styles from './DefaultMainLayout.module.css'
 /* -------------------- Components -------------------- */
 import Hero from '../../sections/hero/Hero'
+import LevelSelection from '../../sections/levels/LevelSelection'
 
 /* Content to show upon initial page load */
 const DefaultMainLayout = () => {
@@ -9,6 +10,7 @@ const DefaultMainLayout = () => {
     <>
       <div className={styles.defaultLayout}>
         <Hero />
+        <LevelSelection/>
       </div>
     </>
   )

@@ -90,6 +90,18 @@ a {
 @font-face {
   font-family: 'Playfair Display';
   src:
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-ExtraBold.woff2')
+      format('woff2'),
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-ExtraBold.woff')
+      format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src:
     url('./assets/fonts/Playfair-Display/PlayfairDisplay-Bold.woff2')
       format('woff2'),
     url('./assets/fonts/Playfair-Display/PlayfairDisplay-Bold.woff')
@@ -232,7 +244,9 @@ a {
   --space-18: calc(var(--space-base-unit) * 4.5);
   --space-20: calc(var(--space-base-unit) * 5);
   --space-24: calc(var(--space-base-unit) * 6);
+  --space-28: calc(var(--space-base-unit) * 7);
   --space-32: calc(var(--space-base-unit) * 8);
+  --space-36: calc(var(--space-base-unit) * 9);
   --space-40: calc(var(--space-base-unit) * 10);
   --space-48: calc(var(--space-base-unit) * 12);
   --space-56: calc(var(--space-base-unit) * 14);
@@ -253,6 +267,7 @@ a {
   --space-500: calc(var(--space-base-unit) * 125);
   --space-600: calc(var(--space-base-unit) * 150);
   --space-700: calc(var(--space-base-unit) * 175);
+  --space-800: calc(var(--space-base-unit) * 200);
   --space-1100: calc(var(--space-base-unit) * 275);
   --space-1200: calc(var(--space-base-unit) * 300);
 

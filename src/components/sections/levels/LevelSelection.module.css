@@ -1,0 +1,61 @@
+.levels {
+  padding: clamp(
+      var(--space-24, 1.5rem),
+      1.071rem + 2.143vw,
+      var(--space-48, 3rem)
+    )
+    1rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(var(--space-8, 0.5rem), 0.357rem + 0.714vw, var(--space-16, 1rem));
+  align-items: center;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: clamp(
+    var(--space-28, 1.75rem),
+    1.679rem + 0.357vw,
+    var(--space-32, 2rem)
+  );
+  line-height: clamp(
+    var(--space-36, 2.25rem),
+    2.036rem + 1.071vw,
+    var(--space-48, 3rem)
+  );
+  font-family: var(--ff-title);
+  font-weight: 800;
+  margin-block-end: clamp(
+    var(--space-8, 0.5rem),
+    0.357rem + 0.714vw,
+    var(--space-16, 1rem)
+  );
+  /* Apply gradient color to section title */
+  background: linear-gradient(
+    90deg,
+    hsl(3deg 91% 34%) 0%,
+    hsl(2deg 89% 32%) 8%,
+    hsl(1deg 88% 30%) 17%,
+    hsl(0deg 87% 28%) 25%,
+    hsl(359deg 88% 26%) 33%,
+    hsl(359deg 89% 24%) 42%,
+    hsl(358deg 90% 22%) 50%,
+    hsl(358deg 91% 20%) 58%,
+    hsl(358deg 92% 18%) 67%,
+    hsl(358deg 93% 17%) 75%,
+    hsl(358deg 94% 15%) 83%,
+    hsl(359deg 95% 13%) 92%,
+    hsl(0deg 97% 11%) 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  max-width: var(--space-800, 50rem);
+  font-size: clamp(
+    var(--space-14, 0.875rem),
+    0.839rem + 0.179vw,
+    var(--space-16, 1rem)
+  );
+}
