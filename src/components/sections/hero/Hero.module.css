@@ -1,12 +1,17 @@
 .hero {
   position: relative;
-  height: var(--space-400, 25rem);
+  min-height: clamp(
+    var(--space-250, 15.625rem),
+    12.946rem + 13.393vw,
+    var(--space-400, 25rem)
+  );
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: var(--fs-18, 1.125rem);
+  gap: var(--space-4, 0.25rem);
+  padding: var(--space-32, 2rem) var(--space-16, 1rem);
 }
 
 .hero::before {
@@ -21,7 +26,7 @@
   background-image: url('../../../assets/images/wally-with-friends.jpg');
   background-repeat: repeat-x;
   background-position: 50% 0;
-  background-size: contain;
+  background-size: cover;
 }
 
 .hero > * {
@@ -31,10 +36,12 @@
 .sectionTitle {
   color: var(--clr-accent-2, midnightblue);
   font-family: var(--ff-title);
-  font-size: var(--fs-48, 3rem);
+  font-size: clamp(var(--space-32, 2rem), 1.714rem + 1.429vw, var(--space-48, 3rem));
   font-weight: 900;
+  line-height: clamp(var(--space-40, 2.5rem), 1.929rem + 2.857vw, var(--space-72, 4.5rem));
 }
 
 .description {
   font-weight: 600;
+  font-size: clamp(var(--space-14, 0.875rem), 0.804rem + 0.357vw, var(--space-18, 1.125rem));
 }

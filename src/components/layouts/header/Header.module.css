@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: space-between;
   padding: clamp(1rem, 0.714rem + 1.429vw, 2rem);
-  border: 1px solid #000;
 }
 
 .link {
