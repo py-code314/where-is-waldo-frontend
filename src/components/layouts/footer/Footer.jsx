@@ -7,19 +7,30 @@ const Footer = () => {
     <>
       <footer className={styles.footer}>
         {/* Footer list */}
+
         <ul className={styles.footerList}>
-          <li className={styles.footerItem}>Help</li>
-          <li className={styles.footerItem}>FAQ</li>
-          <li className={styles.footerItem}>About</li>
-          <li className={styles.footerItem}>Contact</li>
-          <li className={styles.footerItem}>Privacy</li>
-          <li className={styles.footerItem}>Disclaimer</li>
+          <div className={styles.footerItems}>
+            <li className={styles.footerItem}>Help</li>
+            <li className={styles.footerItem}>FAQ</li>
+          </div>
+          <div className={styles.footerItems}>
+            <li className={styles.footerItem}>About</li>
+            <li className={styles.footerItem}>Contact</li>
+          </div>
+          <div className={styles.footerItems}>
+            <li className={styles.footerItem}>Privacy</li>
+            <li className={styles.footerItem}>Disclaimer</li>
+          </div>
         </ul>
+
+        {/* Divider  */}
         <hr />
-        <p>&copy; 2026 WhereIsWaldo.com. All rights reserved.</p>
+
+        <p className={styles.copyright}>
+          <span>&copy; 2026 whereiswaldo.com. </span>
+          <span>All rights reserved.</span>
+        </p>
       </footer>
-      
-      
     </>
   )
 }
