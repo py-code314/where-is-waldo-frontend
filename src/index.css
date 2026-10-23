@@ -306,4 +306,6 @@ a {
   min-height: 100svh;
   font-family: var(--ff-primary);
   /* font-size: var(--fs-18, 1.125rem); */
+  display: flex;
+  flex-direction: column;
 }
