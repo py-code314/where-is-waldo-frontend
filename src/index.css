@@ -227,6 +227,7 @@ a {
   --space-8: calc(var(--space-base-unit) * 2);
   --space-10: calc(var(--space-base-unit) * 2.5);
   --space-12: calc(var(--space-base-unit) * 3);
+  --space-14: calc(var(--space-base-unit) * 3.5);
   --space-16: calc(var(--space-base-unit) * 4);
   --space-20: calc(var(--space-base-unit) * 5);
   --space-24: calc(var(--space-base-unit) * 6);
@@ -250,6 +251,7 @@ a {
   --space-500: calc(var(--space-base-unit) * 125);
   --space-600: calc(var(--space-base-unit) * 150);
   --space-700: calc(var(--space-base-unit) * 175);
+  --space-1100: calc(var(--space-base-unit) * 275);
   --space-1200: calc(var(--space-base-unit) * 300);
 
   /* color

@@ -1,6 +1,14 @@
 .menuIcon {
-  width: clamp(2rem, 1.795rem + 1.026vw, 2.5rem);
-  height: clamp(2rem, 1.795rem + 1.026vw, 2.5rem);
+  width: clamp(
+    var(--space-32, 2rem),
+    1.795rem + 1.026vw,
+    var(--space-40, 2.5rem)
+  );
+  height: clamp(
+    var(--space-32, 2rem),
+    1.795rem + 1.026vw,
+    var(--space-40, 2.5rem)
+  );
 }
 
 .navList {
@@ -43,7 +51,7 @@
 }
 
 /* Tablet and mobile styles */
-@media (max-width: 68.75rem /* 1100px */) {
+@media (max-width: 68.75rem /* 1100px  */) {
   .hidden {
     /* Hide the element */
     opacity: 0;
@@ -51,11 +59,27 @@
 
     /* Placement */
     position: absolute;
-    right: var(--space-48, 3rem);
-    top: var(--space-80, 5rem);
+    right: clamp(
+      var(--space-32, 2rem),
+      1.59rem + 2.051vw,
+      var(--space-48, 3rem)
+    );
+    top: clamp(
+      var(--space-56, 3.5rem),
+      2.885rem + 3.077vw,
+      var(--space-80, 5rem)
+    );
 
-    width: var(--space-200, 12.5rem);
-    padding: var(--space-16, 1rem);
+    width: clamp(
+      var(--space-160, 10rem),
+      8.974rem + 5.128vw,
+      var(--space-200, 12.5rem)
+    );
+    padding: clamp(
+      var(--space-8, 0.5rem),
+      0.295rem + 1.026vw,
+      var(--space-16, 1rem)
+    );
     box-shadow: var(--shadow-1, rgba(0, 0, 0, 0.16) 0px 1px 4px);
     border-radius: var(--radius-5, 00.3125rem);
     background-color: var(--clr-accent-2, midnightblue);
@@ -80,10 +104,19 @@
   .navList {
     flex-direction: column;
     gap: var(--space-4, 00.25rem);
+    font-size: clamp(
+      var(--space-14, 0.875rem),
+      0.824rem + 0.256vw,
+      var(--space-16, 1rem)
+    );
   }
 
   .navItem {
-    padding-block: var(--space-8, 0.5rem);
+    padding-block: clamp(
+      var(--space-4, 0.25rem),
+      0.147rem + 0.513vw,
+      var(--space-8, 0.5rem)
+    );
   }
 
   /* Change link text color separately  */

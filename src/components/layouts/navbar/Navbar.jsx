@@ -35,7 +35,14 @@ const Navbar = () => {
         onKeyDown={(e) => handleKeyDown(e)}
         ariaLabel="Main navigation menu"
         ariaExpanded={isMenuOpen}>
-        <img className={styles.menuIcon} src={menuIcon} alt="" width={40} height={40} aria-hidden='true' />
+        <img
+          className={styles.menuIcon}
+          src={menuIcon}
+          alt=""
+          width={40}
+          height={40}
+          aria-hidden="true"
+        />
       </Button>
 
       {/* Add 'open' class when the 'toggle menu' button is clicked */}
@@ -53,9 +60,6 @@ const Navbar = () => {
           </li>
           {/* Inactive links  */}
           <li className={styles.navItem}>
-            <span className={styles.placeholderLink}>Levels</span>
-          </li>
-          <li className={styles.navItem}>
             <span className={styles.placeholderLink}>Leaderboard</span>
           </li>
           <li className={styles.navItem}>
@@ -63,6 +67,9 @@ const Navbar = () => {
           </li>
           <li className={styles.navItem}>
             <span className={styles.placeholderLink}>Characters</span>
+          </li>
+          <li className={styles.navItem}>
+            <span className={styles.placeholderLink}>Levels</span>
           </li>
         </ul>
       </nav>
