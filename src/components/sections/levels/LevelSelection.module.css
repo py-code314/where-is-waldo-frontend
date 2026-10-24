@@ -14,13 +14,11 @@
   text-align: center;
 }
 
-
-
 .sectionTitle {
   font-size: clamp(
     var(--space-28, 1.75rem),
-    1.679rem + 0.357vw,
-    var(--space-32, 2rem)
+    1.536rem + 1.071vw,
+    var(--space-40, 2.5rem)
   );
   line-height: clamp(
     var(--space-36, 2.25rem),
@@ -67,6 +65,9 @@
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--space-280, 17.5rem), 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(var(--space-280, 17.5rem), 1fr)
+  );
   gap: clamp(var(--space-16, 1rem), 0.714rem + 1.429vw, var(--space-32, 2rem));
 }

@@ -2,6 +2,8 @@
 import styles from './LevelSelection.module.css'
 /* -------------------- Components -------------------- */
 import ScenePreview from '../../core/scene/ScenePreview'
+/* -------------------- Functions -------------------- */
+import { scenesData } from '../../../data/scenesData'
 
 /* Display images with different levels */
 const LevelSelection = () => {
@@ -17,9 +19,9 @@ const LevelSelection = () => {
 
         {/* Cards list  */}
         <ul className={styles.cards}>
-          <ScenePreview />
-          <ScenePreview />
-          <ScenePreview />
+          {scenesData.map((scene) => (
+            <ScenePreview key={scene.id} cardData={scene} />
+          ))}
         </ul>
       </section>
     </>
