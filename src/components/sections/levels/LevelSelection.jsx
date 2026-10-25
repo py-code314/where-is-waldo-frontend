@@ -20,7 +20,9 @@ const LevelSelection = () => {
         {/* Cards list  */}
         <ul className={styles.cards}>
           {scenesData.map((scene) => (
-            <ScenePreview key={scene.id} cardData={scene} />
+            <li key={scene.id} className={styles.card}>
+              <ScenePreview cardData={scene} />
+            </li>
           ))}
         </ul>
       </section>

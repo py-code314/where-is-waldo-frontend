@@ -143,7 +143,17 @@ a {
     url('./assets/fonts/Montserrat/Montserrat-Black.woff2') format('woff2'),
     url('./assets/fonts/Montserrat/Montserrat-Black.woff') format('woff');
   font-weight: 900;
-  font-style: italic;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('./assets/fonts/Montserrat/Montserrat-ExtraBold.woff2') format('woff2'),
+    url('./assets/fonts/Montserrat/Montserrat-ExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -153,7 +163,7 @@ a {
     url('./assets/fonts/Montserrat/Montserrat-Bold.woff2') format('woff2'),
     url('./assets/fonts/Montserrat/Montserrat-Bold.woff') format('woff');
   font-weight: 700;
-  font-style: italic;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -234,10 +244,13 @@ a {
   ========= */
   --space-base-unit: var(--base-unit);
   --space-2: calc(var(--space-base-unit) / 2);
+  --space-3: calc(var(--space-base-unit) / 1.3);
   --space-4: var(--space-base-unit);
+  --space-5: var(--space-base-unit * 1.25);
   --space-6: calc(var(--space-base-unit) * 1.5);
   --space-8: calc(var(--space-base-unit) * 2);
   --space-10: calc(var(--space-base-unit) * 2.5);
+  --space-11: calc(var(--space-base-unit) * 2.75);
   --space-12: calc(var(--space-base-unit) * 3);
   --space-14: calc(var(--space-base-unit) * 3.5);
   --space-16: calc(var(--space-base-unit) * 4);
@@ -282,6 +295,12 @@ a {
   --clr-black: #000;
   --clr-accent-1: #ef2d24;
   --clr-accent-2: #1e3557;
+  --clr-accent-3: #2d8075;
+  /* --clr-accent-4: #EC9804; */
+  --clr-accent-4: #0478b2;
+  /* --clr-accent-4: #4169E1; */
+  --clr-accent-5: #c71926;
+  /* --clr-accent-5: crimson; */
   --clr-text-muted: #bcc2cd;
 
   /* Border
@@ -296,9 +315,11 @@ a {
   --radius-round: 50%;
 
   /* Box shadow */
-  --shadow-1:
-    rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
+  --shadow-1: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  --shadow-2:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    --shadow-3: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
 /* Page styles  */

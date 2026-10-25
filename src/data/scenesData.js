@@ -7,27 +7,32 @@ import wendaImage from '../assets/images/characters/wenda.png'
 import wizardImage from '../assets/images/characters/wizard.png'
 import odlawImage from '../assets/images/characters/odlaw.png'
 
-
 export const scenesData = [
   {
-    id: crypto.randomUUID,
+    id: crypto.randomUUID(),
     title: 'The Ski Slopes of Anarchy',
-    imageUrl: skiingImage,
-    difficulty: 'Easy',
+    description:
+      'Hit the slopes! Amidst the snowy chaos, ski lifts, and runaway sleds, can you spot Waldo, Wenda, Odlaw, and the Wizard before they glide away?',
+    image: skiingImage,
+    difficulty: 'easy',
     characters: [wallyImage, wendaImage, wizardImage, odlawImage],
   },
   {
-    id: crypto.randomUUID,
+    id: crypto.randomUUID(),
     title: 'Space Colony Chaos',
-    imageUrl: spaceStationImage,
-    difficulty: 'Medium',
+    image: spaceStationImage,
+    description:
+      'Aliens, floating debris, and bustling space stations. Can you find Waldo, Wenda, Odlaw, and the Wizard wandering among the astronauts in this futuristic chaos?',
+    difficulty: 'medium',
     characters: [wallyImage, wendaImage, wizardImage, odlawImage],
   },
   {
-    id: crypto.randomUUID,
+    id: crypto.randomUUID(),
     title: 'The Gobbling Gluttons',
-    imageUrl: foodCourtImage,
-    difficulty: 'Hard',
+    description:
+      'A huge banquet where tables overflow with food and people crowd every corner. Waldo, Wenda, Odlaw, and the Wizard are all somewhere in the middle of this mess.',
+    image: foodCourtImage,
+    difficulty: 'hard',
     characters: [wallyImage, wendaImage, wizardImage, odlawImage],
   },
 ]
