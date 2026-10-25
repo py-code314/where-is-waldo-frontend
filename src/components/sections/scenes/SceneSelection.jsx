@@ -1,5 +1,5 @@
 /* -------------------- Styles -------------------- */
-import styles from './LevelSelection.module.css'
+import styles from './SceneSelection.module.css'
 /* -------------------- Components -------------------- */
 import ScenePreview from '../../core/scene/ScenePreview'
 /* -------------------- Functions -------------------- */
