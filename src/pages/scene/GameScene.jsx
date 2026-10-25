@@ -8,6 +8,7 @@ import wallyImage from '../../assets/images/characters/wally.png'
 import wendaImage from '../../assets/images/characters/wenda.png'
 import wizardImage from '../../assets/images/characters/wizard.png'
 import odlawImage from '../../assets/images/characters/odlaw.png'
+import skiingImage from '../../assets/images/puzzles/skiing-scene.webp'
 /* -------------------- Hooks -------------------- */
 import { useEffect, useState } from 'react'
 /* -------------------- Components -------------------- */
@@ -101,6 +102,11 @@ const GameScene = () => {
             </div>
             <span>Odlaw</span>
           </div>
+        </div>
+
+        {/* Puzzle image  */}
+        <div>
+          <img src={skiingImage} alt="" width={1200} />
         </div>
       </div>
     </>
