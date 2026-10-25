@@ -23,7 +23,7 @@
   width: 100%;
   height: 100%;
   opacity: 0.2;
-  background-image: url('../../../assets/images/wally-with-friends.jpg');
+  background-image: url('../../../assets/images/wally-with-friends.webp');
   background-repeat: repeat-x;
   background-position: 50% 0;
   background-size: cover;
@@ -43,5 +43,5 @@
 
 .description {
   font-weight: 600;
-  font-size: clamp(var(--space-14, 0.875rem), 0.804rem + 0.357vw, var(--space-18, 1.125rem));
+  font-size: clamp(var(--space-16, 1rem), 0.911rem + 0.238vw, var(--space-18, 1.125rem));
 }
