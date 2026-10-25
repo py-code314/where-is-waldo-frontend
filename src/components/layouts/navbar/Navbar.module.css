@@ -105,9 +105,9 @@
     flex-direction: column;
     gap: var(--space-4, 00.25rem);
     font-size: clamp(
-      var(--space-14, 0.875rem),
+      var(--fs-14, 0.875rem),
       0.824rem + 0.256vw,
-      var(--space-16, 1rem)
+      var(--fs-16, 1rem)
     );
   }
 

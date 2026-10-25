@@ -14,9 +14,9 @@
 .sectionTitle {
   text-align: center;
   font-size: clamp(
-    var(--space-28, 1.75rem),
+    var(--fs-28, 1.75rem),
     1.536rem + 1.071vw,
-    var(--space-40, 2.5rem)
+    var(--fs-40, 2.5rem)
   );
   line-height: clamp(
     var(--space-36, 2.25rem),
@@ -52,9 +52,9 @@
   max-width: var(--space-800, 50rem);
   margin: auto;
   font-size: clamp(
-    var(--space-14, 0.875rem),
-    0.839rem + 0.179vw,
-    var(--space-16, 1rem)
+    var(--fs-15, 0.938rem),
+    0.893rem + 0.119vw,
+    var(--fs-16, 1rem)
   );
   margin-block-end: clamp(var(--space-8, 0.5rem), -0.571rem + 2.857vw, var(--space-32, 2rem));
 }

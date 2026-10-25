@@ -29,9 +29,9 @@
 .footerItem,
 .copyright {
   font-size: clamp(
-    var(--space-12, 0.75rem),
+    var(--fs-12, 0.75rem),
     0.679rem + 0.357vw,
-    var(--space-16, 1rem)
+    var(--fs-16, 1rem)
   );
 }
 

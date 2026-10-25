@@ -36,12 +36,12 @@
 .sectionTitle {
   color: var(--clr-accent-2, midnightblue);
   font-family: var(--ff-title);
-  font-size: clamp(var(--space-32, 2rem), 1.714rem + 1.429vw, var(--space-48, 3rem));
+  font-size: clamp(var(--fs-32, 2rem), 1.714rem + 1.429vw, var(--fs-48, 3rem));
   font-weight: 900;
   line-height: clamp(var(--space-40, 2.5rem), 1.929rem + 2.857vw, var(--space-72, 4.5rem));
 }
 
 .description {
   font-weight: 600;
-  font-size: clamp(var(--space-16, 1rem), 0.911rem + 0.238vw, var(--space-18, 1.125rem));
+  font-size: clamp(var(--fs-16, 1rem), 0.911rem + 0.238vw, var(--fs-18, 1.125rem));
 }
