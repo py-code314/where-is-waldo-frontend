@@ -39,14 +39,10 @@
 }
 
 .homeText {
-  font-size: clamp(
-    var(--space-14, 0.875rem),
-    0.786rem + 0.238vw,
-    var(--space-16, 1rem)
-  );
+  font-size:var(--space-16, 1rem);
 }
 
-.imageContainer {
+.homeIconContainer {
   padding: var(--space-4, 0.25rem);
   background-color: var(--clr-white, white);
   border-radius: var(--radius-round, 50%);
@@ -217,10 +213,23 @@
 
 /* Tablet and mobile styles */
 @media (max-width: 68.75rem /* 1100px  */) {
-  /* Hide icons  */
-  .imageContainer,
+  .homeLink{
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .homeText {
+    color: var(--clr-accent-2, midnightblue);
+  }
+
   .stopwatchIcon {
     display: none;
+  }
+
+  .homeLink,
+  .homeIconContainer {
+    background-color: transparent;
   }
 
   .stopwatch {
@@ -241,6 +250,11 @@
 }
 
 @media (max-width: 33.75rem /* 540px  */) {
+   /* Only icon is visible at this width. An accessible icon size should be 44 x 44. Though the icon is only 30 x 30, the whole link size is 54 x 54. That's enough area to click the link on mobile  */
+  .homeText {
+    display: none;
+  }
+
   .gameInfo {
     flex-direction: column;
     gap: 0;

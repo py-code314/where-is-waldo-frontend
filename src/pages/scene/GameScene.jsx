@@ -45,8 +45,8 @@ const GameScene = () => {
       <div className={styles.gameScene}>
         <div className={styles.game}>
           {/* Back to Home link  */}
-          <Link className={styles.homeLink}>
-            <div className={styles.imageContainer}>
+          <Link className={styles.homeLink} to={'/home'} aria-label='Go to home'>
+            <div className={styles.homeIconContainer}>
               <img
                 src={homeIcon}
                 alt=""
@@ -75,6 +75,7 @@ const GameScene = () => {
               </div>
               {/* Show stopwatch  */}
               <div className={styles.stopwatch}>
+                {/* Hide icon from screen readers */}
                 <img
                   className={styles.stopwatchIcon}
                   src={stopwatchIcon}
