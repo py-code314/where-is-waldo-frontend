@@ -45,7 +45,10 @@ const GameScene = () => {
       <div className={styles.gameScene}>
         <div className={styles.game}>
           {/* Back to Home link  */}
-          <Link className={styles.homeLink} to={'/home'} aria-label='Go to home'>
+          <Link
+            className={styles.homeLink}
+            to={'/home'}
+            aria-label="Go to home">
             <div className={styles.homeIconContainer}>
               <img
                 src={homeIcon}
@@ -102,7 +105,9 @@ const GameScene = () => {
         {/* Character head shots  */}
         <div className={styles.charactersContainer}>
           <div className={styles.trackerContainer}>
-            <p className={styles.heading}><span className={styles.hidden}>Find</span> characters</p>
+            <p className={styles.heading}>
+              <span className={styles.hidden}>Find</span> characters
+            </p>
             <p className={styles.counter}>0/4 Found</p>
           </div>
           <div className={styles.characters}>
@@ -157,9 +162,9 @@ const GameScene = () => {
           </div>
         </div>
 
-        {/* Puzzle image  */}
-        <div>
-          <img src={skiingImage} alt="" width={1200} />
+        {/* Game image  */}
+        <div className={styles.gameImgContainer}>
+          <img className={styles.gameImg} src={skiingImage} alt="" />
         </div>
       </div>
     </>
