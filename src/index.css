@@ -314,9 +314,11 @@ a {
   --space-28: calc(var(--space-base-unit) * 7);
   --space-32: calc(var(--space-base-unit) * 8);
   --space-36: calc(var(--space-base-unit) * 9);
+  --space-38: calc(var(--space-base-unit) * 9.5);
   --space-40: calc(var(--space-base-unit) * 10);
   --space-48: calc(var(--space-base-unit) * 12);
   --space-56: calc(var(--space-base-unit) * 14);
+  --space-58: calc(var(--space-base-unit) * 14.5);
   --space-60: calc(var(--space-base-unit) * 15);
   --space-64: calc(var(--space-base-unit) * 16);
   --space-72: calc(var(--space-base-unit) * 18);

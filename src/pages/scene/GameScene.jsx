@@ -99,30 +99,60 @@ const GameScene = () => {
         </div>
 
         {/* Character head shots  */}
-        <div className={styles.characters}>
-          <div>
-            <div>
-              <img src={wallyImage} alt="" width={50} height={50} />
-            </div>
-            <span>Waldo</span>
+        <div className={styles.charactersContainer}>
+          <div className={styles.trackerContainer}>
+            <p className={styles.heading}><span className={styles.hidden}>Find</span> characters</p>
+            <p className={styles.counter}>0/4 Found</p>
           </div>
-          <div>
-            <div>
-              <img src={wendaImage} alt="" width={50} height={50} />
+          <div className={styles.characters}>
+            <div className={styles.character}>
+              <div className={styles.characterImgContainer}>
+                <img
+                  className={styles.characterImg}
+                  src={wallyImage}
+                  alt=""
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <span className={styles.characterName}>Waldo</span>
             </div>
-            <span>Wenda</span>
-          </div>
-          <div>
-            <div>
-              <img src={wizardImage} alt="" width={50} height={50} />
+            <div className={styles.character}>
+              <div className={styles.characterImgContainer}>
+                <img
+                  className={styles.characterImg}
+                  src={wendaImage}
+                  alt=""
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <span className={styles.characterName}>Wenda</span>
             </div>
-            <span>Wizard</span>
-          </div>
-          <div>
-            <div>
-              <img src={odlawImage} alt="" width={50} height={50} />
+            <div className={styles.character}>
+              <div className={styles.characterImgContainer}>
+                <img
+                  className={styles.characterImg}
+                  src={wizardImage}
+                  alt=""
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <span className={styles.characterName}>Wizard</span>
             </div>
-            <span>Odlaw</span>
+            <div className={styles.character}>
+              <div className={styles.characterImgContainer}>
+                <img
+                  className={styles.characterImg}
+                  src={odlawImage}
+                  alt=""
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <span className={styles.characterName}>Odlaw</span>
+            </div>
           </div>
         </div>
 
