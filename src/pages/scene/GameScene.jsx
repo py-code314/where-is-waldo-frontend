@@ -1,7 +1,7 @@
 /* -------------------- Styles -------------------- */
 import styles from './GameScene.module.css'
 /* -------------------- Icons -------------------- */
-import homeIcon from '../../assets/icons/icon-home-1.svg'
+import homeIcon from '../../assets/icons/icon-home-2.svg'
 import stopwatchIcon from '../../assets/icons/icon-stopwatch.svg'
 /* -------------------- Images -------------------- */
 import wallyImage from '../../assets/images/characters/wally.png'
@@ -43,37 +43,59 @@ const GameScene = () => {
   return (
     <>
       <div className={styles.gameScene}>
-        {/* Back to Home link  */}
-        <div>
-          <Link>
-            <img src={homeIcon} alt="" width={30} height={30} />
-            <span>Home</span>
+        <div className={styles.game}>
+          {/* Back to Home link  */}
+          <Link className={styles.homeLink}>
+            <div className={styles.imageContainer}>
+              <img
+                src={homeIcon}
+                alt=""
+                width={30}
+                height={30}
+                aria-hidden="true"
+              />
+            </div>
+            <span className={styles.homeText}>Home</span>
           </Link>
-          <div>
-            {/* Title and todo  */}
-            <div>
-              <h2>The Ski Slopes of Anarchy</h2>
-              <p>Find Waldo, Wenda, Odlaw, and Wizard to solve the puzzle.</p>
-            </div>
-            <div>
-              <p>Difficulty</p>
-              <p>
-                <strong>Easy</strong>
+          {/* Top bar with all game info  */}
+          <div className={styles.gameInfo}>
+            {/* Title and instructions  */}
+            <div className={styles.sceneInfo}>
+              <h2 className={styles.title}>The Ski Slopes of Anarchy</h2>
+              <p className={styles.instructions}>
+                Find Waldo, Wenda, Odlaw, and Wizard to solve the puzzle.
               </p>
             </div>
-            <div>
+            <div className={styles.infoPanel}>
+              <div className={styles.difficulty}>
+                <p className={styles.label}>Difficulty</p>
+                <p className={styles.level}>
+                  <strong>Easy</strong>
+                </p>
+              </div>
               {/* Show stopwatch  */}
-              <img src={stopwatchIcon} alt="" width={30} height={30} />
-              <p>Time</p>
-              <p>
-                <strong>
-                  {hours}:{minutes.toString().padStart(2, '0')}:
-                  {seconds.toString().padStart(2, '0')}
-                </strong>
-              </p>
+              <div className={styles.stopwatch}>
+                <img
+                  className={styles.stopwatchIcon}
+                  src={stopwatchIcon}
+                  alt=""
+                  width={30}
+                  height={30}
+                  aria-hidden="true"
+                />
+                <div className={styles.timeDisplay}>
+                  <p className={styles.label}>Time</p>
+                  <p className={styles.time}>
+                    <strong>
+                      {hours}:{minutes.toString().padStart(2, '0')}:
+                      {seconds.toString().padStart(2, '0')}
+                    </strong>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-          <button onClick={watchStop}>Game over</button>
+          {/* <button onClick={watchStop}>Game over</button> */}
         </div>
 
         {/* Character head shots  */}

@@ -1,0 +1,193 @@
+.gameScene {
+  max-width: var(--space-1200, 75rem);
+  margin: auto;
+  padding: clamp(
+      var(--space-16, 1rem),
+      -0.429rem + 3.81vw,
+      var(--space-48, 3rem)
+    )
+    var(--space-16, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32, 2rem);
+}
+
+.game {
+  display: flex;
+  align-items: center;
+  gap: clamp(
+    var(--space-8, 0.5rem),
+    -0.571rem + 2.857vw,
+    var(--space-32, 2rem)
+  );
+  color: var(--clr-white, white);
+}
+
+.homeLink {
+  padding: clamp(
+    var(--space-8, 0.5rem),
+    0.357rem + 0.714vw,
+    var(--space-16, 1rem)
+  );
+  display: flex;
+  align-items: center;
+  gap: var(--space-8, 0.5rem);
+  font-weight: 600;
+  color: var(--clr-white, white);
+  background-color: var(--clr-accent-2, midnightblue);
+  border-radius: var(--radius-10, 0.625rem);
+}
+
+.homeText {
+  font-size: clamp(
+    var(--space-14, 0.875rem),
+    0.786rem + 0.238vw,
+    var(--space-16, 1rem)
+  );
+}
+
+.imageContainer {
+  padding: var(--space-4, 0.25rem);
+  background-color: var(--clr-white, white);
+  border-radius: var(--radius-round, 50%);
+}
+
+.gameInfo {
+  flex: 1;
+  padding: clamp(
+    var(--space-8, 0.5rem),
+    0.357rem + 0.714vw,
+    var(--space-16, 1rem)
+  );
+  display: flex;
+  gap: clamp(var(--space-4, 0.25rem), -0.286rem + 1.429vw, (--space-16, 1rem));
+  background-color: var(--clr-accent-2, midnightblue);
+  border-radius: var(--radius-10, 0.625rem);
+}
+
+.sceneInfo {
+  flex: 2;
+}
+
+.title {
+  font-size: clamp(
+    var(--space-15, 0.938rem),
+    0.625rem + 0.833vw,
+    var(--space-22, 1.375rem)
+  );
+}
+
+.instructions {
+  font-size: clamp(
+    var(--space-12, 0.75rem),
+    0.661rem + 0.238vw,
+    var(--space-14, 0.875rem)
+  );
+}
+
+.infoPanel {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: clamp(var(--space-8, 0.5rem), 0.357rem + 0.714vw, var(--space-16, 1rem));
+}
+
+.difficulty {
+  flex: 1;
+  padding: var(--space-8, 0.5rem);
+  border: 1px solid var(--clr-white, white);
+  border-radius: var(--radius-10, 0.625rem);
+}
+
+.label {
+  font-size: clamp(
+    var(--space-10, 0.625rem),
+    0.536rem + 0.238vw,
+    var(--space-12, 0.75rem)
+  );
+  text-transform: uppercase;
+}
+
+.level {
+  font-size: clamp(
+    var(--space-14, 0.875rem),
+    0.786rem + 0.238vw,
+    var(--space-16, 1rem)
+  );
+}
+
+.stopwatch {
+  flex: 1;
+  padding: var(--space-8, 0.5rem);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8, 0.5rem);
+  border: 1px solid var(--clr-white, white);
+  border-radius: var(--radius-10, 0.625rem);
+}
+
+.time {
+  /* Use monospace font to prevent timer jump */
+  font-family: var(--ff-time);
+  font-size: clamp(
+    var(--space-16, 1rem),
+    0.821rem + 0.476vw,
+    var(--space-20, 1.25rem)
+  );
+}
+
+.characters {
+  display: flex;
+}
+
+/* Tablet and mobile styles */
+@media (max-width: 68.75rem /* 1100px  */) {
+  /* Hide icons  */
+  .imageContainer,
+  .stopwatchIcon {
+    display: none;
+  }
+
+  .stopwatch {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 43.75rem /* 700px  */) {
+  .instructions {
+    display: none;
+  }
+
+  .sceneInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 33.75rem /* 540px  */) {
+  .gameInfo {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  
+  .difficulty,
+  .stopwatch {
+    padding: 0;
+    border: transparent; /* Remove border  */
+  }
+
+  .difficulty,
+  .timeDisplay {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8, 0.5rem);
+    padding-inline: 0;
+  }
+
+  /* Label and level not vertically aligning (in Difficulty container) because of uppercase label. So removing uppercase from label  */
+  .label {
+    text-transform: none;
+  }
+}
