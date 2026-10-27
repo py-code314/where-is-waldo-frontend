@@ -13,7 +13,7 @@ const GameScene = () => {
   }
   return (
     <>
-      <div className={styles.gameImgContainer}>
+      <div className={styles.gameBoard}>
         <img
           className={styles.gameImg}
           src={skiingImage}

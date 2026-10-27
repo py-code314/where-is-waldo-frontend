@@ -1,17 +1,15 @@
-.gameImgContainer {
+.gameBoard {
   max-width: 1200px; /* Cap max width */
-  /* Make image container responsive */
   width: 100%;
-  height: 70svh;
-  overflow: auto;
+  height: auto; /* Container height based on image height */
   position: relative;
   cursor: crosshair;
 }
 
-/* Load image at original intrinsic size */
+
 .gameImg {
-  max-width: none;
-  width: auto;
+  width: 100%;
+  /* Height is based on original file's aspect ratio */
   height: auto;
 }
 
