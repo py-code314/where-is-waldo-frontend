@@ -1,5 +1,5 @@
 /* -------------------- Styles -------------------- */
-import styles from './GameScene.module.css'
+import styles from './GamePage.module.css'
 /* -------------------- Icons -------------------- */
 import homeIcon from '../../assets/icons/icon-home-2.svg'
 import stopwatchIcon from '../../assets/icons/icon-stopwatch.svg'
@@ -8,17 +8,16 @@ import wallyImage from '../../assets/images/characters/wally.png'
 import wendaImage from '../../assets/images/characters/wenda.png'
 import wizardImage from '../../assets/images/characters/wizard.png'
 import odlawImage from '../../assets/images/characters/odlaw.png'
-import skiingImage from '../../assets/images/puzzles/skiing-scene.webp'
 /* -------------------- Hooks -------------------- */
 import { useEffect, useState } from 'react'
 /* -------------------- Components -------------------- */
 import { Link } from 'react-router'
+import GameScene from '../../components/sections/game-scene/GameScene'
 
-const GameScene = () => {
+const GamePage = () => {
   // State
   const [time, setTime] = useState(0)
   const [gameOver, setGameOver] = useState(false)
-  const [isClick, setIsClick] = useState(false)
 
   useEffect(() => {
     if (gameOver) return
@@ -41,14 +40,10 @@ const GameScene = () => {
     setGameOver(true)
   }
 
-  const handleClick = () => {
-    setIsClick(!isClick)
-  }
-
   return (
     <>
-      <div className={styles.gameScene}>
-        <div className={styles.game}>
+      <div className={styles.gamePage}>
+        <div className={styles.gameHeader}>
           {/* Back to Home link  */}
           <Link
             className={styles.homeLink}
@@ -65,7 +60,7 @@ const GameScene = () => {
             </div>
             <span className={styles.homeText}>Home</span>
           </Link>
-          {/* Top bar with all game info  */}
+          {/* Top bar with all Header info  */}
           <div className={styles.gameInfo}>
             {/* Title and instructions  */}
             <div className={styles.sceneInfo}>
@@ -74,7 +69,7 @@ const GameScene = () => {
                 Find Waldo, Wenda, Odlaw, and Wizard to solve the puzzle.
               </p>
             </div>
-            <div className={styles.infoPanel}>
+            <div className={styles.gameStats}>
               <div className={styles.difficulty}>
                 <p className={styles.label}>Difficulty</p>
                 <p className={styles.level}>
@@ -168,28 +163,10 @@ const GameScene = () => {
         </div>
 
         {/* Game image  */}
-        <div className={styles.gameImgContainer}>
-          <img
-            className={styles.gameImg}
-            src={skiingImage}
-            alt="A crowded ski resort on a snowy mountain with many skiers wearing colorful winter jackets."
-            onClick={() => handleClick()}
-          />
-
-          <ul
-            className={`${styles.charactersList} ${isClick ? styles.open : styles.hidden}`}>
-            <li className={`${styles.listItem} ${styles.select}`}>
-              Who is this?
-            </li>
-            <li className={`${styles.listItem} ${styles.option}`}>Waldo</li>
-            <li className={`${styles.listItem} ${styles.option}`}>Wanda</li>
-            <li className={`${styles.listItem} ${styles.option}`}>Wizard</li>
-            <li className={`${styles.listItem} ${styles.option}`}>Odlaw</li>
-          </ul>
-        </div>
+        <GameScene />
       </div>
     </>
   )
 }
 
-export default GameScene
+export default GamePage

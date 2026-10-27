@@ -2,7 +2,7 @@
 import App from '../App'
 import Homepage from '../pages/home/Homepage'
 import DefaultMainLayout from '../components/layouts/main/DefaultMainLayout'
-import GameScene from '../pages/scene/GameScene'
+import GamePage from '../pages/game-page/GamePage'
 
 /* Array of routes */
 const routes = [
@@ -16,7 +16,7 @@ const routes = [
         children: [
           { index: true, element: <DefaultMainLayout /> },
           { path: '/home', element: <DefaultMainLayout /> },
-          { path: '/scene', element: <GameScene /> },
+          { path: '/scene', element: <GamePage /> },
         ],
       },
     ],
