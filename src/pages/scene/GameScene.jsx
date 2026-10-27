@@ -18,6 +18,7 @@ const GameScene = () => {
   // State
   const [time, setTime] = useState(0)
   const [gameOver, setGameOver] = useState(false)
+  const [isClick, setIsClick] = useState(false)
 
   useEffect(() => {
     if (gameOver) return
@@ -38,6 +39,10 @@ const GameScene = () => {
   const watchStop = () => {
     // Stop stopwatch
     setGameOver(true)
+  }
+
+  const handleClick = () => {
+    setIsClick(!isClick)
   }
 
   return (
@@ -106,7 +111,7 @@ const GameScene = () => {
         <div className={styles.charactersContainer}>
           <div className={styles.trackerContainer}>
             <p className={styles.heading}>
-              <span className={styles.hidden}>Find</span> characters
+              <span className={styles.mobileHidden}>Find</span> characters
             </p>
             <p className={styles.counter}>0/4 Found</p>
           </div>
@@ -164,7 +169,23 @@ const GameScene = () => {
 
         {/* Game image  */}
         <div className={styles.gameImgContainer}>
-          <img className={styles.gameImg} src={skiingImage} alt="" />
+          <img
+            className={styles.gameImg}
+            src={skiingImage}
+            alt="A crowded ski resort on a snowy mountain with many skiers wearing colorful winter jackets."
+            onClick={() => handleClick()}
+          />
+
+          <ul
+            className={`${styles.charactersList} ${isClick ? styles.open : styles.hidden}`}>
+            <li className={`${styles.listItem} ${styles.select}`}>
+              Who is this?
+            </li>
+            <li className={`${styles.listItem} ${styles.option}`}>Waldo</li>
+            <li className={`${styles.listItem} ${styles.option}`}>Wanda</li>
+            <li className={`${styles.listItem} ${styles.option}`}>Wizard</li>
+            <li className={`${styles.listItem} ${styles.option}`}>Odlaw</li>
+          </ul>
         </div>
       </div>
     </>

@@ -30,7 +30,7 @@ const Navbar = () => {
       {/* Add 'onKeyDown' for 'Esc' key as pressing it doesn't fire 'click' event  */}
       <Button
         className="menuToggleBtn"
-        title="Toggle menu"
+        // title="Toggle menu"
         onClick={() => handleClick()}
         onKeyDown={(e) => handleKeyDown(e)}
         ariaLabel="Main navigation menu"

@@ -214,8 +214,8 @@
 .gameImgContainer {
   max-width: 1200px; /* Cap max width */
   /* Make image responsive */
-  width: 100%; 
-  height: 70svh; 
+  width: 100%;
+  height: 70svh;
   overflow: auto;
   position: relative;
   cursor: crosshair;
@@ -226,6 +226,102 @@
   max-width: none;
   width: auto;
   height: auto;
+}
+
+.hidden {
+  /* Hide the element */
+  opacity: 0;
+  visibility: hidden;
+
+  /* Placement */
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  /* left: clamp(
+      var(--space-32, 2rem),
+      1.59rem + 2.051vw,
+      var(--space-48, 3rem)
+    );
+    top: clamp(
+      var(--space-56, 3.5rem),
+      2.885rem + 3.077vw,
+      var(--space-80, 5rem)
+    ); */
+
+  width: clamp(
+    var(--space-120, 7.5rem),
+    6.161rem + 3.571vw,
+    var(--space-150, 9.375rem)
+  );
+  padding: clamp(
+    var(--space-4, 0.25rem),
+    0.071rem + 0.476vw,
+    var(--space-8, 0.5rem)
+  );
+  background-color: var(--clr-white, white);
+  box-shadow: var(--shadow-1, rgba(0, 0, 0, 0.16) 0px 1px 4px);
+
+  /* Animation */
+  transform: translateY(15px);
+  transition:
+    opacity 300ms ease-in,
+    transform 300ms ease-in;
+}
+
+/* Add triangle at the top of dropdown box  */
+.hidden::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: var(--space-10, 00.625rem)  solid transparent;
+  border-bottom-color: var(--clr-white, white);
+}
+
+/* Show dropdown */
+.open {
+  composes: hidden;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  z-index: 99;
+}
+
+.charactersList {
+  flex-direction: column;
+  gap: var(--space-4, 00.25rem);
+  font-size: clamp(
+    var(--fs-14, 0.875rem),
+    0.824rem + 0.256vw,
+    var(--fs-16, 1rem)
+  );
+}
+
+.select {
+  text-transform: uppercase;
+  border-block-end: 1px solid white;
+}
+
+.listItem {
+  padding-block: clamp(
+    var(--space-4, 0.25rem),
+    0.147rem + 0.513vw,
+    var(--space-8, 0.5rem)
+  );
+  text-align: center;
+  font-weight: 600;
+}
+
+.option {
+  transition:
+    background-color 0.5s ease-in-out,
+    border-radius 0.5s ease-in-out;
+}
+
+.option:hover {
+  cursor: pointer;
+  background-color: var(--clr-accent-1, red);
 }
 
 /* Tablet and mobile styles */
@@ -296,7 +392,7 @@
     text-transform: none;
   }
 
-  .hidden {
+  .mobileHidden {
     display: none;
   }
 }
