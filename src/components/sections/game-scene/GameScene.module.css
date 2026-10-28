@@ -4,6 +4,9 @@
   height: auto; /* Container height based on image height */
   position: relative;
   cursor: crosshair;
+  /* Hide the zoomed-in image except the part within
+  the container's dimensions */
+  overflow: hidden;
 }
 
 
