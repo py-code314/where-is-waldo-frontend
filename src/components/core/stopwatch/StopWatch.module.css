@@ -1,0 +1,44 @@
+.stopwatch {
+  flex: 1;
+  padding: var(--space-8, 0.5rem);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8, 0.5rem);
+  border: 1px solid var(--clr-white, white);
+  border-radius: var(--radius-10, 0.625rem);
+}
+
+.time {
+  /* Use monospace font to prevent timer jump */
+  font-family: var(--ff-time);
+  font-size: clamp(
+    var(--space-16, 1rem),
+    0.821rem + 0.476vw,
+    var(--space-20, 1.25rem)
+  );
+}
+
+/* Tablet and mobile styles */
+@media (max-width: 68.75rem /* 1100px  */) {
+  .stopwatchIcon {
+    display: none;
+  }
+
+  .stopwatch {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 33.75rem /* 540px  */) {
+  .stopwatch {
+    padding: 0;
+    border: transparent; /* Remove border  */
+  }
+
+  .timeDisplay {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8, 0.5rem);
+    padding-inline: 0;
+  }
+}

@@ -112,26 +112,6 @@
   );
 }
 
-.stopwatch {
-  flex: 1;
-  padding: var(--space-8, 0.5rem);
-  display: flex;
-  align-items: center;
-  gap: var(--space-8, 0.5rem);
-  border: 1px solid var(--clr-white, white);
-  border-radius: var(--radius-10, 0.625rem);
-}
-
-.time {
-  /* Use monospace font to prevent timer jump */
-  font-family: var(--ff-time);
-  font-size: clamp(
-    var(--space-16, 1rem),
-    0.821rem + 0.476vw,
-    var(--space-20, 1.25rem)
-  );
-}
-
 .charactersContainer {
   display: flex;
   align-items: center;
@@ -223,17 +203,9 @@
     color: var(--clr-accent-2, midnightblue);
   }
 
-  .stopwatchIcon {
-    display: none;
-  }
-
   .homeLink,
   .homeIconContainer {
     background-color: transparent;
-  }
-
-  .stopwatch {
-    align-items: flex-start;
   }
 }
 
@@ -260,14 +232,12 @@
     gap: 0;
   }
 
-  .difficulty,
-  .stopwatch {
+  .difficulty {
     padding: 0;
     border: transparent; /* Remove border  */
   }
 
-  .difficulty,
-  .timeDisplay {
+  .difficulty {
     display: flex;
     align-items: center;
     gap: var(--space-8, 0.5rem);
