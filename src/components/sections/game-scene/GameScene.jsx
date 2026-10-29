@@ -9,24 +9,29 @@ const GameScene = () => {
   // State
   const [isClick, setIsClick] = useState(false)
   const [isPan, setIsPan] = useState(false)
-  /* Use translation co-ordinates (x, y) to move the image
-  position while zooming */
+  // console.log("🚀 ~ GameScene ~ isPan:", isPan)
+  /* Initial image position and scale */
   const [position, setPosition] = useState({ x: 0, y: 0, scale: 1 })
 
   const imageRef = useRef(null)
   const containerRef = useRef(null)
+  // Use ref to prevent multiple re-renders
 
   /* Use refs to prevent unnecessary re-renders */
   // Use a ref to store the starting drag coordinates persistently
   const dragStartRef = useRef({ x: 0, y: 0 })
-  // Difference between start and end of mouse movement (position)
-  const panOffsetRef = useRef({ x: 0, y: 0 })
+  // console.log("🚀 ~ GameScene ~ dragStartRef:", dragStartRef)
+
+  // const positionRef = useRef(position)
+  // positionRef.current = position
 
   useEffect(() => {
+    // console.log('use effect')
     const gameImage = imageRef.current
     if (!gameImage) return
 
     const handleWheel = (e) => {
+      // console.log('handle wheel')
       // Prevent scrolling of webpage
       e.preventDefault()
 
@@ -60,8 +65,11 @@ const GameScene = () => {
     }
 
     const handleMouseDown = (e) => {
+      // console.log('mouse down')
       // Prevent default drag and drop
       e.preventDefault()
+
+      // positionRef.current = position
 
       // getBoundingClientRect() method returns object containing the size and position of an element relative to the viewport
       const rect = containerRef.current.getBoundingClientRect()
@@ -69,19 +77,29 @@ const GameScene = () => {
       const currentX = e.clientX - rect.left
       const currentY = e.clientY - rect.top
       /* Store starting click position relative to the previous 
-      offset position. This prevents image jumping back to the
-      starting position (0, 0) */
+      offset position either because of zoom or drag. This prevents image jumping back to the starting position (0, 0) */
+      // dragStartRef.current = {
+      //   x: currentX - positionRef.current.x,
+      //   y: currentY - positionRef.current.y,
+      // }
       dragStartRef.current = {
-        x: currentX - panOffsetRef.current.x,
-        y: currentY - panOffsetRef.current.y,
+        x: currentX - position.x,
+        y: currentY - position.y,
       }
 
       setIsPan(true)
     }
 
     const handleMouseMove = (e) => {
+      // console.log('mouse move')
       // Prevent default drag and drop
       e.preventDefault()
+
+      // positionRef.current = position
+
+      // Prevent dragging if image isn't zoomed-in
+      // if (positionRef.current.scale <= 1) return
+      if (position.scale <= 1) return
 
       const rect = containerRef.current.getBoundingClientRect()
       // Current mouse position relative to container while moving the mouse
@@ -99,16 +117,26 @@ const GameScene = () => {
       // Net difference between previous offset position and current mouse position
       const newX = currentX - dragStartRef.current.x
       const newY = currentY - dragStartRef.current.y
-      panOffsetRef.current = {
+
+      // const nextPosition = {
+      //   ...positionRef.current,
+      //   x: newX,
+      //   y: newY,
+      // }
+
+      // positionRef.current = nextPosition
+
+      // setPosition(nextPosition)
+
+      setPosition((prevPosition) => ({
+        ...prevPosition,
         x: newX,
         y: newY,
-      }
-
-      // Transform image directly
-      imageRef.current.style.transform = `translate(${newX}px, ${newY}px)`
+      }))
     }
 
     const handleMouseUp = () => {
+      // console.log('mouse up')
       if (!isPan) return
       setIsPan(false)
     }
@@ -122,7 +150,6 @@ const GameScene = () => {
     gameImage.addEventListener('mousemove', handleMouseMove)
     gameImage.addEventListener('mouseup', handleMouseUp)
 
-
     // Clean up
     return () => {
       gameImage.removeEventListener('wheel', handleWheel)
@@ -131,7 +158,7 @@ const GameScene = () => {
       gameImage.removeEventListener('mousemove', handleMouseMove)
       gameImage.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [isPan, panOffsetRef])
+  }, [isPan, position])
 
   const handleClick = () => {
     setIsClick(!isClick)
@@ -144,8 +171,7 @@ const GameScene = () => {
           className={styles.gameImg}
           src={skiingImage}
           alt="A crowded ski resort on a snowy mountain with many skiers wearing colorful winter jackets."
-          onClick={() => handleClick()}
-          // onMouseDown={handleMouseDown}
+          onClick={handleClick}
           style={{
             transformOrigin: '0 0',
             transform: `translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
