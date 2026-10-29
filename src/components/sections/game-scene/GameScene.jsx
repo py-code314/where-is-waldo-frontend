@@ -9,21 +9,15 @@ const GameScene = () => {
   // State
   const [isClick, setIsClick] = useState(false)
   const [isPan, setIsPan] = useState(false)
-  // console.log("🚀 ~ GameScene ~ isPan:", isPan)
   /* Initial image position and scale */
   const [position, setPosition] = useState({ x: 0, y: 0, scale: 1 })
 
-  const imageRef = useRef(null)
-  const containerRef = useRef(null)
-  // Use ref to prevent multiple re-renders
-
   /* Use refs to prevent unnecessary re-renders */
+   const imageRef = useRef(null)
+   const containerRef = useRef(null)
   // Use a ref to store the starting drag coordinates persistently
   const dragStartRef = useRef({ x: 0, y: 0 })
   // console.log("🚀 ~ GameScene ~ dragStartRef:", dragStartRef)
-
-  // const positionRef = useRef(position)
-  // positionRef.current = position
 
   useEffect(() => {
     // console.log('use effect')
@@ -69,8 +63,6 @@ const GameScene = () => {
       // Prevent default drag and drop
       e.preventDefault()
 
-      // positionRef.current = position
-
       // getBoundingClientRect() method returns object containing the size and position of an element relative to the viewport
       const rect = containerRef.current.getBoundingClientRect()
       // Current mouse position relative to container after mouse down
@@ -78,10 +70,6 @@ const GameScene = () => {
       const currentY = e.clientY - rect.top
       /* Store starting click position relative to the previous 
       offset position either because of zoom or drag. This prevents image jumping back to the starting position (0, 0) */
-      // dragStartRef.current = {
-      //   x: currentX - positionRef.current.x,
-      //   y: currentY - positionRef.current.y,
-      // }
       dragStartRef.current = {
         x: currentX - position.x,
         y: currentY - position.y,
@@ -91,20 +79,11 @@ const GameScene = () => {
     }
 
     const handleMouseMove = (e) => {
-      // console.log('mouse move')
       // Prevent default drag and drop
       e.preventDefault()
 
-      // positionRef.current = position
-
       // Prevent dragging if image isn't zoomed-in
-      // if (positionRef.current.scale <= 1) return
-      if (position.scale <= 1) return
-
-      const rect = containerRef.current.getBoundingClientRect()
-      // Current mouse position relative to container while moving the mouse
-      const currentX = e.clientX - rect.left
-      const currentY = e.clientY - rect.top
+      if (position.scale <= 1 || !isPan) return
 
       // If LMB is not held, the pan can't be active
       if (e.buttons % 2 === 0) {
@@ -112,21 +91,48 @@ const GameScene = () => {
         return
       }
 
-      if (!isPan) return
+      // Get container's width and height
+      const container = containerRef.current
+      const containerWidth = container.clientWidth
+      const containerHeight = container.clientHeight
+
+      // Get image's width and height
+      const image = imageRef.current
+      const imageWidth = image.width
+      const imageHeight = image.height
+
+      // Get scaled image's width and height
+      const currentScale = position.scale
+      const scaledImgWidth = imageWidth * currentScale
+      const scaledImgHeight = imageHeight * currentScale
+
+      // Set boundaries for panning the image
+      const maxX = 0
+      const maxY = 0
+      const minX = containerWidth - scaledImgWidth
+      const minY = containerHeight - scaledImgHeight
+
+      const rect = containerRef.current.getBoundingClientRect()
+
+      // Current mouse position relative to container while moving the mouse
+      const currentX = e.clientX - rect.left
+      const currentY = e.clientY - rect.top
 
       // Net difference between previous offset position and current mouse position
-      const newX = currentX - dragStartRef.current.x
-      const newY = currentY - dragStartRef.current.y
+      let newX = currentX - dragStartRef.current.x
+      let newY = currentY - dragStartRef.current.y
 
-      // const nextPosition = {
-      //   ...positionRef.current,
-      //   x: newX,
-      //   y: newY,
-      // }
-
-      // positionRef.current = nextPosition
-
-      // setPosition(nextPosition)
+      // Update newX and newY if they go out of boundaries
+      if (newX > maxX) {
+        newX = maxX
+      } else if (newX < minX) {
+        newX = minX
+      }
+      if (newY > maxY) {
+        newY = maxY
+      } else if (newY < minY) {
+        newY = minY
+      }
 
       setPosition((prevPosition) => ({
         ...prevPosition,
