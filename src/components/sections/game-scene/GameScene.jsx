@@ -13,18 +13,25 @@ const GameScene = () => {
   const [position, setPosition] = useState({ x: 0, y: 0, scale: 1 })
 
   /* Use refs to prevent unnecessary re-renders */
-   const imageRef = useRef(null)
-   const containerRef = useRef(null)
+  const imageRef = useRef(null)
+  const imageWrapperRef = useRef(null)
+  /* Desktop */
   // Use a ref to store the starting drag coordinates persistently
   const dragStartRef = useRef({ x: 0, y: 0 })
-  // console.log("🚀 ~ GameScene ~ dragStartRef:", dragStartRef)
+  /* Touch screens */
+  const touchOneStartRef = useRef({ x: 0, y: 0 })
+  const touchTwoStartRef = useRef({ x: 0, y: 0 })
+  /* There should be a minimum distance between the two points
+  for zoom to start */
+  const prevDifferenceRef = useRef(-1)
 
   useEffect(() => {
     // console.log('use effect')
     const gameImage = imageRef.current
     if (!gameImage) return
 
-    const handleWheel = (e) => {
+    /* Rotate mouse wheel to zoom */
+    const handleMouseWheel = (e) => {
       // console.log('handle wheel')
       // Prevent scrolling of webpage
       e.preventDefault()
@@ -35,20 +42,28 @@ const GameScene = () => {
 
         // Multiply 'deltaY' with -0.01 to zoom in small increments
         const delta = e.deltaY * -0.01
+        // console.log('🚀 ~ handleMouseWheel ~ e.deltaY:', e.deltaY)
+        // console.log('🚀 ~ handleMouseWheel ~ delta:', delta)
 
         /* Max zoom out is 4x and min zoom-in is 1x. 
         Image doesn't zoom in less than the original rendered size which is 1x */
         const newScale = Math.max(1, Math.min(prevPosition.scale + delta, 4))
+        // console.log("🚀 ~ handleMouseWheel ~ newScale:", newScale)
 
         /* Enables cursor centered zooming rather than zooming at the top left corner (0, 0) */
 
         // Growth or shrink factor
         const ratio = 1 - newScale / prevPosition.scale
+        // console.log('🚀 ~ handleMouseWheel ~ ratio:', ratio)
 
         const newPositionX =
           prevPosition.x + (e.clientX - prevPosition.x) * ratio
+        // console.log('🚀 ~ handleMouseWheel ~ newPositionX:', newPositionX)
         const newPositionY =
           prevPosition.y + (e.clientY - prevPosition.y) * ratio
+        // console.log('🚀 ~ handleMouseWheel ~ newPositionY:', newPositionY)
+
+        // TODO: Snap the image back to 0, 0 when scale is 1
 
         return {
           scale: newScale,
@@ -58,16 +73,17 @@ const GameScene = () => {
       })
     }
 
+    /* Handlers for hold and drag to pan the image */
     const handleMouseDown = (e) => {
       // console.log('mouse down')
       // Prevent default drag and drop
       e.preventDefault()
 
       // getBoundingClientRect() method returns object containing the size and position of an element relative to the viewport
-      const rect = containerRef.current.getBoundingClientRect()
+      const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
       // Current mouse position relative to container after mouse down
-      const currentX = e.clientX - rect.left
-      const currentY = e.clientY - rect.top
+      const currentX = e.clientX - imageWrapperRect.left
+      const currentY = e.clientY - imageWrapperRect.top
       /* Store starting click position relative to the previous 
       offset position either because of zoom or drag. This prevents image jumping back to the starting position (0, 0) */
       dragStartRef.current = {
@@ -92,9 +108,9 @@ const GameScene = () => {
       }
 
       // Get container's width and height
-      const container = containerRef.current
-      const containerWidth = container.clientWidth
-      const containerHeight = container.clientHeight
+      const imageWrapper = imageWrapperRef.current
+      const imageWrapperWidth = imageWrapper.clientWidth
+      const imageWrapperHeight = imageWrapper.clientHeight
 
       // Get image's width and height
       const image = imageRef.current
@@ -109,14 +125,14 @@ const GameScene = () => {
       // Set boundaries for panning the image
       const maxX = 0
       const maxY = 0
-      const minX = containerWidth - scaledImgWidth
-      const minY = containerHeight - scaledImgHeight
+      const minX = imageWrapperWidth - scaledImgWidth
+      const minY = imageWrapperHeight - scaledImgHeight
 
-      const rect = containerRef.current.getBoundingClientRect()
+      const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
 
       // Current mouse position relative to container while moving the mouse
-      const currentX = e.clientX - rect.left
-      const currentY = e.clientY - rect.top
+      const currentX = e.clientX - imageWrapperRect.left
+      const currentY = e.clientY - imageWrapperRect.top
 
       // Net difference between previous offset position and current mouse position
       let newX = currentX - dragStartRef.current.x
@@ -147,22 +163,153 @@ const GameScene = () => {
       setIsPan(false)
     }
 
+    /* Touch screens */
+    const handleTouchStart = (e) => {
+      // Prevent default page zooming behavior of browser
+      e.preventDefault()
+
+      /* getBoundingClientRect() method returns object containing the
+       size and position of an element relative to the viewport */
+      const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
+
+      if (e.touches.length === 1) {
+        // Single finger touch (panning)
+        const touchOne = e.touches[0]
+        // Current touch position relative to container after touch
+        const currentX = touchOne.clientX - imageWrapperRect.left
+        const currentY = touchOne.clientY - imageWrapperRect.top
+        touchOneStartRef.current = {
+          x: currentX - position.x,
+          y: currentY - position.y,
+        }
+
+        setIsPan(true)
+        // Reset value after two finger pinch gesture concludes
+        prevDifferenceRef.current = null
+      } else if (e.touches.length === 2) {
+        // Two finger touch (zoom to pinch)
+        setIsPan(false)
+
+        const touchOne = e.touches[0]
+        const touchTwo = e.touches[1]
+
+        const currentFirstX = touchOne.clientX - imageWrapperRect.left
+        const currentFirstY = touchOne.clientY - imageWrapperRect.top
+        touchOneStartRef.current = {
+          x: currentFirstX - position.x,
+          y: currentFirstY - position.y,
+        }
+
+        const currentSecondX = touchTwo.clientX - imageWrapperRect.left
+        const currentSecondY = touchTwo.clientY - imageWrapperRect.top
+        touchTwoStartRef.current = {
+          x: currentSecondX - position.x,
+          y: currentSecondY - position.y,
+        }
+
+        // Update previous difference value for multi-step pinch to zoom
+        const initialDifference = Math.hypot(
+          touchOne.clientX - touchTwo.clientX,
+          touchOne.clientY - touchTwo.clientY,
+        )
+        prevDifferenceRef.current = initialDifference
+      }
+    }
+
+    const handleTouchMove = (e) => {
+      if (e.touches.length === 2) {
+        const touchOne = e.touches[0]
+        const touchTwo = e.touches[1]
+
+        const currentDifference = Math.hypot(
+          touchOne.clientX - touchTwo.clientX,
+          touchOne.clientY - touchTwo.clientY,
+        )
+
+        const prevDifference = prevDifferenceRef.current
+
+        if (prevDifference && prevDifference > 0) {
+          const imageWrapperRect =
+            imageWrapperRef.current.getBoundingClientRect()
+
+          // Center points relative to image wrapper
+          const centerX =
+            (touchOne.clientX + touchTwo.clientX) / 2 - imageWrapperRect.left
+          const centerY =
+            (touchOne.clientY + touchTwo.clientY) / 2 - imageWrapperRect.top
+
+          // Zoom factor depends on distance between two finger touches
+          const deltaDistance = currentDifference - prevDifference
+          const delta = deltaDistance * 0.05
+
+          if (deltaDistance !== 0) {
+            // Use functional updates
+            setPosition((prevPosition) => {
+              /* Zoom upper limit is 6x and lower limit is 1x. Image
+               doesn't zoom-out less than the original rendered size which is 1x */
+              const newScale = Math.max(
+                1,
+                Math.min(prevPosition.scale + delta, 6),
+              )
+
+              // Growth or shrink factor
+              const ratio = 1 - newScale / prevPosition.scale
+
+              const newPositionX =
+                prevPosition.x + (centerX - prevPosition.x) * ratio
+              const newPositionY =
+                prevPosition.y + (centerY - prevPosition.y) * ratio
+
+              /* Snap the image back to original position after 
+              it zooms out to it's original scale */
+              return {
+                scale: newScale,
+                x: newScale === 1 ? 0 : newPositionX,
+                y: newScale === 1 ? 0 : newPositionY,
+              }
+            })
+          }
+        }
+
+        // Cache the distance for the next move event
+        prevDifferenceRef.current = currentDifference
+      }
+    }
+
+    const handleTouchEnd = (e) => {
+      // console.log('event:', e)
+
+      if (e.touches.length === 1) {
+        setIsPan(false)
+      } else if (e.touches.length === 2) {
+        // prevDifferenceRef.current = -1
+      }
+    }
+
     /* Default 'passive: true' ignores 'e.preventDefault()' for
     'wheel' event and raises the error "Unable to preventdefault inside passive event listener invocation". To prevent the error and prevent scrolling add  'passive: false' */
     // Limit zooming to the image
-    gameImage.addEventListener('wheel', handleWheel, { passive: false })
-
+    /* For desktop */
+    gameImage.addEventListener('wheel', handleMouseWheel, { passive: false })
     gameImage.addEventListener('mousedown', handleMouseDown)
     gameImage.addEventListener('mousemove', handleMouseMove)
     gameImage.addEventListener('mouseup', handleMouseUp)
 
+    // For touch screens
+    gameImage.addEventListener('touchstart', handleTouchStart)
+    gameImage.addEventListener('touchmove', handleTouchMove)
+    gameImage.addEventListener('touchend', handleTouchEnd)
+
     // Clean up
     return () => {
-      gameImage.removeEventListener('wheel', handleWheel)
-
+      gameImage.removeEventListener('wheel', handleMouseWheel)
       gameImage.removeEventListener('mousedown', handleMouseDown)
       gameImage.removeEventListener('mousemove', handleMouseMove)
       gameImage.removeEventListener('mouseup', handleMouseUp)
+
+      gameImage.removeEventListener('touchstart', handleTouchStart)
+      gameImage.removeEventListener('touchmove', handleTouchMove)
+      gameImage.removeEventListener('touchend', handleTouchEnd)
     }
   }, [isPan, position])
 
@@ -171,7 +318,7 @@ const GameScene = () => {
   }
   return (
     <>
-      <div className={styles.gameBoard} ref={containerRef}>
+      <div className={styles.gameBoard} ref={imageWrapperRef}>
         <img
           ref={imageRef}
           className={styles.gameImg}

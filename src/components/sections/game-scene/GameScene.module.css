@@ -7,6 +7,9 @@
   /* Hide the zoomed-in image except the part within
   the container's dimensions */
   overflow: hidden;
+  /* Disable browser's zoom-in functionality on the container */
+  touch-action: none;
+  border: 1px solid #000;
 }
 
 
