@@ -32,38 +32,57 @@ const GameScene = () => {
 
     /* Rotate mouse wheel to zoom */
     const handleMouseWheel = (e) => {
-      // console.log('handle wheel')
       // Prevent scrolling of webpage
       e.preventDefault()
 
       // Use functional updates
       setPosition((prevPosition) => {
         /* Calculate new variables with every 'wheel' event */
-
         // Multiply 'deltaY' with -0.01 to zoom in small increments
         const delta = e.deltaY * -0.01
-        // console.log('🚀 ~ handleMouseWheel ~ e.deltaY:', e.deltaY)
-        // console.log('🚀 ~ handleMouseWheel ~ delta:', delta)
 
-        /* Max zoom out is 4x and min zoom-in is 1x. 
-        Image doesn't zoom in less than the original rendered size which is 1x */
+        /* Limit zoom between 1x and 4x */
         const newScale = Math.max(1, Math.min(prevPosition.scale + delta, 4))
-        // console.log("🚀 ~ handleMouseWheel ~ newScale:", newScale)
-
-        /* Enables cursor centered zooming rather than zooming at the top left corner (0, 0) */
 
         // Growth or shrink factor
         const ratio = 1 - newScale / prevPosition.scale
-        // console.log('🚀 ~ handleMouseWheel ~ ratio:', ratio)
 
-        const newPositionX =
-          prevPosition.x + (e.clientX - prevPosition.x) * ratio
-        // console.log('🚀 ~ handleMouseWheel ~ newPositionX:', newPositionX)
-        const newPositionY =
-          prevPosition.y + (e.clientY - prevPosition.y) * ratio
-        // console.log('🚀 ~ handleMouseWheel ~ newPositionY:', newPositionY)
+        /* Enables cursor centered zooming rather than zooming at the top left corner (0, 0) */
+        let newPositionX = prevPosition.x + (e.clientX - prevPosition.x) * ratio
+        let newPositionY = prevPosition.y + (e.clientY - prevPosition.y) * ratio
 
-        // TODO: Snap the image back to 0, 0 when scale is 1
+        // Get wrapper's width and height
+        const imageWrapper = imageWrapperRef.current
+        const imageWrapperWidth = imageWrapper.clientWidth
+        const imageWrapperHeight = imageWrapper.clientHeight
+
+        // Get image's width and height
+        const image = imageRef.current
+        const imageWidth = image.width
+        const imageHeight = image.height
+
+        // Get scaled image's width and height
+        const scaledImgWidth = imageWidth * newScale
+        const scaledImgHeight = imageHeight * newScale
+
+        /* Set boundaries to prevent gaps between the image and
+        wrapper when zooming out at corners */
+        const maxX = 0
+        const maxY = 0
+        const minX = imageWrapperWidth - scaledImgWidth
+        const minY = imageWrapperHeight - scaledImgHeight
+
+        // Update newX and newY if they go out of boundaries
+        if (newPositionX > maxX) {
+          newPositionX = maxX
+        } else if (newPositionX < minX) {
+          newPositionX = minX
+        }
+        if (newPositionY > maxY) {
+          newPositionY = maxY
+        } else if (newPositionY < minY) {
+          newPositionY = minY
+        }
 
         return {
           scale: newScale,
@@ -379,7 +398,7 @@ const GameScene = () => {
         pinch to zoom and lifted only one finger off the screen */
         // Reset value after two finger pinch gesture concludes
         prevDifferenceRef.current = null
-        
+
         const touchOne = e.touches[0]
 
         const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
