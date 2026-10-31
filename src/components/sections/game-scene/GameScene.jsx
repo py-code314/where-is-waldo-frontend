@@ -217,6 +217,67 @@ const GameScene = () => {
     }
 
     const handleTouchMove = (e) => {
+      /* Image panning with one finger touch */
+      if (e.touches.length === 1) {
+        // Prevent ghost image
+        e.preventDefault()
+
+        const touchOne = e.touches[0]
+
+        // Prevent dragging if image isn't zoomed-in
+        if (position.scale <= 1 || !isPan) return
+
+        // Get wrapper's width and height
+        const imageWrapper = imageWrapperRef.current
+        const imageWrapperWidth = imageWrapper.clientWidth
+        const imageWrapperHeight = imageWrapper.clientHeight
+
+        // Get image's width and height
+        const image = imageRef.current
+        const imageWidth = image.width
+        const imageHeight = image.height
+
+        // Get scaled image's width and height
+        const currentScale = position.scale
+        const scaledImgWidth = imageWidth * currentScale
+        const scaledImgHeight = imageHeight * currentScale
+
+        const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
+
+        // Current mouse position relative to container while moving the mouse
+        const currentX = touchOne.clientX - imageWrapperRect.left
+        const currentY = touchOne.clientY - imageWrapperRect.top
+
+        // Net difference between previous offset position and current mouse position
+        let newX = currentX - touchOneStartRef.current.x
+        let newY = currentY - touchOneStartRef.current.y
+
+        // Set boundaries for panning the image
+        const maxX = 0
+        const maxY = 0
+        const minX = imageWrapperWidth - scaledImgWidth
+        const minY = imageWrapperHeight - scaledImgHeight
+
+        // Update newX and newY if they go out of boundaries
+        if (newX > maxX) {
+          newX = maxX
+        } else if (newX < minX) {
+          newX = minX
+        }
+        if (newY > maxY) {
+          newY = maxY
+        } else if (newY < minY) {
+          newY = minY
+        }
+
+        setPosition((prevPosition) => ({
+          ...prevPosition,
+          x: newX,
+          y: newY,
+        }))
+      }
+
+      /* Pinch to move gesture */
       if (e.touches.length === 2) {
         const touchOne = e.touches[0]
         const touchTwo = e.touches[1]
@@ -243,6 +304,16 @@ const GameScene = () => {
           const delta = deltaDistance * 0.05
 
           if (deltaDistance !== 0) {
+            // Get wrapper's width and height
+            const imageWrapper = imageWrapperRef.current
+            const imageWrapperWidth = imageWrapper.clientWidth
+            const imageWrapperHeight = imageWrapper.clientHeight
+
+            // Get image's width and height
+            const image = imageRef.current
+            const imageWidth = image.width
+            const imageHeight = image.height
+
             // Use functional updates
             setPosition((prevPosition) => {
               /* Zoom upper limit is 6x and lower limit is 1x. Image
@@ -255,17 +326,38 @@ const GameScene = () => {
               // Growth or shrink factor
               const ratio = 1 - newScale / prevPosition.scale
 
-              const newPositionX =
+              let newPositionX =
                 prevPosition.x + (centerX - prevPosition.x) * ratio
-              const newPositionY =
+              let newPositionY =
                 prevPosition.y + (centerY - prevPosition.y) * ratio
 
-              /* Snap the image back to original position after 
-              it zooms out to it's original scale */
+              // Get scaled image's width and height
+              const scaledImgWidth = imageWidth * newScale
+              const scaledImgHeight = imageHeight * newScale
+
+              /* Set boundaries to prevent gaps between the image and
+              wrapper when zooming out */
+              const maxX = 0
+              const maxY = 0
+              const minX = imageWrapperWidth - scaledImgWidth
+              const minY = imageWrapperHeight - scaledImgHeight
+
+              // Update newX and newY if they go out of boundaries
+              if (newPositionX > maxX) {
+                newPositionX = maxX
+              } else if (newPositionX < minX) {
+                newPositionX = minX
+              }
+              if (newPositionY > maxY) {
+                newPositionY = maxY
+              } else if (newPositionY < minY) {
+                newPositionY = minY
+              }
+              
               return {
                 scale: newScale,
-                x: newScale === 1 ? 0 : newPositionX,
-                y: newScale === 1 ? 0 : newPositionY,
+                x: newPositionX,
+                y: newPositionY,
               }
             })
           }
@@ -274,6 +366,67 @@ const GameScene = () => {
         // Cache the distance for the next move event
         prevDifferenceRef.current = currentDifference
       }
+
+
+      // /* Pinch to move gesture */
+      // if (e.touches.length === 2) {
+      //   const touchOne = e.touches[0]
+      //   const touchTwo = e.touches[1]
+
+      //   const currentDifference = Math.hypot(
+      //     touchOne.clientX - touchTwo.clientX,
+      //     touchOne.clientY - touchTwo.clientY,
+      //   )
+
+      //   const prevDifference = prevDifferenceRef.current
+
+      //   if (prevDifference && prevDifference > 0) {
+      //     const imageWrapperRect =
+      //       imageWrapperRef.current.getBoundingClientRect()
+
+      //     // Center points relative to image wrapper
+      //     const centerX =
+      //       (touchOne.clientX + touchTwo.clientX) / 2 - imageWrapperRect.left
+      //     const centerY =
+      //       (touchOne.clientY + touchTwo.clientY) / 2 - imageWrapperRect.top
+
+      //     // Zoom factor depends on distance between two finger touches
+      //     const deltaDistance = currentDifference - prevDifference
+      //     const delta = deltaDistance * 0.05
+
+      //     if (deltaDistance !== 0) {
+      //       // Use functional updates
+      //       setPosition((prevPosition) => {
+      //         /* Zoom upper limit is 6x and lower limit is 1x. Image
+      //          doesn't zoom-out less than the original rendered size which is 1x */
+      //         const newScale = Math.max(
+      //           1,
+      //           Math.min(prevPosition.scale + delta, 6),
+      //         )
+
+      //         // Growth or shrink factor
+      //         const ratio = 1 - newScale / prevPosition.scale
+
+      //         const newPositionX =
+      //           prevPosition.x + (centerX - prevPosition.x) * ratio
+      //         const newPositionY =
+      //           prevPosition.y + (centerY - prevPosition.y) * ratio
+
+      //         /* Snap the image back to original position after 
+      //         it zooms out to it's original scale */
+              
+      //         return {
+      //           scale: newScale,
+      //           x: newScale === 1 ? 0 : newPositionX,
+      //           y: newScale === 1 ? 0 : newPositionY,
+      //         }
+      //       })
+      //     }
+      //   }
+
+      //   // Cache the distance for the next move event
+      //   prevDifferenceRef.current = currentDifference
+      // }
     }
 
     const handleTouchEnd = (e) => {
