@@ -24,29 +24,14 @@
   opacity: 0;
   visibility: hidden;
 
-  /* Placement */
-  /* position: absolute; */
-  /* left: 15px;
-  top: 15px; */
-  /* left: clamp(
-      var(--space-32, 2rem),
-      1.59rem + 2.051vw,
-      var(--space-48, 3rem)
-    );
-    top: clamp(
-      var(--space-56, 3.5rem),
-      2.885rem + 3.077vw,
-      var(--space-80, 5rem)
-    ); */
-
   width: clamp(
-    var(--space-120, 7.5rem),
-    6.161rem + 3.571vw,
+    var(--space-80, 5rem),
+    1.875rem + 8.333vw,
     var(--space-150, 9.375rem)
   );
   padding: clamp(
-    var(--space-4, 0.25rem),
-    0.071rem + 0.476vw,
+    var(--space-2, 0.125rem),
+    -0.143rem + 0.714vw,
     var(--space-8, 0.5rem)
   );
   /* Add margin to make sure clicking at the same position again hides dropdown every time without fail */
@@ -61,17 +46,6 @@
     transform 300ms ease-in;
 }
 
-/* Add triangle at the top of dropdown box  */
-/* .hidden::before {
-  content: '';
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: var(--space-10, 00.625rem)  solid transparent;
-  border-bottom-color: var(--clr-white, white);
-} */
-
 /* Show dropdown */
 .open {
   composes: hidden;
@@ -83,27 +57,24 @@
 
 .charactersList {
   flex-direction: column;
-  gap: var(--space-4, 00.25rem);
-  font-size: clamp(
-    var(--fs-14, 0.875rem),
-    0.824rem + 0.256vw,
-    var(--fs-16, 1rem)
-  );
+
 }
 
 .select {
   text-transform: uppercase;
   border-block-end: 1px solid white;
+  font-size: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
 }
 
 .listItem {
   padding-block: clamp(
-    var(--space-4, 0.25rem),
-    0.147rem + 0.513vw,
+    var(--space-2, 0.125rem),
+    -0.143rem + 0.714vw,
     var(--space-8, 0.5rem)
   );
   text-align: center;
   font-weight: 600;
+  font-size: clamp(0.625rem, 0.357rem + 0.714vw, 1rem);
 }
 
 .option {

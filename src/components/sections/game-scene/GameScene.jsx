@@ -21,7 +21,6 @@ const GameScene = () => {
   /* Desktop */
   // Use a ref to store the starting drag coordinates persistently
   const dragStartRef = useRef({ x: 0, y: 0 })
-  // const clickCoordsRef = useRef({ x: 0, y: 0 })
   /* Touch screens */
   const touchOneStartRef = useRef({ x: 0, y: 0 })
   const touchTwoStartRef = useRef({ x: 0, y: 0 })
@@ -30,7 +29,6 @@ const GameScene = () => {
   const prevDifferenceRef = useRef(-1)
 
   useEffect(() => {
-    // console.log('use effect')
     const gameImage = imageRef.current
     if (!gameImage) return
 
@@ -57,7 +55,6 @@ const GameScene = () => {
 
         // Get wrapper's width and height
         const imageWrapper = imageWrapperRef.current
-        console.log('🚀 ~ handleMouseWheel ~ imageWrapper:', imageWrapper)
         const imageWrapperWidth = imageWrapper.clientWidth
         const imageWrapperHeight = imageWrapper.clientHeight
 
@@ -99,7 +96,6 @@ const GameScene = () => {
 
     /* Handlers for hold and drag to pan the image */
     const handleMouseDown = (e) => {
-      // console.log('mouse down')
       // Prevent default drag and drop
       e.preventDefault()
 
@@ -420,47 +416,6 @@ const GameScene = () => {
       }
     }
 
-    // const handleClick = (e) => {
-    //   const clientX = e.clientX
-    //   console.log('🚀 ~ handleClick ~ clientX:', clientX)
-    //   // console.log("🚀 ~ handleClick ~ x:", x)
-    //   const clientY = e.clientY
-    //   console.log('🚀 ~ handleClick ~ clientY:', clientY)
-    //   // console.log("🚀 ~ handleClick ~ y:", y)
-
-    //   const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
-    //   let dropdownX = 0
-    //   let dropdownY = clientY - imageWrapperRect.top
-
-    //   const dropdown = dropdownRef.current
-    //   console.log('🚀 ~ handleClick ~ dropdown:', dropdown)
-    //   const dropdownWidth = dropdown.width
-    //   console.log('🚀 ~ handleClick ~ dropdownWidth:', dropdownWidth)
-    //   const dropdownWidth1 = dropdown.clientWidth
-    //   console.log('🚀 ~ handleClick ~ dropdownWidth1:', dropdownWidth1)
-    //   // const dropdownHeight = 250
-    //   const widthDiff = imageWrapperRect.right - clientX
-    //   // const heightDiff = imageWrapperRect.bottom - clientY
-    //   if (widthDiff > dropdownWidth) {
-    //     dropdownX = clientX - imageWrapperRect.left
-    //   } else {
-    //     dropdownX = clientX - imageWrapperRect.left - dropdownWidth
-    //   }
-
-    //   // if (heightDiff > dropdownHeight) {
-    //   //   dropdownY = clientY - imageWrapperRect.top
-    //   // } else {
-    //   //   dropdownY = clientY - imageWrapperRect.top - dropdownHeight
-    //   // }
-
-    //   // setClickCoords(() => ({
-    //   //   ...clickCoords,
-    //   //   x: dropdownX,
-    //   //   y: dropdownY,
-    //   // }))
-    //   setIsClick(!isClick)
-    // }
-
     /* Default 'passive: true' ignores 'e.preventDefault()' for
     'wheel' event and raises the error "Unable to preventdefault inside passive event listener invocation". To prevent the error and prevent scrolling add  'passive: false' */
     // Limit zooming to the image
@@ -469,8 +424,6 @@ const GameScene = () => {
     gameImage.addEventListener('mousedown', handleMouseDown)
     gameImage.addEventListener('mousemove', handleMouseMove)
     gameImage.addEventListener('mouseup', handleMouseUp)
-
-    // gameImage.addEventListener('click', handleClick)
 
     // For touch screens
     gameImage.addEventListener('touchstart', handleTouchStart)
@@ -484,7 +437,6 @@ const GameScene = () => {
       gameImage.removeEventListener('mousemove', handleMouseMove)
       gameImage.removeEventListener('mouseup', handleMouseUp)
 
-      // gameImage.removeEventListener('click', handleClick)
 
       gameImage.removeEventListener('touchstart', handleTouchStart)
       gameImage.removeEventListener('touchmove', handleTouchMove)
@@ -558,22 +510,6 @@ const GameScene = () => {
           }}
         />
 
-        {/* <ul
-          className={`${styles.charactersList} ${styles.open}`}
-          style={{
-            position: 'absolute',
-            left: `${clickCoords.x}px`,
-            top: `${clickCoords.y}px`,
-          }}
-          ref={dropdownRef}>
-          <li className={`${styles.listItem} ${styles.select}`}>
-            Who is this?
-          </li>
-          <li className={`${styles.listItem} ${styles.option}`}>Waldo</li>
-          <li className={`${styles.listItem} ${styles.option}`}>Wanda</li>
-          <li className={`${styles.listItem} ${styles.option}`}>Wizard</li>
-          <li className={`${styles.listItem} ${styles.option}`}>Odlaw</li>
-        </ul> */}
         <ul
           className={`${styles.charactersList} ${isClick ? styles.open : styles.hidden}`}
           style={{
