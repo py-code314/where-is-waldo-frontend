@@ -25,9 +25,9 @@
   visibility: hidden;
 
   /* Placement */
-  position: absolute;
-  left: 15px;
-  top: 15px;
+  /* position: absolute; */
+  /* left: 15px;
+  top: 15px; */
   /* left: clamp(
       var(--space-32, 2rem),
       1.59rem + 2.051vw,
@@ -49,6 +49,8 @@
     0.071rem + 0.476vw,
     var(--space-8, 0.5rem)
   );
+  /* Add margin to make sure clicking at the same position again hides dropdown every time without fail */
+  margin: 1px;
   background-color: var(--clr-white, white);
   box-shadow: var(--shadow-1, rgba(0, 0, 0, 0.16) 0px 1px 4px);
 
@@ -60,7 +62,7 @@
 }
 
 /* Add triangle at the top of dropdown box  */
-.hidden::before {
+/* .hidden::before {
   content: '';
   position: absolute;
   top: -20px;
@@ -68,7 +70,7 @@
   transform: translateX(-50%);
   border: var(--space-10, 00.625rem)  solid transparent;
   border-bottom-color: var(--clr-white, white);
-}
+} */
 
 /* Show dropdown */
 .open {

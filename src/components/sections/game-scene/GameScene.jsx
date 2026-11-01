@@ -9,15 +9,19 @@ const GameScene = () => {
   // State
   const [isClick, setIsClick] = useState(false)
   const [isPan, setIsPan] = useState(false)
-  /* Initial image position and scale */
+  // Initial image position and scale
   const [position, setPosition] = useState({ x: 0, y: 0, scale: 1 })
+  // Click co-ordinates to show dropdown box
+  const [clickCoords, setClickCoords] = useState({ x: 0, y: 0 })
 
-  /* Use refs to prevent unnecessary re-renders */
   const imageRef = useRef(null)
   const imageWrapperRef = useRef(null)
+  const dropdownRef = useRef(null)
+  /* Use refs to prevent unnecessary re-renders */
   /* Desktop */
   // Use a ref to store the starting drag coordinates persistently
   const dragStartRef = useRef({ x: 0, y: 0 })
+  // const clickCoordsRef = useRef({ x: 0, y: 0 })
   /* Touch screens */
   const touchOneStartRef = useRef({ x: 0, y: 0 })
   const touchTwoStartRef = useRef({ x: 0, y: 0 })
@@ -53,6 +57,7 @@ const GameScene = () => {
 
         // Get wrapper's width and height
         const imageWrapper = imageWrapperRef.current
+        console.log('🚀 ~ handleMouseWheel ~ imageWrapper:', imageWrapper)
         const imageWrapperWidth = imageWrapper.clientWidth
         const imageWrapperHeight = imageWrapper.clientHeight
 
@@ -415,6 +420,47 @@ const GameScene = () => {
       }
     }
 
+    // const handleClick = (e) => {
+    //   const clientX = e.clientX
+    //   console.log('🚀 ~ handleClick ~ clientX:', clientX)
+    //   // console.log("🚀 ~ handleClick ~ x:", x)
+    //   const clientY = e.clientY
+    //   console.log('🚀 ~ handleClick ~ clientY:', clientY)
+    //   // console.log("🚀 ~ handleClick ~ y:", y)
+
+    //   const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
+    //   let dropdownX = 0
+    //   let dropdownY = clientY - imageWrapperRect.top
+
+    //   const dropdown = dropdownRef.current
+    //   console.log('🚀 ~ handleClick ~ dropdown:', dropdown)
+    //   const dropdownWidth = dropdown.width
+    //   console.log('🚀 ~ handleClick ~ dropdownWidth:', dropdownWidth)
+    //   const dropdownWidth1 = dropdown.clientWidth
+    //   console.log('🚀 ~ handleClick ~ dropdownWidth1:', dropdownWidth1)
+    //   // const dropdownHeight = 250
+    //   const widthDiff = imageWrapperRect.right - clientX
+    //   // const heightDiff = imageWrapperRect.bottom - clientY
+    //   if (widthDiff > dropdownWidth) {
+    //     dropdownX = clientX - imageWrapperRect.left
+    //   } else {
+    //     dropdownX = clientX - imageWrapperRect.left - dropdownWidth
+    //   }
+
+    //   // if (heightDiff > dropdownHeight) {
+    //   //   dropdownY = clientY - imageWrapperRect.top
+    //   // } else {
+    //   //   dropdownY = clientY - imageWrapperRect.top - dropdownHeight
+    //   // }
+
+    //   // setClickCoords(() => ({
+    //   //   ...clickCoords,
+    //   //   x: dropdownX,
+    //   //   y: dropdownY,
+    //   // }))
+    //   setIsClick(!isClick)
+    // }
+
     /* Default 'passive: true' ignores 'e.preventDefault()' for
     'wheel' event and raises the error "Unable to preventdefault inside passive event listener invocation". To prevent the error and prevent scrolling add  'passive: false' */
     // Limit zooming to the image
@@ -423,6 +469,8 @@ const GameScene = () => {
     gameImage.addEventListener('mousedown', handleMouseDown)
     gameImage.addEventListener('mousemove', handleMouseMove)
     gameImage.addEventListener('mouseup', handleMouseUp)
+
+    // gameImage.addEventListener('click', handleClick)
 
     // For touch screens
     gameImage.addEventListener('touchstart', handleTouchStart)
@@ -436,13 +484,63 @@ const GameScene = () => {
       gameImage.removeEventListener('mousemove', handleMouseMove)
       gameImage.removeEventListener('mouseup', handleMouseUp)
 
+      // gameImage.removeEventListener('click', handleClick)
+
       gameImage.removeEventListener('touchstart', handleTouchStart)
       gameImage.removeEventListener('touchmove', handleTouchMove)
       gameImage.removeEventListener('touchend', handleTouchEnd)
     }
   }, [isPan, position])
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    // Get elements and their values
+    const dropdown = dropdownRef.current
+    const dropdownStyles = window.getComputedStyle(dropdown)
+    const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
+
+    // Initialize dropdown's x, y
+    let dropdownX = 0
+    let dropdownY = 0
+
+    const dropdownWidth = dropdown.clientWidth
+    const dropdownHeight = dropdown.clientHeight
+
+    // Get click positions relative to browser
+    const clientX = e.clientX
+    const clientY = e.clientY
+
+    /* Calculate the remaining width and height of wrapper
+    from click position */
+    const widthDiff = imageWrapperRect.right - clientX
+    const heightDiff = imageWrapperRect.bottom - clientY
+
+    /* Dynamically calculate total horizontal and vertical margin of dropdown  */
+    const totalMarginX =
+      parseInt(dropdownStyles.marginLeft, 10) +
+        parseInt(dropdownStyles.marginRight, 10) || 0
+    const totalMarginY =
+      parseInt(dropdownStyles.marginTop, 10) +
+        parseInt(dropdownStyles.marginBottom, 10) || 0
+
+    /* Place the dropdown box based on the click position.
+    Dropdown should always appear inside the image wrapper */
+    if (widthDiff > dropdownWidth) {
+      dropdownX = clientX - imageWrapperRect.left
+    } else {
+      dropdownX = clientX - imageWrapperRect.left - dropdownWidth - totalMarginX
+    }
+
+    if (heightDiff > dropdownHeight) {
+      dropdownY = clientY - imageWrapperRect.top
+    } else {
+      dropdownY = clientY - imageWrapperRect.top - dropdownHeight - totalMarginY
+    }
+
+    setClickCoords(() => ({
+      ...clickCoords,
+      x: dropdownX,
+      y: dropdownY,
+    }))
     setIsClick(!isClick)
   }
   return (
@@ -460,8 +558,30 @@ const GameScene = () => {
           }}
         />
 
+        {/* <ul
+          className={`${styles.charactersList} ${styles.open}`}
+          style={{
+            position: 'absolute',
+            left: `${clickCoords.x}px`,
+            top: `${clickCoords.y}px`,
+          }}
+          ref={dropdownRef}>
+          <li className={`${styles.listItem} ${styles.select}`}>
+            Who is this?
+          </li>
+          <li className={`${styles.listItem} ${styles.option}`}>Waldo</li>
+          <li className={`${styles.listItem} ${styles.option}`}>Wanda</li>
+          <li className={`${styles.listItem} ${styles.option}`}>Wizard</li>
+          <li className={`${styles.listItem} ${styles.option}`}>Odlaw</li>
+        </ul> */}
         <ul
-          className={`${styles.charactersList} ${isClick ? styles.open : styles.hidden}`}>
+          className={`${styles.charactersList} ${isClick ? styles.open : styles.hidden}`}
+          style={{
+            position: 'absolute',
+            left: `${clickCoords.x}px`,
+            top: `${clickCoords.y}px`,
+          }}
+          ref={dropdownRef}>
           <li className={`${styles.listItem} ${styles.select}`}>
             Who is this?
           </li>
