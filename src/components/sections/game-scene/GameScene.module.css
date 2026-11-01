@@ -1,15 +1,20 @@
+/* Absolutely placed child elements are visible even though
+they're inside a parent with 'overflow: hidden' */
+.gameBoardContainer {
+  position: relative;
+}
+
 .gameBoard {
   max-width: 1200px; /* Cap max width */
   width: 100%;
   height: auto; /* Container height based on image height */
-  position: relative;
   cursor: crosshair;
   /* Hide the zoomed-in image except the part within
   the container's dimensions */
   overflow: hidden;
   /* Disable browser's zoom-in functionality on the container */
   touch-action: none;
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
 }
 
 
@@ -45,6 +50,7 @@
     opacity 300ms ease-in,
     transform 300ms ease-in;
 }
+
 
 /* Show dropdown */
 .open {

@@ -497,35 +497,36 @@ const GameScene = () => {
   }
   return (
     <>
-      <div className={styles.gameBoard} ref={imageWrapperRef}>
-        <img
-          ref={imageRef}
-          className={styles.gameImg}
-          src={skiingImage}
-          alt="A crowded ski resort on a snowy mountain with many skiers wearing colorful winter jackets."
-          onClick={handleClick}
-          style={{
-            transformOrigin: '0 0',
-            transform: `translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
-          }}
-        />
-
-        <ul
-          className={`${styles.charactersList} ${isClick ? styles.open : styles.hidden}`}
-          style={{
-            position: 'absolute',
-            left: `${clickCoords.x}px`,
-            top: `${clickCoords.y}px`,
-          }}
-          ref={dropdownRef}>
-          <li className={`${styles.listItem} ${styles.select}`}>
-            Who is this?
-          </li>
-          <li className={`${styles.listItem} ${styles.option}`}>Waldo</li>
-          <li className={`${styles.listItem} ${styles.option}`}>Wanda</li>
-          <li className={`${styles.listItem} ${styles.option}`}>Wizard</li>
-          <li className={`${styles.listItem} ${styles.option}`}>Odlaw</li>
-        </ul>
+      <div className={styles.gameBoardContainer}>
+        <div className={styles.gameBoard} ref={imageWrapperRef}>
+          <img
+            ref={imageRef}
+            className={styles.gameImg}
+            src={skiingImage}
+            alt="A crowded ski resort on a snowy mountain with many skiers wearing colorful winter jackets."
+            onClick={handleClick}
+            style={{
+              transformOrigin: '0 0',
+              transform: `translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
+            }}
+          />
+          <ul
+            className={`${styles.charactersList} ${isClick ? styles.open : styles.hidden}`}
+            style={{
+              position: 'absolute',
+              left: `${clickCoords.x}px`,
+              top: `${clickCoords.y}px`,
+            }}
+            ref={dropdownRef}>
+            <li className={`${styles.listItem} ${styles.select}`}>
+              Who is this?
+            </li>
+            <li className={`${styles.listItem} ${styles.option}`}>Waldo</li>
+            <li className={`${styles.listItem} ${styles.option}`}>Wanda</li>
+            <li className={`${styles.listItem} ${styles.option}`}>Wizard</li>
+            <li className={`${styles.listItem} ${styles.option}`}>Odlaw</li>
+          </ul>
+        </div>
       </div>
     </>
   )
