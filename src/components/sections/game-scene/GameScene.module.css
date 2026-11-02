@@ -17,17 +17,14 @@ they're inside a parent with 'overflow: hidden' */
   /* border: 1px solid #000; */
 }
 
-
 .gameImg {
   width: 100%;
   /* Height is based on original file's aspect ratio */
   height: auto;
 }
 
-.hidden {
-  /* Hide the element */
-  opacity: 0;
-  visibility: hidden;
+.charactersList {
+  flex-direction: column;
 
   width: clamp(
     var(--space-80, 5rem),
@@ -40,9 +37,15 @@ they're inside a parent with 'overflow: hidden' */
     var(--space-8, 0.5rem)
   );
   /* Add margin to make sure clicking at the same position again hides dropdown every time without fail */
-  margin: 1px;
+  margin: 2px;
   background-color: var(--clr-white, white);
   box-shadow: var(--shadow-1, rgba(0, 0, 0, 0.16) 0px 1px 4px);
+}
+
+.dropdownHidden {
+  /* Hide the element */
+  opacity: 0;
+  visibility: hidden;
 
   /* Animation */
   transform: translateY(15px);
@@ -51,19 +54,13 @@ they're inside a parent with 'overflow: hidden' */
     transform 300ms ease-in;
 }
 
-
 /* Show dropdown */
-.open {
-  composes: hidden;
+.dropdownOpen {
+  composes: dropdownHidden;
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
   z-index: 99;
-}
-
-.charactersList {
-  flex-direction: column;
-
 }
 
 .select {

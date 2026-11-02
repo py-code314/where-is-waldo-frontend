@@ -9,10 +9,13 @@ const GameScene = () => {
   // State
   const [isClick, setIsClick] = useState(false)
   const [isPan, setIsPan] = useState(false)
+  const [isCharacter, setIsCharacter] = useState(false)
   // Initial image position and scale
-  const [position, setPosition] = useState({ x: 0, y: 0, scale: 1 })
-  // Click co-ordinates to show dropdown box
+  const [imgPosition, setImgPosition] = useState({ x: 0, y: 0, scale: 1 })
+  // Mouse click coordinates
   const [clickCoords, setClickCoords] = useState({ x: 0, y: 0 })
+  // Dropdown box position
+  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0 })
 
   const imageRef = useRef(null)
   const imageWrapperRef = useRef(null)
@@ -38,20 +41,22 @@ const GameScene = () => {
       e.preventDefault()
 
       // Use functional updates
-      setPosition((prevPosition) => {
+      setImgPosition((prevImgPosition) => {
         /* Calculate new variables with every 'wheel' event */
         // Multiply 'deltaY' with -0.01 to zoom in small increments
         const delta = e.deltaY * -0.01
 
         /* Limit zoom between 1x and 4x */
-        const newScale = Math.max(1, Math.min(prevPosition.scale + delta, 4))
+        const newScale = Math.max(1, Math.min(prevImgPosition.scale + delta, 4))
 
         // Growth or shrink factor
-        const ratio = 1 - newScale / prevPosition.scale
+        const ratio = 1 - newScale / prevImgPosition.scale
 
         /* Enables cursor centered zooming rather than zooming at the top left corner (0, 0) */
-        let newPositionX = prevPosition.x + (e.clientX - prevPosition.x) * ratio
-        let newPositionY = prevPosition.y + (e.clientY - prevPosition.y) * ratio
+        let newImgPositionX =
+          prevImgPosition.x + (e.clientX - prevImgPosition.x) * ratio
+        let newImgPositionY =
+          prevImgPosition.y + (e.clientY - prevImgPosition.y) * ratio
 
         // Get wrapper's width and height
         const imageWrapper = imageWrapperRef.current
@@ -75,21 +80,21 @@ const GameScene = () => {
         const minY = imageWrapperHeight - scaledImgHeight
 
         // Update newX and newY if they go out of boundaries
-        if (newPositionX > maxX) {
-          newPositionX = maxX
-        } else if (newPositionX < minX) {
-          newPositionX = minX
+        if (newImgPositionX > maxX) {
+          newImgPositionX = maxX
+        } else if (newImgPositionX < minX) {
+          newImgPositionX = minX
         }
-        if (newPositionY > maxY) {
-          newPositionY = maxY
-        } else if (newPositionY < minY) {
-          newPositionY = minY
+        if (newImgPositionY > maxY) {
+          newImgPositionY = maxY
+        } else if (newImgPositionY < minY) {
+          newImgPositionY = minY
         }
 
         return {
           scale: newScale,
-          x: newPositionX,
-          y: newPositionY,
+          x: newImgPositionX,
+          y: newImgPositionY,
         }
       })
     }
@@ -107,8 +112,8 @@ const GameScene = () => {
       /* Store starting click position relative to the previous 
       offset position either because of zoom or drag. This prevents image jumping back to the starting position (0, 0) */
       dragStartRef.current = {
-        x: currentX - position.x,
-        y: currentY - position.y,
+        x: currentX - imgPosition.x,
+        y: currentY - imgPosition.y,
       }
 
       setIsPan(true)
@@ -119,7 +124,7 @@ const GameScene = () => {
       e.preventDefault()
 
       // Prevent dragging if image isn't zoomed-in
-      if (position.scale <= 1 || !isPan) return
+      if (imgPosition.scale <= 1 || !isPan) return
 
       // If LMB is not held, the pan can't be active
       if (e.buttons % 2 === 0) {
@@ -138,7 +143,7 @@ const GameScene = () => {
       const imageHeight = image.height
 
       // Get scaled image's width and height
-      const currentScale = position.scale
+      const currentScale = imgPosition.scale
       const scaledImgWidth = imageWidth * currentScale
       const scaledImgHeight = imageHeight * currentScale
 
@@ -170,8 +175,8 @@ const GameScene = () => {
         newY = minY
       }
 
-      setPosition((prevPosition) => ({
-        ...prevPosition,
+      setImgPosition((prevImgPosition) => ({
+        ...prevImgPosition,
         x: newX,
         y: newY,
       }))
@@ -199,8 +204,8 @@ const GameScene = () => {
         const currentX = touchOne.clientX - imageWrapperRect.left
         const currentY = touchOne.clientY - imageWrapperRect.top
         touchOneStartRef.current = {
-          x: currentX - position.x,
-          y: currentY - position.y,
+          x: currentX - imgPosition.x,
+          y: currentY - imgPosition.y,
         }
 
         setIsPan(true)
@@ -216,15 +221,15 @@ const GameScene = () => {
         const currentFirstX = touchOne.clientX - imageWrapperRect.left
         const currentFirstY = touchOne.clientY - imageWrapperRect.top
         touchOneStartRef.current = {
-          x: currentFirstX - position.x,
-          y: currentFirstY - position.y,
+          x: currentFirstX - imgPosition.x,
+          y: currentFirstY - imgPosition.y,
         }
 
         const currentSecondX = touchTwo.clientX - imageWrapperRect.left
         const currentSecondY = touchTwo.clientY - imageWrapperRect.top
         touchTwoStartRef.current = {
-          x: currentSecondX - position.x,
-          y: currentSecondY - position.y,
+          x: currentSecondX - imgPosition.x,
+          y: currentSecondY - imgPosition.y,
         }
 
         // Update previous difference value for multi-step pinch to zoom
@@ -245,7 +250,7 @@ const GameScene = () => {
         const touchOne = e.touches[0]
 
         // Prevent dragging if image isn't zoomed-in
-        if (position.scale <= 1 || !isPan) return
+        if (imgPosition.scale <= 1 || !isPan) return
 
         // Get wrapper's width and height
         const imageWrapper = imageWrapperRef.current
@@ -258,7 +263,7 @@ const GameScene = () => {
         const imageHeight = image.height
 
         // Get scaled image's width and height
-        const currentScale = position.scale
+        const currentScale = imgPosition.scale
         const scaledImgWidth = imageWidth * currentScale
         const scaledImgHeight = imageHeight * currentScale
 
@@ -290,8 +295,8 @@ const GameScene = () => {
           newY = minY
         }
 
-        setPosition((prevPosition) => ({
-          ...prevPosition,
+        setImgPosition((prevImgPosition) => ({
+          ...prevImgPosition,
           x: newX,
           y: newY,
         }))
@@ -335,21 +340,21 @@ const GameScene = () => {
             const imageHeight = image.height
 
             // Use functional updates
-            setPosition((prevPosition) => {
+            setImgPosition((prevImgPosition) => {
               /* Zoom upper limit is 6x and lower limit is 1x. Image
                doesn't zoom-out less than the original rendered size which is 1x */
               const newScale = Math.max(
                 1,
-                Math.min(prevPosition.scale + delta, 6),
+                Math.min(prevImgPosition.scale + delta, 6),
               )
 
               // Growth or shrink factor
-              const ratio = 1 - newScale / prevPosition.scale
+              const ratio = 1 - newScale / prevImgPosition.scale
 
-              let newPositionX =
-                prevPosition.x + (centerX - prevPosition.x) * ratio
-              let newPositionY =
-                prevPosition.y + (centerY - prevPosition.y) * ratio
+              let newImgPositionX =
+                prevImgPosition.x + (centerX - prevImgPosition.x) * ratio
+              let newImgPositionY =
+                prevImgPosition.y + (centerY - prevImgPosition.y) * ratio
 
               // Get scaled image's width and height
               const scaledImgWidth = imageWidth * newScale
@@ -363,21 +368,21 @@ const GameScene = () => {
               const minY = imageWrapperHeight - scaledImgHeight
 
               // Update newX and newY if they go out of boundaries
-              if (newPositionX > maxX) {
-                newPositionX = maxX
-              } else if (newPositionX < minX) {
-                newPositionX = minX
+              if (newImgPositionX > maxX) {
+                newImgPositionX = maxX
+              } else if (newImgPositionX < minX) {
+                newImgPositionX = minX
               }
-              if (newPositionY > maxY) {
-                newPositionY = maxY
-              } else if (newPositionY < minY) {
-                newPositionY = minY
+              if (newImgPositionY > maxY) {
+                newImgPositionY = maxY
+              } else if (newImgPositionY < minY) {
+                newImgPositionY = minY
               }
 
               return {
                 scale: newScale,
-                x: newPositionX,
-                y: newPositionY,
+                x: newImgPositionX,
+                y: newImgPositionY,
               }
             })
           }
@@ -408,8 +413,8 @@ const GameScene = () => {
         const currentX = touchOne.clientX - imageWrapperRect.left
         const currentY = touchOne.clientY - imageWrapperRect.top
         touchOneStartRef.current = {
-          x: currentX - position.x,
-          y: currentY - position.y,
+          x: currentX - imgPosition.x,
+          y: currentY - imgPosition.y,
         }
 
         setIsPan(true)
@@ -437,12 +442,11 @@ const GameScene = () => {
       gameImage.removeEventListener('mousemove', handleMouseMove)
       gameImage.removeEventListener('mouseup', handleMouseUp)
 
-
       gameImage.removeEventListener('touchstart', handleTouchStart)
       gameImage.removeEventListener('touchmove', handleTouchMove)
       gameImage.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [isPan, position])
+  }, [isPan, imgPosition])
 
   const handleClick = (e) => {
     // Get elements and their values
@@ -488,13 +492,25 @@ const GameScene = () => {
       dropdownY = clientY - imageWrapperRect.top - dropdownHeight - totalMarginY
     }
 
-    setClickCoords(() => ({
-      ...clickCoords,
-      x: dropdownX,
-      y: dropdownY,
-    }))
+    /* Reset dropdown position on every second click to prevent scroll bars with screen width change from wide to narrow */
+    if (isCharacter) {
+      setDropdownPosition(() => ({
+        ...dropdownPosition,
+        x: 0,
+        y: 0,
+      }))
+    } else {
+      setDropdownPosition(() => ({
+        ...dropdownPosition,
+        x: dropdownX,
+        y: dropdownY,
+      }))
+    }
+
     setIsClick(!isClick)
+    setIsCharacter(!isCharacter)
   }
+
   return (
     <>
       <div className={styles.gameBoardContainer}>
@@ -507,15 +523,15 @@ const GameScene = () => {
             onClick={handleClick}
             style={{
               transformOrigin: '0 0',
-              transform: `translate(${position.x}px, ${position.y}px) scale(${position.scale})`,
+              transform: `translate(${imgPosition.x}px, ${imgPosition.y}px) scale(${imgPosition.scale})`,
             }}
           />
           <ul
-            className={`${styles.charactersList} ${isClick ? styles.open : styles.hidden}`}
+            className={`${styles.charactersList} ${isClick ? styles.dropdownOpen : styles.dropdownHidden}`}
             style={{
               position: 'absolute',
-              left: `${clickCoords.x}px`,
-              top: `${clickCoords.y}px`,
+              left: `${dropdownPosition.x}px`,
+              top: `${dropdownPosition.y}px`,
             }}
             ref={dropdownRef}>
             <li className={`${styles.listItem} ${styles.select}`}>
