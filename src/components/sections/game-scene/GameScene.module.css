@@ -44,7 +44,7 @@ they're inside a parent with 'overflow: hidden' */
 
 .dropdownHidden {
   /* Hide the element */
-  opacity: 0;
+  /* Transforms don't work with 'display: none' */
   visibility: hidden;
 
   /* Animation */
@@ -54,10 +54,14 @@ they're inside a parent with 'overflow: hidden' */
     transform 300ms ease-in;
 }
 
+.dropdownBottom {
+  composes: dropdownHidden;
+   transform: translateY(-15px);
+}
+
 /* Show dropdown */
 .dropdownOpen {
   composes: dropdownHidden;
-  opacity: 1;
   visibility: visible;
   transform: translateY(0);
   z-index: 99;

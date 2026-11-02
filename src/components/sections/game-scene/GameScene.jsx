@@ -15,7 +15,7 @@ const GameScene = () => {
   // Mouse click coordinates
   const [clickCoords, setClickCoords] = useState({ x: 0, y: 0 })
   // Dropdown box position
-  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0 })
+  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0, isBottom: false })
 
   const imageRef = useRef(null)
   const imageWrapperRef = useRef(null)
@@ -454,9 +454,10 @@ const GameScene = () => {
     const dropdownStyles = window.getComputedStyle(dropdown)
     const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
 
-    // Initialize dropdown's x, y
+    // Initialize dropdown values
     let dropdownX = 0
     let dropdownY = 0
+    let isBottom = false
 
     const dropdownWidth = dropdown.clientWidth
     const dropdownHeight = dropdown.clientHeight
@@ -488,22 +489,26 @@ const GameScene = () => {
 
     if (heightDiff > dropdownHeight) {
       dropdownY = clientY - imageWrapperRect.top
+      isBottom = false
     } else {
       dropdownY = clientY - imageWrapperRect.top - dropdownHeight - totalMarginY
+      isBottom = true
     }
 
-    /* Reset dropdown position on every second click to prevent scroll bars with screen width change from wide to narrow */
+    /* Reset dropdown position on every second click to prevent scroll bars when screen width changes from wide to narrow */
     if (isCharacter) {
       setDropdownPosition(() => ({
         ...dropdownPosition,
         x: 0,
         y: 0,
+        isBottom
       }))
     } else {
       setDropdownPosition(() => ({
         ...dropdownPosition,
         x: dropdownX,
         y: dropdownY,
+        isBottom
       }))
     }
 
@@ -527,7 +532,7 @@ const GameScene = () => {
             }}
           />
           <ul
-            className={`${styles.charactersList} ${isClick ? styles.dropdownOpen : styles.dropdownHidden}`}
+            className={`${styles.charactersList} ${isClick ? styles.dropdownOpen : dropdownPosition.isBottom ? styles.dropdownBottom : styles.dropdownHidden}`}
             style={{
               position: 'absolute',
               left: `${dropdownPosition.x}px`,
