@@ -9,13 +9,14 @@ const GameScene = () => {
   // State
   const [isClick, setIsClick] = useState(false)
   const [isPan, setIsPan] = useState(false)
-  const [isCharacter, setIsCharacter] = useState(false)
+  // const [isCharacter, setIsCharacter] = useState(false)
   // Initial image position and scale
   const [imgPosition, setImgPosition] = useState({ x: 0, y: 0, scale: 1 })
   // Mouse click coordinates
   const [clickCoords, setClickCoords] = useState({ x: 0, y: 0 })
   // Dropdown box position
-  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0, isBottom: false })
+  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0, })
+  // const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0, isBottom: false })
 
   const imageRef = useRef(null)
   const imageWrapperRef = useRef(null)
@@ -457,7 +458,7 @@ const GameScene = () => {
     // Initialize dropdown values
     let dropdownX = 0
     let dropdownY = 0
-    let isBottom = false
+    // let isBottom = false
 
     const dropdownWidth = dropdown.clientWidth
     const dropdownHeight = dropdown.clientHeight
@@ -489,31 +490,31 @@ const GameScene = () => {
 
     if (heightDiff > dropdownHeight) {
       dropdownY = clientY - imageWrapperRect.top
-      isBottom = false
+      // isBottom = false
     } else {
       dropdownY = clientY - imageWrapperRect.top - dropdownHeight - totalMarginY
-      isBottom = true
+      // isBottom = true
     }
 
     /* Reset dropdown position on every second click to prevent scroll bars when screen width changes from wide to narrow */
-    if (isCharacter) {
+    if (isClick) {
       setDropdownPosition(() => ({
         ...dropdownPosition,
         x: 0,
         y: 0,
-        isBottom
+        // isBottom
       }))
     } else {
       setDropdownPosition(() => ({
         ...dropdownPosition,
         x: dropdownX,
         y: dropdownY,
-        isBottom
+        // isBottom
       }))
     }
 
     setIsClick(!isClick)
-    setIsCharacter(!isCharacter)
+    // setIsCharacter(!isCharacter)
   }
 
   return (
@@ -532,7 +533,7 @@ const GameScene = () => {
             }}
           />
           <ul
-            className={`${styles.charactersList} ${isClick ? styles.dropdownOpen : dropdownPosition.isBottom ? styles.dropdownBottom : styles.dropdownHidden}`}
+            className={`${styles.dropdown} ${isClick ? styles.dropdownOpen : ''}`}
             style={{
               position: 'absolute',
               left: `${dropdownPosition.x}px`,

@@ -23,7 +23,7 @@ they're inside a parent with 'overflow: hidden' */
   height: auto;
 }
 
-.charactersList {
+.dropdown {
   flex-direction: column;
 
   width: clamp(
@@ -40,29 +40,23 @@ they're inside a parent with 'overflow: hidden' */
   margin: 2px;
   background-color: var(--clr-white, white);
   box-shadow: var(--shadow-1, rgba(0, 0, 0, 0.16) 0px 1px 4px);
-}
-
-.dropdownHidden {
-  /* Hide the element */
-  /* Transforms don't work with 'display: none' */
-  visibility: hidden;
 
   /* Animation */
+  /* Transforms don't work with 'display: none' */
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
   transform: translateY(15px);
   transition:
     opacity 300ms ease-in,
     transform 300ms ease-in;
 }
 
-.dropdownBottom {
-  composes: dropdownHidden;
-   transform: translateY(-15px);
-}
-
 /* Show dropdown */
 .dropdownOpen {
-  composes: dropdownHidden;
   visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
   transform: translateY(0);
   z-index: 99;
 }
