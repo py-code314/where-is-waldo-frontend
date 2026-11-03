@@ -4,6 +4,8 @@ import styles from './GameScene.module.css'
 import skiingImage from '../../../assets/images/puzzles/skiing-scene.webp'
 /* -------------------- Hooks -------------------- */
 import { useEffect, useState, useRef } from 'react'
+/* -------------------- Data -------------------- */
+import { charactersData } from '../../../data/charactersData'
 
 const GameScene = () => {
   // State
@@ -15,7 +17,7 @@ const GameScene = () => {
   // Mouse click coordinates
   const [clickCoords, setClickCoords] = useState({ x: 0, y: 0 })
   // Dropdown box position
-  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0, })
+  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0 })
   // const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0, isBottom: false })
 
   const imageRef = useRef(null)
@@ -32,6 +34,10 @@ const GameScene = () => {
   for zoom to start */
   const prevDifferenceRef = useRef(-1)
 
+  // Get characters data
+  const { wizard } = charactersData[0]
+  // console.log("🚀 ~ GameScene ~ wizard:", wizard)
+
   useEffect(() => {
     const gameImage = imageRef.current
     if (!gameImage) return
@@ -41,64 +47,129 @@ const GameScene = () => {
       // Prevent scrolling of webpage
       e.preventDefault()
 
-      // Use functional updates
-      setImgPosition((prevImgPosition) => {
-        /* Calculate new variables with every 'wheel' event */
-        // Multiply 'deltaY' with -0.01 to zoom in small increments
-        const delta = e.deltaY * -0.01
+      /* Calculate new variables with every 'wheel' event */
+      // Multiply 'deltaY' with -0.01 to zoom in small increments
+      const delta = e.deltaY * -0.01
 
-        /* Limit zoom between 1x and 4x */
-        const newScale = Math.max(1, Math.min(prevImgPosition.scale + delta, 4))
+      /* Limit zoom between 1x and 4x */
+      const newScale = Math.max(1, Math.min(imgPosition.scale + delta, 4))
 
-        // Growth or shrink factor
-        const ratio = 1 - newScale / prevImgPosition.scale
+      // Growth or shrink factor
+      const ratio = 1 - newScale / imgPosition.scale
 
-        /* Enables cursor centered zooming rather than zooming at the top left corner (0, 0) */
-        let newImgPositionX =
-          prevImgPosition.x + (e.clientX - prevImgPosition.x) * ratio
-        let newImgPositionY =
-          prevImgPosition.y + (e.clientY - prevImgPosition.y) * ratio
+      /* Enables cursor centered zooming rather than zooming at the top left corner (0, 0) */
+      let newImgPositionX = imgPosition.x + (e.clientX - imgPosition.x) * ratio
+      let newImgPositionY = imgPosition.y + (e.clientY - imgPosition.y) * ratio
 
-        // Get wrapper's width and height
-        const imageWrapper = imageWrapperRef.current
-        const imageWrapperWidth = imageWrapper.clientWidth
-        const imageWrapperHeight = imageWrapper.clientHeight
+      // Get wrapper's width and height
+      const imageWrapper = imageWrapperRef.current
+      const imageWrapperWidth = imageWrapper.clientWidth
+      const imageWrapperHeight = imageWrapper.clientHeight
 
-        // Get image's width and height
-        const image = imageRef.current
-        const imageWidth = image.width
-        const imageHeight = image.height
+      // Get image's width and height
+      const image = imageRef.current
+      const imageWidth = image.width
+      const imageHeight = image.height
 
-        // Get scaled image's width and height
-        const scaledImgWidth = imageWidth * newScale
-        const scaledImgHeight = imageHeight * newScale
+      // Get scaled image's width and height
+      const scaledImgWidth = imageWidth * newScale
+      const scaledImgHeight = imageHeight * newScale
 
-        /* Set boundaries to prevent gaps between the image and
+      /* Set boundaries to prevent gaps between the image and
         wrapper when zooming out at corners */
-        const maxX = 0
-        const maxY = 0
-        const minX = imageWrapperWidth - scaledImgWidth
-        const minY = imageWrapperHeight - scaledImgHeight
+      const maxX = 0
+      const maxY = 0
+      const minX = imageWrapperWidth - scaledImgWidth
+      const minY = imageWrapperHeight - scaledImgHeight
 
-        // Update newX and newY if they go out of boundaries
-        if (newImgPositionX > maxX) {
-          newImgPositionX = maxX
-        } else if (newImgPositionX < minX) {
-          newImgPositionX = minX
-        }
-        if (newImgPositionY > maxY) {
-          newImgPositionY = maxY
-        } else if (newImgPositionY < minY) {
-          newImgPositionY = minY
-        }
+      // Update newX and newY if they go out of boundaries
+      if (newImgPositionX > maxX) {
+        newImgPositionX = maxX
+      } else if (newImgPositionX < minX) {
+        newImgPositionX = minX
+      }
+      if (newImgPositionY > maxY) {
+        newImgPositionY = maxY
+      } else if (newImgPositionY < minY) {
+        newImgPositionY = minY
+      }
 
-        return {
-          scale: newScale,
-          x: newImgPositionX,
-          y: newImgPositionY,
-        }
-      })
+      // Use functional updates
+      setImgPosition((prevImgPosition) => ({
+        ...prevImgPosition,
+        scale: newScale,
+        x: newImgPositionX,
+        y: newImgPositionY,
+      }))
+      setClickCoords((prevClickCoords) => ({
+        ...prevClickCoords,
+        x: prevClickCoords.x + newImgPositionX,
+        y: prevClickCoords.y + newImgPositionY,
+      }))
     }
+
+    // const handleMouseWheel = (e) => {
+    //   // Prevent scrolling of webpage
+    //   e.preventDefault()
+
+    //   // Use functional updates
+    //   setImgPosition((prevImgPosition) => {
+    //     /* Calculate new variables with every 'wheel' event */
+    //     // Multiply 'deltaY' with -0.01 to zoom in small increments
+    //     const delta = e.deltaY * -0.01
+
+    //     /* Limit zoom between 1x and 4x */
+    //     const newScale = Math.max(1, Math.min(prevImgPosition.scale + delta, 4))
+
+    //     // Growth or shrink factor
+    //     const ratio = 1 - newScale / prevImgPosition.scale
+
+    //     /* Enables cursor centered zooming rather than zooming at the top left corner (0, 0) */
+    //     let newImgPositionX =
+    //       prevImgPosition.x + (e.clientX - prevImgPosition.x) * ratio
+    //     let newImgPositionY =
+    //       prevImgPosition.y + (e.clientY - prevImgPosition.y) * ratio
+
+    //     // Get wrapper's width and height
+    //     const imageWrapper = imageWrapperRef.current
+    //     const imageWrapperWidth = imageWrapper.clientWidth
+    //     const imageWrapperHeight = imageWrapper.clientHeight
+
+    //     // Get image's width and height
+    //     const image = imageRef.current
+    //     const imageWidth = image.width
+    //     const imageHeight = image.height
+
+    //     // Get scaled image's width and height
+    //     const scaledImgWidth = imageWidth * newScale
+    //     const scaledImgHeight = imageHeight * newScale
+
+    //     /* Set boundaries to prevent gaps between the image and
+    //     wrapper when zooming out at corners */
+    //     const maxX = 0
+    //     const maxY = 0
+    //     const minX = imageWrapperWidth - scaledImgWidth
+    //     const minY = imageWrapperHeight - scaledImgHeight
+
+    //     // Update newX and newY if they go out of boundaries
+    //     if (newImgPositionX > maxX) {
+    //       newImgPositionX = maxX
+    //     } else if (newImgPositionX < minX) {
+    //       newImgPositionX = minX
+    //     }
+    //     if (newImgPositionY > maxY) {
+    //       newImgPositionY = maxY
+    //     } else if (newImgPositionY < minY) {
+    //       newImgPositionY = minY
+    //     }
+
+    //     return {
+    //       scale: newScale,
+    //       x: newImgPositionX,
+    //       y: newImgPositionY,
+    //     }
+    //   })
+    // }
 
     /* Handlers for hold and drag to pan the image */
     const handleMouseDown = (e) => {
@@ -467,6 +538,41 @@ const GameScene = () => {
     const clientX = e.clientX
     const clientY = e.clientY
 
+    // Get click co-ordinates relative to wrapper
+    const clickX = clientX - imageWrapperRect.left
+    // console.log('🚀 ~ handleClick ~ clickX:', clickX)
+    const clickY = clientY - imageWrapperRect.top
+    // console.log('🚀 ~ handleClick ~ clickY:', clickY)
+
+    const image = imageRef.current
+    // console.log('img width:', image.width)
+
+    /* Normalize to percentage of width and height instead of absolute 
+     values for different screen widths */
+    // Multiply by 10000 and divide by 100 to keep 2 decimal places
+    const xCoord = Math.floor((clickX / image.width) * 10000) / 100
+    const yCoord = Math.floor((clickY / image.height) * 10000) / 100
+
+    console.log(`Clicked at: X=${xCoord}%, Y=${yCoord}%`)
+
+    // Bounding box co-ordinates for wizard
+    const minX = wizard.minX
+    const maxX = wizard.maxX
+    const minY = wizard.minY
+    const maxY = wizard.maxY
+
+    // Check for wizard
+    if (
+      xCoord >= minX &&
+      xCoord <= maxX &&
+      yCoord >= minY &&
+      yCoord <= maxY
+    ) {
+      console.log('you found the character')
+    } else {
+      console.log('you did not find the character')
+    }
+
     /* Calculate the remaining width and height of wrapper
     from click position */
     const widthDiff = imageWrapperRect.right - clientX
@@ -483,16 +589,16 @@ const GameScene = () => {
     /* Place the dropdown box based on the click position.
     Dropdown should always appear inside the image wrapper */
     if (widthDiff > dropdownWidth) {
-      dropdownX = clientX - imageWrapperRect.left
+      dropdownX = clickX
     } else {
-      dropdownX = clientX - imageWrapperRect.left - dropdownWidth - totalMarginX
+      dropdownX = clickX - dropdownWidth - totalMarginX
     }
 
     if (heightDiff > dropdownHeight) {
-      dropdownY = clientY - imageWrapperRect.top
+      dropdownY = clickY
       // isBottom = false
     } else {
-      dropdownY = clientY - imageWrapperRect.top - dropdownHeight - totalMarginY
+      dropdownY = clickY - dropdownHeight - totalMarginY
       // isBottom = true
     }
 
@@ -510,6 +616,11 @@ const GameScene = () => {
         x: dropdownX,
         y: dropdownY,
         // isBottom
+      }))
+      setClickCoords(() => ({
+        ...clickCoords,
+        x: clickX,
+        y: clickY,
       }))
     }
 
