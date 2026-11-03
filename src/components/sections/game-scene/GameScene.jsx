@@ -36,6 +36,9 @@ const GameScene = () => {
 
   // Get characters data
   const { wizard } = charactersData[0]
+  const { wenda } = charactersData[1]
+  const { odlaw } = charactersData[2]
+  const { wally } = charactersData[3]
   // console.log("🚀 ~ GameScene ~ wizard:", wizard)
 
   useEffect(() => {
@@ -556,19 +559,49 @@ const GameScene = () => {
     console.log(`Clicked at: X=${xCoord}%, Y=${yCoord}%`)
 
     // Bounding box co-ordinates for wizard
-    const minX = wizard.minX
-    const maxX = wizard.maxX
-    const minY = wizard.minY
-    const maxY = wizard.maxY
+    // const minX = wizard.minX
+    // const maxX = wizard.maxX
+    // const minY = wizard.minY
+    // const maxY = wizard.maxY
 
     // Check for wizard
     if (
-      xCoord >= minX &&
-      xCoord <= maxX &&
-      yCoord >= minY &&
-      yCoord <= maxY
+      xCoord >= wizard.minX &&
+      xCoord <= wizard.maxX &&
+      yCoord >= wizard.minY &&
+      yCoord <= wizard.maxY
     ) {
-      console.log('you found the character')
+      console.log('you found the Wizard')
+    } else {
+      console.log('you did not find the character')
+    }
+    if (
+      xCoord >= wenda.minX &&
+      xCoord <= wenda.maxX &&
+      yCoord >= wenda.minY &&
+      yCoord <= wenda.maxY
+    ) {
+      console.log('you found Wenda')
+    } else {
+      console.log('you did not find the character')
+    }
+    if (
+      xCoord >= odlaw.minX &&
+      xCoord <= odlaw.maxX &&
+      yCoord >= odlaw.minY &&
+      yCoord <= odlaw.maxY
+    ) {
+      console.log('you found Odlaw')
+    } else {
+      console.log('you did not find the character')
+    }
+    if (
+      xCoord >= wally.minX &&
+      xCoord <= wally.maxX &&
+      yCoord >= wally.minY &&
+      yCoord <= wally.maxY
+    ) {
+      console.log('you found Wally')
     } else {
       console.log('you did not find the character')
     }
