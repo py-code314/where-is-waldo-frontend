@@ -3,7 +3,7 @@ import styles from './GameScene.module.css'
 /* -------------------- Images -------------------- */
 import skiingImage from '../../../assets/images/puzzles/skiing-scene.webp'
 /* -------------------- Data -------------------- */
-import { charactersData } from '../../../data/charactersData'
+// import { charactersData } from '../../../data/charactersData'
 /* -------------------- Hooks -------------------- */
 import { useEffect, useState, useRef } from 'react'
 /* -------------------- Components -------------------- */
@@ -11,10 +11,14 @@ import Button from '../../core/button/Button'
 import { isCharacterFound } from '../../../utils/character/findCharacter'
 
 const GameScene = () => {
-  // State
-  const [isClick, setIsClick] = useState(false)
+  /* State */
+  const [imgClick, setImgClick] = useState(false)
   const [isPan, setIsPan] = useState(false)
   // const [isCharacter, setIsCharacter] = useState(false)
+  // Track option click result
+  const [result, setResult] = useState({ isCharacter: false, name: '' })
+  // Track option click
+  const [isOption, setIsOption] = useState(false)
   // Initial image position and scale
   const [imgPosition, setImgPosition] = useState({ x: 0, y: 0, scale: 1 })
   // Mouse click coordinates
@@ -579,7 +583,7 @@ const GameScene = () => {
     }
 
     /* Reset dropdown position on every second click to prevent scroll bars when screen width changes from wide to narrow */
-    if (isClick) {
+    if (imgClick) {
       setDropdownPosition(() => ({
         ...dropdownPosition,
         x: 0,
@@ -600,13 +604,21 @@ const GameScene = () => {
       }))
     }
 
-    setIsClick(!isClick)
+    setImgClick(!imgClick)
     // setIsCharacter(!isCharacter)
   }
 
   const handleOptionClick = (e) => {
-    const result = isCharacterFound(e, clickCoords)
-    console.log(result)
+    const { isCharacter, name } = isCharacterFound(e, clickCoords)
+    // console.log("🚀 ~ handleOptionClick ~ name:", name)
+    // console.log(isCharacter)
+    setResult((prevResult) => ({
+      ...prevResult,
+      isCharacter,
+      name,
+    }))
+    setImgClick(false)
+    setIsOption(true)
   }
 
   return (
@@ -625,7 +637,7 @@ const GameScene = () => {
             }}
           />
           <ul
-            className={`${styles.dropdown} ${isClick ? styles.dropdownOpen : ''}`}
+            className={`${styles.dropdown} ${imgClick ? styles.dropdownOpen : ''}`}
             style={{
               position: 'absolute',
               left: `${dropdownPosition.x}px`,
@@ -654,6 +666,16 @@ const GameScene = () => {
               </Button>
             </li>
           </ul>
+
+          {isOption && (
+            <div className={styles.result}>
+              {result.isCharacter ? (
+                <p>You found {result.name}!</p>
+              ) : (
+                <p>{result.name} not here</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>
