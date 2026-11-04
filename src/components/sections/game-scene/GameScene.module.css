@@ -24,6 +24,7 @@ they're inside a parent with 'overflow: hidden' */
 }
 
 .dropdown {
+  display: flex;
   flex-direction: column;
 
   width: clamp(
@@ -31,7 +32,7 @@ they're inside a parent with 'overflow: hidden' */
     1.875rem + 8.333vw,
     var(--space-150, 9.375rem)
   );
-  padding: clamp(
+  padding-block-start: clamp(
     var(--space-2, 0.125rem),
     -0.143rem + 0.714vw,
     var(--space-8, 0.5rem)
@@ -62,12 +63,6 @@ they're inside a parent with 'overflow: hidden' */
 }
 
 .select {
-  text-transform: uppercase;
-  border-block-end: 1px solid white;
-  font-size: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
-}
-
-.listItem {
   padding-block: clamp(
     var(--space-2, 0.125rem),
     -0.143rem + 0.714vw,
@@ -75,16 +70,11 @@ they're inside a parent with 'overflow: hidden' */
   );
   text-align: center;
   font-weight: 600;
-  font-size: clamp(0.625rem, 0.357rem + 0.714vw, 1rem);
-}
-
-.option {
-  transition:
-    background-color 0.5s ease-in-out,
-    border-radius 0.5s ease-in-out;
-}
-
-.option:hover {
-  cursor: pointer;
-  background-color: var(--clr-accent-1, red);
+  text-transform: uppercase;
+  border-block-end: 1px solid white;
+  font-size: clamp(
+    var(--space-10, 0.625rem),
+    0.357rem + 0.714vw,
+    var(--space-16, 1rem)
+  );
 }

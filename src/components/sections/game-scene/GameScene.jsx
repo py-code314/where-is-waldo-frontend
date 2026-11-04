@@ -2,10 +2,12 @@
 import styles from './GameScene.module.css'
 /* -------------------- Images -------------------- */
 import skiingImage from '../../../assets/images/puzzles/skiing-scene.webp'
-/* -------------------- Hooks -------------------- */
-import { useEffect, useState, useRef } from 'react'
 /* -------------------- Data -------------------- */
 import { charactersData } from '../../../data/charactersData'
+/* -------------------- Hooks -------------------- */
+import { useEffect, useState, useRef } from 'react'
+/* -------------------- Components -------------------- */
+import Button from '../../core/button/Button'
 
 const GameScene = () => {
   // State
@@ -661,6 +663,8 @@ const GameScene = () => {
     // setIsCharacter(!isCharacter)
   }
 
+  const handleOptionClick = () => {}
+
   return (
     <>
       <div className={styles.gameBoardContainer}>
@@ -684,13 +688,29 @@ const GameScene = () => {
               top: `${dropdownPosition.y}px`,
             }}
             ref={dropdownRef}>
-            <li className={`${styles.listItem} ${styles.select}`}>
+            <li className={styles.select}>
               Who is this?
             </li>
-            <li className={`${styles.listItem} ${styles.option}`}>Waldo</li>
-            <li className={`${styles.listItem} ${styles.option}`}>Wanda</li>
-            <li className={`${styles.listItem} ${styles.option}`}>Wizard</li>
-            <li className={`${styles.listItem} ${styles.option}`}>Odlaw</li>
+            <li>
+              <Button className="optionBtn" onClick={handleOptionClick}>
+                Waldo
+              </Button>
+            </li>
+            <li>
+              <Button className="optionBtn" onClick={handleOptionClick}>
+                Wenda
+              </Button>
+            </li>
+            <li>
+              <Button className="optionBtn" onClick={handleOptionClick}>
+                Wizard
+              </Button>
+            </li>
+            <li>
+              <Button className="optionBtn" onClick={handleOptionClick}>
+                Odlaw
+              </Button>
+            </li>
           </ul>
         </div>
       </div>
