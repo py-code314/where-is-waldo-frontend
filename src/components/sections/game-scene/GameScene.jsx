@@ -14,9 +14,8 @@ const GameScene = () => {
   /* State */
   const [imgClick, setImgClick] = useState(false)
   const [isPan, setIsPan] = useState(false)
-  // const [isCharacter, setIsCharacter] = useState(false)
   // Track option click result
-  const [result, setResult] = useState({ isCharacter: false, name: '' })
+  const [result, setResult] = useState({ isCharacter: null, name: '' })
   // Track option click
   const [isOption, setIsOption] = useState(false)
   // Initial image position and scale
@@ -25,11 +24,16 @@ const GameScene = () => {
   const [clickCoords, setClickCoords] = useState({ x: 0, y: 0 })
   // Dropdown box position
   const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0 })
+  // Popup message position
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 })
   // const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0, isBottom: false })
 
   const imageRef = useRef(null)
   const imageWrapperRef = useRef(null)
   const dropdownRef = useRef(null)
+  const popupRef = useRef(null)
+  const clientCoordsRef = useRef({ x: 0, y: 0 })
+  const clickCoordsRef = useRef({ x: 0, y: 0 })
   /* Use refs to prevent unnecessary re-renders */
   /* Desktop */
   // Use a ref to store the starting drag coordinates persistently
@@ -532,7 +536,6 @@ const GameScene = () => {
     // Initialize dropdown values
     let dropdownX = 0
     let dropdownY = 0
-    // let isBottom = false
 
     const dropdownWidth = dropdown.clientWidth
     const dropdownHeight = dropdown.clientHeight
@@ -540,10 +543,18 @@ const GameScene = () => {
     // Get click positions relative to browser
     const clientX = e.clientX
     const clientY = e.clientY
+    clientCoordsRef.current = {
+      x: clientX,
+      y: clientY,
+    }
 
     // Get click co-ordinates relative to wrapper
     const clickX = clientX - imageWrapperRect.left
     const clickY = clientY - imageWrapperRect.top
+    clickCoordsRef.current = {
+      x: clickX,
+      y: clickY,
+    }
 
     const image = imageRef.current
 
@@ -576,10 +587,8 @@ const GameScene = () => {
 
     if (heightDiff > dropdownHeight) {
       dropdownY = clickY
-      // isBottom = false
     } else {
       dropdownY = clickY - dropdownHeight - totalMarginY
-      // isBottom = true
     }
 
     /* Reset dropdown position on every second click to prevent scroll bars when screen width changes from wide to narrow */
@@ -588,14 +597,12 @@ const GameScene = () => {
         ...dropdownPosition,
         x: 0,
         y: 0,
-        // isBottom
       }))
     } else {
       setDropdownPosition(() => ({
         ...dropdownPosition,
         x: dropdownX,
         y: dropdownY,
-        // isBottom
       }))
       setClickCoords(() => ({
         ...clickCoords,
@@ -605,17 +612,59 @@ const GameScene = () => {
     }
 
     setImgClick(!imgClick)
-    // setIsCharacter(!isCharacter)
   }
 
   const handleOptionClick = (e) => {
+    // Get elements and their values
+    const popup = popupRef.current
+    const popupStyles = window.getComputedStyle(popup)
+    const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
+
+    // Initialize popup values
+    let popupX = 0
+    let popupY = 0
+
+    const popupWidth = popup.clientWidth
+    const popupHeight = popup.clientHeight
+
+    const clientCoords = clientCoordsRef.current
+    const clientX = clientCoords.x
+    const clientY = clientCoords.y
+
+    const clickCoords = clickCoordsRef.current
+    const clickX = clickCoords.x
+    const clickY = clickCoords.y
+
+    /* Calculate the remaining width and height of wrapper
+    from click position */
+    const widthDiff = imageWrapperRect.right - clientX
+    const heightDiff = imageWrapperRect.bottom - clientY
+
+    /* Place the dropdown box based on the click position.
+    Dropdown should always appear inside the image wrapper */
+    if (widthDiff > popupWidth) {
+      popupX = clickX
+    } else {
+      popupX = clickX - popupWidth
+    }
+
+    if (heightDiff > popupHeight) {
+      popupY = clickY
+    } else {
+      popupY = clickY - popupHeight
+    }
+
     const { isCharacter, name } = isCharacterFound(e, clickCoords)
-    // console.log("🚀 ~ handleOptionClick ~ name:", name)
-    // console.log(isCharacter)
+
     setResult((prevResult) => ({
       ...prevResult,
       isCharacter,
       name,
+    }))
+    setPopupPosition((prevPopupPosition) => ({
+      ...prevPopupPosition,
+      x: popupX,
+      y: popupY,
     }))
     setImgClick(false)
     setIsOption(true)
@@ -667,15 +716,23 @@ const GameScene = () => {
             </li>
           </ul>
 
-          {isOption && (
-            <div className={styles.result}>
-              {result.isCharacter ? (
+          <div className={styles.resultWrapper}>
+            {/* Popup success or failure message  */}
+            <div
+              className={`${styles.popup} ${imgClick ? styles.popupOpen : ''}`}
+              style={{
+                position: 'absolute',
+                left: `${popupPosition.x}px`,
+                top: `${popupPosition.y}px`,
+              }}
+              ref={popupRef}>
+              {result.isCharacter === true ? (
                 <p>You found {result.name}!</p>
-              ) : (
-                <p>{result.name} not here</p>
-              )}
+              ) : result.isCharacter === false ? (
+                <p>{result.name} is not here</p>
+              ) : null}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>
