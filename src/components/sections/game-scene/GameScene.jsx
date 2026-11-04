@@ -8,6 +8,7 @@ import { charactersData } from '../../../data/charactersData'
 import { useEffect, useState, useRef } from 'react'
 /* -------------------- Components -------------------- */
 import Button from '../../core/button/Button'
+import { isCharacterFound } from '../../../utils/character/findCharacter'
 
 const GameScene = () => {
   // State
@@ -35,13 +36,6 @@ const GameScene = () => {
   /* There should be a minimum distance between the two points
   for zoom to start */
   const prevDifferenceRef = useRef(-1)
-
-  // Get characters data
-  const { wizard } = charactersData[0]
-  const { wenda } = charactersData[1]
-  const { odlaw } = charactersData[2]
-  const { wally } = charactersData[3]
-  // console.log("🚀 ~ GameScene ~ wizard:", wizard)
 
   useEffect(() => {
     const gameImage = imageRef.current
@@ -525,7 +519,7 @@ const GameScene = () => {
     }
   }, [isPan, imgPosition])
 
-  const handleClick = (e) => {
+  const handleImageClick = (e) => {
     // Get elements and their values
     const dropdown = dropdownRef.current
     const dropdownStyles = window.getComputedStyle(dropdown)
@@ -545,68 +539,15 @@ const GameScene = () => {
 
     // Get click co-ordinates relative to wrapper
     const clickX = clientX - imageWrapperRect.left
-    // console.log('🚀 ~ handleClick ~ clickX:', clickX)
     const clickY = clientY - imageWrapperRect.top
-    // console.log('🚀 ~ handleClick ~ clickY:', clickY)
 
     const image = imageRef.current
-    // console.log('img width:', image.width)
 
     /* Normalize to percentage of width and height instead of absolute 
      values for different screen widths */
     // Multiply by 10000 and divide by 100 to keep 2 decimal places
     const xCoord = Math.floor((clickX / image.width) * 10000) / 100
     const yCoord = Math.floor((clickY / image.height) * 10000) / 100
-
-    console.log(`Clicked at: X=${xCoord}%, Y=${yCoord}%`)
-
-    // Bounding box co-ordinates for wizard
-    // const minX = wizard.minX
-    // const maxX = wizard.maxX
-    // const minY = wizard.minY
-    // const maxY = wizard.maxY
-
-    // Check for wizard
-    if (
-      xCoord >= wizard.minX &&
-      xCoord <= wizard.maxX &&
-      yCoord >= wizard.minY &&
-      yCoord <= wizard.maxY
-    ) {
-      console.log('you found the Wizard')
-    } else {
-      console.log('you did not find the character')
-    }
-    if (
-      xCoord >= wenda.minX &&
-      xCoord <= wenda.maxX &&
-      yCoord >= wenda.minY &&
-      yCoord <= wenda.maxY
-    ) {
-      console.log('you found Wenda')
-    } else {
-      console.log('you did not find the character')
-    }
-    if (
-      xCoord >= odlaw.minX &&
-      xCoord <= odlaw.maxX &&
-      yCoord >= odlaw.minY &&
-      yCoord <= odlaw.maxY
-    ) {
-      console.log('you found Odlaw')
-    } else {
-      console.log('you did not find the character')
-    }
-    if (
-      xCoord >= wally.minX &&
-      xCoord <= wally.maxX &&
-      yCoord >= wally.minY &&
-      yCoord <= wally.maxY
-    ) {
-      console.log('you found Wally')
-    } else {
-      console.log('you did not find the character')
-    }
 
     /* Calculate the remaining width and height of wrapper
     from click position */
@@ -654,8 +595,8 @@ const GameScene = () => {
       }))
       setClickCoords(() => ({
         ...clickCoords,
-        x: clickX,
-        y: clickY,
+        x: xCoord,
+        y: yCoord,
       }))
     }
 
@@ -663,7 +604,10 @@ const GameScene = () => {
     // setIsCharacter(!isCharacter)
   }
 
-  const handleOptionClick = () => {}
+  const handleOptionClick = (e) => {
+    const result = isCharacterFound(e, clickCoords)
+    console.log(result)
+  }
 
   return (
     <>
@@ -674,7 +618,7 @@ const GameScene = () => {
             className={styles.gameImg}
             src={skiingImage}
             alt="A crowded ski resort on a snowy mountain with many skiers wearing colorful winter jackets."
-            onClick={handleClick}
+            onClick={handleImageClick}
             style={{
               transformOrigin: '0 0',
               transform: `translate(${imgPosition.x}px, ${imgPosition.y}px) scale(${imgPosition.scale})`,
@@ -688,12 +632,10 @@ const GameScene = () => {
               top: `${dropdownPosition.y}px`,
             }}
             ref={dropdownRef}>
-            <li className={styles.select}>
-              Who is this?
-            </li>
+            <li className={styles.select}>Who is this?</li>
             <li>
               <Button className="optionBtn" onClick={handleOptionClick}>
-                Waldo
+                Wally
               </Button>
             </li>
             <li>
