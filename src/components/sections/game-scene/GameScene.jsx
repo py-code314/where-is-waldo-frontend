@@ -8,6 +8,7 @@ import skiingImage from '../../../assets/images/puzzles/skiing-scene.webp'
 import { useEffect, useState, useRef } from 'react'
 /* -------------------- Components -------------------- */
 import Button from '../../core/button/Button'
+import PopupMessage from '../../core/popup/PopupMessage'
 /* -------------------- Functions -------------------- */
 import { isCharacterFound } from '../../../utils/character/findCharacter'
 
@@ -702,21 +703,12 @@ const GameScene = () => {
           </ul>
 
           {/* Popup with success or failure message  */}
-          <div
-            className={`${styles.popup} ${isOption ? styles.popupOpen : ''} ${result.isCharacter === true ? styles.yay : result.isCharacter === false ? styles.nope : ''}`}
-            style={{
-              position: 'absolute',
-              left: `${popupPosition.x}px`,
-              top: `${popupPosition.y}px`,
-              transform: 'translateX(-50%)',
-            }}
-            ref={popupRef}>
-            {result.isCharacter === true ? (
-              <p className={styles.message}>You found {result.name}! </p>
-            ) : result.isCharacter === false ? (
-              <p className={styles.message}> {result.name} is not there</p>
-            ) : null}
-          </div>
+          <PopupMessage
+            isOption={isOption}
+            result={result}
+            popupPosition={popupPosition}
+            popupRef={popupRef}
+          />
         </div>
       </div>
     </>
