@@ -7,8 +7,9 @@ import skiingImage from '../../../assets/images/puzzles/skiing-scene.webp'
 /* -------------------- Hooks -------------------- */
 import { useEffect, useState, useRef } from 'react'
 /* -------------------- Components -------------------- */
-import Button from '../../core/button/Button'
+// import Button from '../../core/button/Button'
 import PopupMessage from '../../core/popup/PopupMessage'
+import Dropdown from '../../core/dropdown/Dropdown'
 /* -------------------- Functions -------------------- */
 import { isCharacterFound } from '../../../utils/character/findCharacter'
 
@@ -114,69 +115,6 @@ const GameScene = () => {
         y: prevClickCoords.y + newImgPositionY,
       }))
     }
-
-    // const handleMouseWheel = (e) => {
-    //   // Prevent scrolling of webpage
-    //   e.preventDefault()
-
-    //   // Use functional updates
-    //   setImgPosition((prevImgPosition) => {
-    //     /* Calculate new variables with every 'wheel' event */
-    //     // Multiply 'deltaY' with -0.01 to zoom in small increments
-    //     const delta = e.deltaY * -0.01
-
-    //     /* Limit zoom between 1x and 4x */
-    //     const newScale = Math.max(1, Math.min(prevImgPosition.scale + delta, 4))
-
-    //     // Growth or shrink factor
-    //     const ratio = 1 - newScale / prevImgPosition.scale
-
-    //     /* Enables cursor centered zooming rather than zooming at the top left corner (0, 0) */
-    //     let newImgPositionX =
-    //       prevImgPosition.x + (e.clientX - prevImgPosition.x) * ratio
-    //     let newImgPositionY =
-    //       prevImgPosition.y + (e.clientY - prevImgPosition.y) * ratio
-
-    //     // Get wrapper's width and height
-    //     const imageWrapper = imageWrapperRef.current
-    //     const imageWrapperWidth = imageWrapper.clientWidth
-    //     const imageWrapperHeight = imageWrapper.clientHeight
-
-    //     // Get image's width and height
-    //     const image = imageRef.current
-    //     const imageWidth = image.width
-    //     const imageHeight = image.height
-
-    //     // Get scaled image's width and height
-    //     const scaledImgWidth = imageWidth * newScale
-    //     const scaledImgHeight = imageHeight * newScale
-
-    //     /* Set boundaries to prevent gaps between the image and
-    //     wrapper when zooming out at corners */
-    //     const maxX = 0
-    //     const maxY = 0
-    //     const minX = imageWrapperWidth - scaledImgWidth
-    //     const minY = imageWrapperHeight - scaledImgHeight
-
-    //     // Update newX and newY if they go out of boundaries
-    //     if (newImgPositionX > maxX) {
-    //       newImgPositionX = maxX
-    //     } else if (newImgPositionX < minX) {
-    //       newImgPositionX = minX
-    //     }
-    //     if (newImgPositionY > maxY) {
-    //       newImgPositionY = maxY
-    //     } else if (newImgPositionY < minY) {
-    //       newImgPositionY = minY
-    //     }
-
-    //     return {
-    //       scale: newScale,
-    //       x: newImgPositionX,
-    //       y: newImgPositionY,
-    //     }
-    //   })
-    // }
 
     /* Handlers for hold and drag to pan the image */
     const handleMouseDown = (e) => {
@@ -671,38 +609,16 @@ const GameScene = () => {
               transform: `translate(${imgPosition.x}px, ${imgPosition.y}px) scale(${imgPosition.scale})`,
             }}
           />
-          <ul
-            className={`${styles.dropdown} ${imgClick ? styles.dropdownOpen : ''}`}
-            style={{
-              position: 'absolute',
-              left: `${dropdownPosition.x}px`,
-              top: `${dropdownPosition.y}px`,
-            }}
-            ref={dropdownRef}>
-            <li className={styles.select}>Who is this?</li>
-            <li>
-              <Button className="optionBtn" onClick={handleOptionClick}>
-                Wally
-              </Button>
-            </li>
-            <li>
-              <Button className="optionBtn" onClick={handleOptionClick}>
-                Wenda
-              </Button>
-            </li>
-            <li>
-              <Button className="optionBtn" onClick={handleOptionClick}>
-                Wizard
-              </Button>
-            </li>
-            <li>
-              <Button className="optionBtn" onClick={handleOptionClick}>
-                Odlaw
-              </Button>
-            </li>
-          </ul>
 
-          {/* Popup with success or failure message  */}
+          {/* Dropdown  */}
+          <Dropdown
+            imgClick={imgClick}
+            dropdownPosition={dropdownPosition}
+            dropdownRef={dropdownRef}
+            handleOptionClick={handleOptionClick}
+          />
+
+          {/* Popup message  */}
           <PopupMessage
             isOption={isOption}
             result={result}
