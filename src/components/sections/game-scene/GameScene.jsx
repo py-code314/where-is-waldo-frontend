@@ -637,22 +637,22 @@ const GameScene = () => {
     // Show popup message
     setIsOption(true)
 
-    const resetPopup = () => {
-      setIsOption(false)
+    // const resetPopup = () => {
+    //   setIsOption(false)
 
-      setPopupPosition((prevPopupPosition) => ({
-        ...prevPopupPosition,
-        x: 0,
-        y: 0,
-      }))
-      setResult((prevResult) => ({
-        ...prevResult,
-        isCharacter: null,
-        name: '',
-      }))
-    }
+    //   setPopupPosition((prevPopupPosition) => ({
+    //     ...prevPopupPosition,
+    //     x: 0,
+    //     y: 0,
+    //   }))
+    //   setResult((prevResult) => ({
+    //     ...prevResult,
+    //     isCharacter: null,
+    //     name: '',
+    //   }))
+    // }
 
-    window.setTimeout(resetPopup, 1000)
+    // window.setTimeout(resetPopup, 1000)
   }
 
   return (
