@@ -485,7 +485,9 @@ const GameScene = () => {
      values for different screen widths */
     // Multiply by 10000 and divide by 100 to keep 2 decimal places
     const xCoord = Math.floor((imgClickX / imageRect.width) * 10000) / 100
+    // console.log("🚀 ~ handleImageClick ~ xCoord:", xCoord)
     const yCoord = Math.floor((imgClickY / imageRect.height) * 10000) / 100
+    // console.log("🚀 ~ handleImageClick ~ yCoord:", yCoord)
 
     /* -------------- Dropdown ------------------ */
     // Initialize dropdown values
@@ -585,22 +587,22 @@ const GameScene = () => {
     // Show popup message
     setIsOption(true)
 
-    // const resetPopup = () => {
-    //   setIsOption(false)
+    const resetPopup = () => {
+      setIsOption(false)
 
-    //   setPopupPosition((prevPopupPosition) => ({
-    //     ...prevPopupPosition,
-    //     x: 0,
-    //     y: 0,
-    //   }))
-    //   setResult((prevResult) => ({
-    //     ...prevResult,
-    //     isCharacter: null,
-    //     name: '',
-    //   }))
-    // }
+      setPopupPosition((prevPopupPosition) => ({
+        ...prevPopupPosition,
+        x: 0,
+        y: 0,
+      }))
+      setResult((prevResult) => ({
+        ...prevResult,
+        isCharacter: null,
+        name: '',
+      }))
+    }
 
-    // window.setTimeout(resetPopup, 1000)
+    window.setTimeout(resetPopup, 1000)
   }
 
   return (

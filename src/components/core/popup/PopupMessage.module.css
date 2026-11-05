@@ -20,11 +20,7 @@
   color: var(--clr-white, white);
   font-weight: 600;
   text-align: center;
-  font-size: clamp(
-    var(--space-10, 0.625rem),
-    0.357rem + 0.714vw,
-    var(--space-16, 1rem)
-  );
+  font-size: clamp(var(--space-10, 0.625rem), 0.357rem + 0.714vw, var(--space-15, 0.938rem));
 
   display: flex;
   justify-content: center;

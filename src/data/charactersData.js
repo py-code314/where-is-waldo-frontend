@@ -2,34 +2,34 @@
 export const charactersData = [
   {
     wizard: {
-      minX: 6.33,
-      maxX: 7.44,
-      minY: 74.37,
-      maxY: 77.89,
+      minX: 6.41,
+      maxX: 7.43,
+      minY: 74.22,
+      maxY: 77.66,
     },
   },
   {
     wenda: {
-      minX: 48.75,
-      maxX: 49.44,
-      minY: 40.74,
-      maxY: 43.31,
+      minX: 48.49,
+      maxX: 49.28,
+      minY: 40.59,
+      maxY: 43.46,
     },
   },
   {
     odlaw: {
-      minX: 31.46,
-      maxX: 32.14,
-      minY: 63.31,
-      maxY: 64.93,
+      minX: 31.36,
+      maxX: 32.11,
+      minY: 62.88,
+      maxY: 64.6,
     },
   },
   {
     wally: {
-      minX: 84.63,
-      maxX: 86.08,
-      minY: 71.55,
-      maxY: 76.95,
+      minX: 84.4,
+      maxX: 86.16,
+      minY: 71.15,
+      maxY: 77.43,
     },
   },
 ]
