@@ -470,29 +470,35 @@ const GameScene = () => {
     const dropdown = dropdownRef.current
     const dropdownStyles = window.getComputedStyle(dropdown)
     const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
-
-    // Initialize dropdown values
-    let dropdownX = 0
-    let dropdownY = 0
-
-    const dropdownWidth = dropdown.clientWidth
-    const dropdownHeight = dropdown.clientHeight
+    const imageRect = imageRef.current.getBoundingClientRect()
 
     // Get click positions relative to browser
     const clientX = e.clientX
     const clientY = e.clientY
 
-    // Get click co-ordinates relative to wrapper
-    const clickX = clientX - imageWrapperRect.left
-    const clickY = clientY - imageWrapperRect.top
-
-    const image = imageRef.current
+    /* ---------- Click coordinates ------------ */
+    /* Get click co-ordinates relative to image to find characters at any zoom level */
+    const imgClickX = clientX - imageRect.left
+    const imgClickY = clientY - imageRect.top
 
     /* Normalize to percentage of width and height instead of absolute 
      values for different screen widths */
     // Multiply by 10000 and divide by 100 to keep 2 decimal places
-    const xCoord = Math.floor((clickX / image.width) * 10000) / 100
-    const yCoord = Math.floor((clickY / image.height) * 10000) / 100
+    const xCoord = Math.floor((imgClickX / imageRect.width) * 10000) / 100
+    const yCoord = Math.floor((imgClickY / imageRect.height) * 10000) / 100
+
+    /* -------------- Dropdown ------------------ */
+    // Initialize dropdown values
+    let dropdownX = 0
+    let dropdownY = 0
+
+    /* Get click co-ordinates relative to wrapper to place 
+    dropdown at the click position */
+    const wrapperClickX = clientX - imageWrapperRect.left
+    const wrapperClickY = clientY - imageWrapperRect.top
+
+    const dropdownWidth = dropdown.clientWidth
+    const dropdownHeight = dropdown.clientHeight
 
     /* Calculate the remaining width and height of wrapper
     from click position */
@@ -510,17 +516,18 @@ const GameScene = () => {
     /* Place the dropdown box based on the click position.
     Dropdown should always appear inside the image wrapper */
     if (widthDiff > dropdownWidth) {
-      dropdownX = clickX
+      dropdownX = wrapperClickX
     } else {
-      dropdownX = clickX - dropdownWidth - totalMarginX
+      dropdownX = wrapperClickX - dropdownWidth - totalMarginX
     }
 
     if (heightDiff > dropdownHeight) {
-      dropdownY = clickY
+      dropdownY = wrapperClickY
     } else {
-      dropdownY = clickY - dropdownHeight - totalMarginY
+      dropdownY = wrapperClickY - dropdownHeight - totalMarginY
     }
 
+    /* --------------- Setter functions ---------------- */
     /* Reset dropdown position on every second click to prevent scroll bars when screen width changes from wide to narrow */
     if (imgClick) {
       setDropdownPosition(() => ({
@@ -543,6 +550,8 @@ const GameScene = () => {
 
     setImgClick(!imgClick)
   }
+
+  
 
   const handleOptionClick = (e) => {
     // Get character name and it's location status

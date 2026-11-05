@@ -16,9 +16,9 @@
     )
     clamp(var(--space-4, 0.25rem), 0.071rem + 0.476vw, var(--space-8, 0.5rem));
   border-radius: var(--space-20, 1.25rem);
-  box-shadow: var(--shadow-1, rgba(0, 0, 0, 0.16) 0px 1px 4px);
+  box-shadow: var(--shadow-5, rgba(0, 0, 0, 0.16) 0px 1px 4px);
   color: var(--clr-white, white);
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   font-size: clamp(
     var(--space-10, 0.625rem),
