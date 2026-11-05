@@ -8,6 +8,7 @@ import skiingImage from '../../../assets/images/puzzles/skiing-scene.webp'
 import { useEffect, useState, useRef } from 'react'
 /* -------------------- Components -------------------- */
 import Button from '../../core/button/Button'
+/* -------------------- Functions -------------------- */
 import { isCharacterFound } from '../../../utils/character/findCharacter'
 
 const GameScene = () => {
@@ -32,8 +33,6 @@ const GameScene = () => {
   const imageWrapperRef = useRef(null)
   const dropdownRef = useRef(null)
   const popupRef = useRef(null)
-  const clientCoordsRef = useRef({ x: 0, y: 0 })
-  const clickCoordsRef = useRef({ x: 0, y: 0 })
   /* Use refs to prevent unnecessary re-renders */
   /* Desktop */
   // Use a ref to store the starting drag coordinates persistently
@@ -543,18 +542,10 @@ const GameScene = () => {
     // Get click positions relative to browser
     const clientX = e.clientX
     const clientY = e.clientY
-    clientCoordsRef.current = {
-      x: clientX,
-      y: clientY,
-    }
 
     // Get click co-ordinates relative to wrapper
     const clickX = clientX - imageWrapperRect.left
     const clickY = clientY - imageWrapperRect.top
-    clickCoordsRef.current = {
-      x: clickX,
-      y: clickY,
-    }
 
     const image = imageRef.current
 
@@ -615,46 +606,17 @@ const GameScene = () => {
   }
 
   const handleOptionClick = (e) => {
-    // Get elements and their values
-    const popup = popupRef.current
-    const popupStyles = window.getComputedStyle(popup)
-    const imageWrapperRect = imageWrapperRef.current.getBoundingClientRect()
-
-    // Initialize popup values
-    let popupX = 0
-    let popupY = 0
-
-    const popupWidth = popup.clientWidth
-    const popupHeight = popup.clientHeight
-
-    const clientCoords = clientCoordsRef.current
-    const clientX = clientCoords.x
-    const clientY = clientCoords.y
-
-    const clickCoords = clickCoordsRef.current
-    const clickX = clickCoords.x
-    const clickY = clickCoords.y
-
-    /* Calculate the remaining width and height of wrapper
-    from click position */
-    const widthDiff = imageWrapperRect.right - clientX
-    const heightDiff = imageWrapperRect.bottom - clientY
-
-    /* Place the dropdown box based on the click position.
-    Dropdown should always appear inside the image wrapper */
-    if (widthDiff > popupWidth) {
-      popupX = clickX
-    } else {
-      popupX = clickX - popupWidth
-    }
-
-    if (heightDiff > popupHeight) {
-      popupY = clickY
-    } else {
-      popupY = clickY - popupHeight
-    }
-
+    // Get character name and it's location status
     const { isCharacter, name } = isCharacterFound(e, clickCoords)
+
+    // Get image width
+    const image = imageRef.current
+    const imgWidth = image.width
+
+    /* Place popup at the half width of image and then center it
+    using 'translateX' */
+    let popupX = imgWidth / 2
+    let popupY = 0
 
     setResult((prevResult) => ({
       ...prevResult,
@@ -666,8 +628,31 @@ const GameScene = () => {
       x: popupX,
       y: popupY,
     }))
+    setDropdownPosition(() => ({
+      ...dropdownPosition,
+      x: 0,
+      y: 0,
+    }))
     setImgClick(false)
+    // Show popup message
     setIsOption(true)
+
+    const resetPopup = () => {
+      setIsOption(false)
+
+      setPopupPosition((prevPopupPosition) => ({
+        ...prevPopupPosition,
+        x: 0,
+        y: 0,
+      }))
+      setResult((prevResult) => ({
+        ...prevResult,
+        isCharacter: null,
+        name: '',
+      }))
+    }
+
+    window.setTimeout(resetPopup, 1000)
   }
 
   return (
@@ -716,22 +701,21 @@ const GameScene = () => {
             </li>
           </ul>
 
-          <div className={styles.resultWrapper}>
-            {/* Popup success or failure message  */}
-            <div
-              className={`${styles.popup} ${imgClick ? styles.popupOpen : ''}`}
-              style={{
-                position: 'absolute',
-                left: `${popupPosition.x}px`,
-                top: `${popupPosition.y}px`,
-              }}
-              ref={popupRef}>
-              {result.isCharacter === true ? (
-                <p>You found {result.name}!</p>
-              ) : result.isCharacter === false ? (
-                <p>{result.name} is not here</p>
-              ) : null}
-            </div>
+          {/* Popup with success or failure message  */}
+          <div
+            className={`${styles.popup} ${isOption ? styles.popupOpen : ''} ${result.isCharacter === true ? styles.yay : result.isCharacter === false ? styles.nope : ''}`}
+            style={{
+              position: 'absolute',
+              left: `${popupPosition.x}px`,
+              top: `${popupPosition.y}px`,
+              transform: 'translateX(-50%)',
+            }}
+            ref={popupRef}>
+            {result.isCharacter === true ? (
+              <p className={styles.message}>You found {result.name}! </p>
+            ) : result.isCharacter === false ? (
+              <p className={styles.message}> {result.name} is not there</p>
+            ) : null}
           </div>
         </div>
       </div>
