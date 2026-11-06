@@ -55,7 +55,7 @@
 /* Add this to reset hover styles on touch screens */
 @media (hover: none) {
   .optionBtn:hover {
-    cursor: auto;
+    /* cursor: auto; */
     background-color: var(--clr-white, white);
   }
 }

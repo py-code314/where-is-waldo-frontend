@@ -1,7 +1,7 @@
 /* -------------------- Styles -------------------- */
 import styles from './PopupMessage.module.css'
 
-const PopupMessage = ({isOption, result, popupPosition, popupRef}) => {
+const PopupMessage = ({ isOption, result, popupPosition, popupRef }) => {
   return (
     <>
       {/* Popup with success or failure message  */}
@@ -11,7 +11,6 @@ const PopupMessage = ({isOption, result, popupPosition, popupRef}) => {
           position: 'absolute',
           left: `${popupPosition.x}px`,
           top: `${popupPosition.y}px`,
-          transform: 'translateX(-50%)',
         }}
         ref={popupRef}>
         {result.isCharacter === true ? (

@@ -35,6 +35,7 @@
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
+  transform: translateY(-25px);
   transition:
     opacity 300ms ease-in,
     transform 300ms ease-in;
@@ -44,6 +45,7 @@
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
+  transform: translateY(0px);
 }
 
 .yay {

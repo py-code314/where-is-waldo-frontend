@@ -2,4 +2,5 @@
   width: 100%;
   /* Height is based on original file's aspect ratio */
   height: auto;
+  /* position: relative; */
 }
