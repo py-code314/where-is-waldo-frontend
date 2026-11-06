@@ -14,11 +14,4 @@ they're inside a parent with 'overflow: hidden' */
   overflow: hidden;
   /* Disable browser's zoom-in functionality on the container */
   touch-action: none;
-  /* border: 1px solid #000; */
-}
-
-.gameImg {
-  width: 100%;
-  /* Height is based on original file's aspect ratio */
-  height: auto;
 }
