@@ -8,6 +8,15 @@
   border-radius: var(--radius-10, 0.625rem);
 }
 
+.label {
+  font-size: clamp(
+    var(--space-10, 0.625rem),
+    0.536rem + 0.238vw,
+    var(--space-12, 0.75rem)
+  );
+  text-transform: uppercase;
+}
+
 .time {
   /* Use monospace font to prevent timer jump */
   font-family: var(--ff-time);
@@ -33,6 +42,12 @@
   .stopwatch {
     padding: 0;
     border: transparent; /* Remove border  */
+  }
+
+  /* Label and level not vertically aligning (in Difficulty container)
+   because of uppercase label. So removing uppercase from label  */
+  .label {
+    text-transform: none;
   }
 
   .timeDisplay {
