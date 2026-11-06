@@ -11,8 +11,11 @@ import GameImage from '../../core/image/GameImage.jsx'
 
 const GameScene = () => {
   /* ----------------------- State -------------------------------- */
+
   const [imgClick, setImgClick] = useState(false)
-  const [isPan, setIsPan] = useState(false)
+  const [isPanning, setIsPanning] = useState(false)
+  // State to not display dropdown after panning the image
+  const [isDragging, setIsDragging] = useState(false)
   // Track result of a single play click
   const [result, setResult] = useState({ isCharacter: null, name: '' })
   // Track option click
@@ -143,13 +146,13 @@ const GameScene = () => {
           y: currentY - imgPosition.y,
         }
 
-        setIsPan(true)
+        setIsPanning(true)
 
         // Reset value to default with each touch to start anew
         prevDifferenceRef.current = null
       } else if (e.touches.length === 2) {
         // Two finger touch (zoom to pinch)
-        setIsPan(false)
+        setIsPanning(false)
 
         const touchOne = e.touches[0]
         const touchTwo = e.touches[1]
@@ -187,7 +190,7 @@ const GameScene = () => {
         const touchOne = e.touches[0]
 
         // Prevent dragging if image isn't zoomed-in
-        if (imgPosition.scale <= 1 || !isPan) return
+        if (imgPosition.scale <= 1 || !isPanning) return
 
         // Assign them to variables to call the function 'getUpdatedImgCoords'
         const event = touchOne
@@ -313,7 +316,7 @@ const GameScene = () => {
       gameImage.removeEventListener('touchstart', handleTouchStart)
       gameImage.removeEventListener('touchmove', handleTouchMove)
     }
-  }, [isPan, imgPosition])
+  }, [isPanning, imgPosition])
 
   /* ------------------------- Desktop ---------------------------- */
 
@@ -339,7 +342,8 @@ const GameScene = () => {
       y: currentY - imgPosition.y,
     }
 
-    setIsPan(true)
+    setIsPanning(true)
+    setIsDragging(false)
   }
 
   const handleMouseMove = (e) => {
@@ -347,11 +351,11 @@ const GameScene = () => {
     e.preventDefault()
 
     // Prevent dragging if image isn't zoomed-in
-    if (imgPosition.scale <= 1 || !isPan) return
+    if (imgPosition.scale <= 1 || !isPanning) return
 
     // If LMB is not held, the pan can't be active
     if (e.buttons % 2 === 0) {
-      setIsPan(false)
+      setIsPanning(false)
       return
     }
 
@@ -373,11 +377,12 @@ const GameScene = () => {
       x: newX,
       y: newY,
     }))
+    setIsDragging(true)
   }
 
   const handleMouseUp = () => {
-    if (!isPan) return
-    setIsPan(false)
+    if (!isPanning) return
+    setIsPanning(false)
   }
 
   /* --------------------- Touch screens -------------------------- */
@@ -386,7 +391,7 @@ const GameScene = () => {
     /* Single finger is off the touch screen after panning is
       concluded or all fingers are off the screen */
     if (e.touches.length === 0) {
-      setIsPan(false)
+      setIsPanning(false)
       prevDifferenceRef.current = null
     } else if (e.touches.length === 1) {
       /* Initiate single finger touch panning after player finished
@@ -406,13 +411,16 @@ const GameScene = () => {
         y: currentY - imgPosition.y,
       }
 
-      setIsPan(true)
+      setIsPanning(true)
     }
   }
 
   /* Save click coordinates for character validation and to display
     dropdown */
   const handleImageClick = (e) => {
+    // Don't show dropdown after panning the image
+    if (isDragging) return
+
     // Get elements and their values
     const dropdown = dropdownRef.current
     const dropdownStyles = window.getComputedStyle(dropdown)
@@ -559,6 +567,7 @@ const GameScene = () => {
     <>
       <div className={styles.gameBoardContainer}>
         <div className={styles.gameBoard} ref={imgWrapperRef}>
+          
           {/* Game image  */}
           <GameImage
             imgRef={imgRef}

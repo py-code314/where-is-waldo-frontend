@@ -1,9 +1,10 @@
 .popup {
   width: clamp(
     var(--space-110, 6.875rem),
-    4.196rem + 7.143vw,
-    var(--space-170, 10.625rem)
+    3.75rem + 8.333vw,
+    var(--space-180, 11.25rem)
   );
+
   height: clamp(
     var(--space-20, 1.25rem),
     0.357rem + 2.381vw,
@@ -20,7 +21,11 @@
   color: var(--clr-white, white);
   font-weight: 600;
   text-align: center;
-  font-size: clamp(var(--space-10, 0.625rem), 0.357rem + 0.714vw, var(--space-15, 0.938rem));
+  font-size: clamp(
+    var(--space-10, 0.625rem),
+    0.357rem + 0.714vw,
+    var(--space-15, 0.938rem)
+  );
 
   display: flex;
   justify-content: center;
