@@ -1,6 +1,8 @@
 /* -------------------- Styles -------------------- */
 import styles from './GamePage.module.css'
 /* -------------------- Icons -------------------- */
+/* ------------------------- Hooks -------------------------------- */
+import { useState } from 'react'
 import homeIcon from '../../assets/icons/icon-home-2.svg'
 /* -------------------- Components -------------------- */
 import { Link } from 'react-router'
@@ -9,6 +11,10 @@ import StopWatch from '../../components/core/stopwatch/StopWatch'
 import CharactersList from '../../components/core/characters/CharactersList'
 
 const GamePage = () => {
+  const [result, setResult] = useState({ isMatch: null, name: '' })
+  const [foundCharacters, setFoundCharacters] = useState([])
+  // TODO: ? Can i set 'isMatch' to 'false' instead of 'null'
+
   return (
     <>
       <div className={styles.gamePage}>
@@ -54,10 +60,10 @@ const GamePage = () => {
         </div>
 
         {/* Character head shots  */}
-        <CharactersList />
+        <CharactersList result={result} foundCharacters={foundCharacters} />
 
         {/* Game image  */}
-        <GameScene />
+        <GameScene result={result} setResult={setResult} setFoundCharacters={setFoundCharacters}/>
       </div>
     </>
   )

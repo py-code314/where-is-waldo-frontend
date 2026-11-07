@@ -21,6 +21,7 @@ const Dropdown = ({
         }}
         ref={dropdownRef}>
         <li className={styles.select}>Who is this?</li>
+        {/* // TODO: Disable button if the character is found  */}
         <li>
           <Button className="optionBtn" onClick={handleOptionClick}>
             Wally

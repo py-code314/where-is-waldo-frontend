@@ -10,7 +10,9 @@ import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
 
-const GameScene = () => {
+const GameScene = ({ result, setResult, setFoundCharacters }) => {
+  // console.log("🚀 ~ GameScene ~ result:", result)
+  // TODO: Create context for result
   /* ----------------------- State -------------------------------- */
 
   const [imgClick, setImgClick] = useState(false)
@@ -18,7 +20,7 @@ const GameScene = () => {
   // State to not display dropdown after panning the image
   const [isDragging, setIsDragging] = useState(false)
   // Track result of a single play click
-  const [result, setResult] = useState({ isMatch: null, name: '' })
+  // const [result, setResult] = useState({ isMatch: null, name: '' })
   // Track option click
   const [isOption, setIsOption] = useState(false)
   // Initial image position and scale
@@ -567,11 +569,22 @@ const GameScene = () => {
       isMatch,
       name,
     }))
+
+    /* Add correct guess to an array */
+    if (isMatch) {
+      setFoundCharacters((prevFoundCharacters) => [
+        ...prevFoundCharacters,
+        name,
+      ])
+    }
+
     setPopupPosition((prevPopupPosition) => ({
       ...prevPopupPosition,
       x: popupX,
       y: popupY,
     }))
+
+    /* Reset */
     setDropdownPosition((prevDropdownPosition) => ({
       ...prevDropdownPosition,
       x: -9999,
