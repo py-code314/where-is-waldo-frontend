@@ -1,5 +1,7 @@
 /* -------------------- Styles -------------------- */
 import styles from './Dropdown.module.css'
+/* -------------------- Data -------------------- */
+import { charactersData } from '../../../data/charactersData'
 /* -------------------- Components -------------------- */
 import Button from '../button/Button'
 
@@ -21,27 +23,13 @@ const Dropdown = ({
         }}
         ref={dropdownRef}>
         <li className={styles.select}>Who is this?</li>
-        {/* // TODO: Disable button if the character is found  */}
-        <li>
-          <Button className="optionBtn" onClick={handleOptionClick}>
-            Wally
-          </Button>
-        </li>
-        <li>
-          <Button className="optionBtn" onClick={handleOptionClick}>
-            Wenda
-          </Button>
-        </li>
-        <li>
-          <Button className="optionBtn" onClick={handleOptionClick}>
-            Wizard
-          </Button>
-        </li>
-        <li>
-          <Button className="optionBtn" onClick={handleOptionClick}>
-            Odlaw
-          </Button>
-        </li>
+        {charactersData.map((character) => (
+          <li key={character.id}>
+            <Button className="optionBtn" onClick={handleOptionClick}>
+              {character.name}
+            </Button>
+          </li>
+        ))}
       </ul>
     </>
   )
