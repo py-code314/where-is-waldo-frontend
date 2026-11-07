@@ -1,6 +1,6 @@
 .target {
-  width: 16px;
-  height: 16px;
+  width: clamp(var(--space-8, 0.5rem), 0.357rem + 0.714vw, var(--space-16, 1rem));
+  height: clamp(var(--space-8, 0.5rem), 0.357rem + 0.714vw, var(--space-16, 1rem));
   border-radius: var(--radius-round, 50%);
   display: block;
   position: relative;
