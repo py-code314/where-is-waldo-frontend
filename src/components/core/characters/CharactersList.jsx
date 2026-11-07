@@ -1,12 +1,15 @@
+console.log('🚀 ~ charactersData:', charactersData)
 /* -------------------- Styles -------------------- */
 import styles from './CharactersList.module.css'
-/* -------------------- Images -------------------- */
-import wallyImage from '../../../assets/images/characters/wally.png'
-import wendaImage from '../../../assets/images/characters/wenda.png'
-import wizardImage from '../../../assets/images/characters/wizard.png'
-import odlawImage from '../../../assets/images/characters/odlaw.png'
+// /* -------------------- Images -------------------- */
+// import wallyImage from '../../../assets/images/characters/wally.png'
+// import wendaImage from '../../../assets/images/characters/wenda.png'
+// import wizardImage from '../../../assets/images/characters/wizard.png'
+// import odlawImage from '../../../assets/images/characters/odlaw.png'
 /* -------------------- Icons -------------------- */
 import checkmarkIcon from '../../../assets/icons/icon-checkmark.svg'
+/* -------------------- Data -------------------- */
+import { charactersData } from '../../../data/charactersData'
 
 const CharactersList = () => {
   return (
@@ -19,63 +22,31 @@ const CharactersList = () => {
           </p>
           <p className={styles.counter}>0/4 Found</p>
         </div>
-        <div className={styles.characters}>
-          <div className={styles.character}>
-            <div className={styles.characterImgContainer}>
-              <img
-                className={styles.characterImg}
-                src={wallyImage}
-                alt=""
-                width={50}
-                height={50}
-              />
-              <img
-                className={styles.checkmarkIcon}
-                src={checkmarkIcon}
-                alt=""
-                width={20}
-                height={20}
-              />
-            </div>
-            <span className={styles.characterName}>Waldo</span>
-          </div>
-          <div className={styles.character}>
-            <div className={styles.characterImgContainer}>
-              <img
-                className={styles.characterImg}
-                src={wendaImage}
-                alt=""
-                width={50}
-                height={50}
-              />
-            </div>
-            <span className={styles.characterName}>Wenda</span>
-          </div>
-          <div className={styles.character}>
-            <div className={styles.characterImgContainer}>
-              <img
-                className={styles.characterImg}
-                src={wizardImage}
-                alt=""
-                width={50}
-                height={50}
-              />
-            </div>
-            <span className={styles.characterName}>Wizard</span>
-          </div>
-          <div className={styles.character}>
-            <div className={styles.characterImgContainer}>
-              <img
-                className={styles.characterImg}
-                src={odlawImage}
-                alt=""
-                width={50}
-                height={50}
-              />
-            </div>
-            <span className={styles.characterName}>Odlaw</span>
-          </div>
-        </div>
+
+        {/* Loop through characters list  */}
+        <ul className={styles.characters}>
+          {charactersData.map((character) => (
+            <li className={styles.character} key={character.id}>
+              <div className={styles.characterImgContainer}>
+                <img
+                  className={styles.characterImg}
+                  src={character.imgUrl}
+                  alt=""
+                  width={50}
+                  height={50}
+                />
+                <img
+                  className={styles.checkmarkIcon}
+                  src={checkmarkIcon}
+                  alt=""
+                  width={20}
+                  height={20}
+                />
+                <span className={styles.characterName}>{character.name}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   )
