@@ -5,9 +5,10 @@ import { useEffect, useState, useRef } from 'react'
 /* ------------------------- Components --------------------------- */
 import PopupMessage from '../../core/popup/PopupMessage'
 import Dropdown from '../../core/dropdown/Dropdown'
+import GameImage from '../../core/image/GameImage.jsx'
+import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
-import GameImage from '../../core/image/GameImage.jsx'
 
 const GameScene = () => {
   /* ----------------------- State -------------------------------- */
@@ -24,18 +25,22 @@ const GameScene = () => {
   const [imgPosition, setImgPosition] = useState({ x: 0, y: 0, scale: 1 })
   // Track image click coordinates
   const [imgClickCoords, setImgClickCoords] = useState({ x: 0, y: 0 })
-  // Dropdown box position
+  // Place dropdown, target, and popup off screen
   const [dropdownPosition, setDropdownPosition] = useState({
     x: -9999,
     y: -9999,
   })
-  // Popup message position
+  const [targetPosition, setTargetPosition] = useState({
+    x: -9999,
+    y: -9999,
+  })
   const [popupPosition, setPopupPosition] = useState({ x: -9999, y: -9999 })
 
   /* ----------------------- Refs --------------------------------- */
   const imgRef = useRef(null)
   const imgWrapperRef = useRef(null)
   const dropdownRef = useRef(null)
+  const targetRef = useRef(null)
   const popupRef = useRef(null)
 
   /* Use refs to prevent unnecessary re-renders */
@@ -423,14 +428,13 @@ const GameScene = () => {
   /* Save click coordinates for character validation and to display
     dropdown */
   const handleImageClick = (e) => {
-    // console.log("🚀 ~ handleImageClick ~ e:", e)
-    // console.log('img click')
     // Don't show dropdown after panning the image
     if (isDragging) return
 
     // Get elements and their values
     const dropdown = dropdownRef.current
     const dropdownStyles = window.getComputedStyle(dropdown)
+    const target = targetRef.current
     const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
     const imageRect = imgRef.current.getBoundingClientRect()
 
@@ -452,6 +456,7 @@ const GameScene = () => {
     const yCoord = Math.floor((imgClickY / imageRect.height) * 10000) / 100
 
     /* -------------------- Dropdown ------------------------------ */
+
     // Initialize dropdown values
     let dropdownX = 0
     let dropdownY = 0
@@ -492,26 +497,49 @@ const GameScene = () => {
       dropdownY = wrapperClickY - dropdownHeight - totalMarginY
     }
 
+    /* --------------------- Target ------------------------------- */
+
+    // Initialize target values
+    let targetX = 0
+    let targetY = 0
+
+    const targetWidth = target.clientWidth
+    const targetHeight = target.clientHeight
+
+    // Place target animation's center at click coordinates
+    targetX = wrapperClickX - targetWidth / 2
+    targetY = wrapperClickY - targetHeight / 2
+
     /* --------------------- Setter functions --------------------- */
 
     /* Reset dropdown position on every second click to prevent 
     scroll bars when screen width changes from wide to narrow */
     if (imgClick) {
-      setDropdownPosition(() => ({
-        ...dropdownPosition,
-        x: 0,
-        y: 0,
+      setDropdownPosition((prevDropdownPosition) => ({
+        ...prevDropdownPosition,
+        x: -9999,
+        y: -9999,
+      }))
+      setTargetPosition((prevTargetPosition) => ({
+        ...prevTargetPosition,
+        x: -9999,
+        y: -9999,
       }))
     } else {
-      setDropdownPosition(() => ({
-        ...dropdownPosition,
+      setImgClickCoords((prevImgClickCoords) => ({
+        ...prevImgClickCoords,
+        x: xCoord,
+        y: yCoord,
+      }))
+      setDropdownPosition((prevDropdownPosition) => ({
+        ...prevDropdownPosition,
         x: dropdownX,
         y: dropdownY,
       }))
-      setImgClickCoords(() => ({
-        ...imgClickCoords,
-        x: xCoord,
-        y: yCoord,
+      setTargetPosition((prevTargetPosition) => ({
+        ...prevTargetPosition,
+        x: targetX,
+        y: targetY,
       }))
     }
 
@@ -544,8 +572,13 @@ const GameScene = () => {
       x: popupX,
       y: popupY,
     }))
-    setDropdownPosition(() => ({
-      ...dropdownPosition,
+    setDropdownPosition((prevDropdownPosition) => ({
+      ...prevDropdownPosition,
+      x: -9999,
+      y: -9999,
+    }))
+    setTargetPosition((prevTargetPosition) => ({
+      ...prevTargetPosition,
       x: -9999,
       y: -9999,
     }))
@@ -593,6 +626,13 @@ const GameScene = () => {
             dropdownPosition={dropdownPosition}
             dropdownRef={dropdownRef}
             handleOptionClick={handleOptionClick}
+          />
+
+          {/* Target animation  */}
+          <Target
+            imgClick={imgClick}
+            targetPosition={targetPosition}
+            targetRef={targetRef}
           />
 
           {/* Popup message  */}
