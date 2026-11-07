@@ -1,11 +1,5 @@
-console.log('🚀 ~ charactersData:', charactersData)
 /* -------------------- Styles -------------------- */
 import styles from './CharactersList.module.css'
-// /* -------------------- Images -------------------- */
-// import wallyImage from '../../../assets/images/characters/wally.png'
-// import wendaImage from '../../../assets/images/characters/wenda.png'
-// import wizardImage from '../../../assets/images/characters/wizard.png'
-// import odlawImage from '../../../assets/images/characters/odlaw.png'
 /* -------------------- Icons -------------------- */
 import checkmarkIcon from '../../../assets/icons/icon-checkmark.svg'
 /* -------------------- Data -------------------- */

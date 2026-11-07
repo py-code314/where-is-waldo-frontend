@@ -2,7 +2,7 @@
 import { charactersData } from '../../data/charactersData'
 
 export const isCharacterFound = (e, clickCoords) => {
-  let isCharacter = false
+  let isMatch = false
   let name = ''
   const characterName = e.target.textContent
 
@@ -12,20 +12,18 @@ export const isCharacterFound = (e, clickCoords) => {
 
   // Loop through each character and check for matching coordinates
   charactersData.forEach((character) => {
-    const nameArray = Object.keys(character)
-
-    if (nameArray[0].toLowerCase() === characterName.toLowerCase()) {
+    if (character.name.toLowerCase() === characterName.toLowerCase()) {
       name = characterName
       if (
-        xCoord >= character[nameArray[0]].minX &&
-        xCoord <= character[nameArray[0]].maxX &&
-        yCoord >= character[nameArray[0]].minY &&
-        yCoord <= character[nameArray[0]].maxY
+        xCoord >= character.minX &&
+        xCoord <= character.maxX &&
+        yCoord >= character.minY &&
+        yCoord <= character.maxY
       ) {
-        isCharacter = true
+        isMatch = true
       }
     }
   })
 
-  return { isCharacter, name }
+  return { isMatch, name }
 }

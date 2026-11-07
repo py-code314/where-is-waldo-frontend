@@ -18,7 +18,7 @@ const GameScene = () => {
   // State to not display dropdown after panning the image
   const [isDragging, setIsDragging] = useState(false)
   // Track result of a single play click
-  const [result, setResult] = useState({ isCharacter: null, name: '' })
+  const [result, setResult] = useState({ isMatch: null, name: '' })
   // Track option click
   const [isOption, setIsOption] = useState(false)
   // Initial image position and scale
@@ -549,7 +549,7 @@ const GameScene = () => {
   /* Show success or fail message after player chooses a character */
   const handleOptionClick = (e) => {
     // Get character name and it's location status
-    const { isCharacter, name } = isCharacterFound(e, imgClickCoords)
+    const { isMatch, name } = isCharacterFound(e, imgClickCoords)
 
     // Get values
     const image = imgRef.current
@@ -564,7 +564,7 @@ const GameScene = () => {
 
     setResult((prevResult) => ({
       ...prevResult,
-      isCharacter,
+      isMatch,
       name,
     }))
     setPopupPosition((prevPopupPosition) => ({
@@ -597,7 +597,7 @@ const GameScene = () => {
       }))
       setResult((prevResult) => ({
         ...prevResult,
-        isCharacter: null,
+        isMatch: null,
         name: '',
       }))
     }
