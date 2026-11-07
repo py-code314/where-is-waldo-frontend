@@ -5,6 +5,8 @@ import wallyImage from '../../../assets/images/characters/wally.png'
 import wendaImage from '../../../assets/images/characters/wenda.png'
 import wizardImage from '../../../assets/images/characters/wizard.png'
 import odlawImage from '../../../assets/images/characters/odlaw.png'
+/* -------------------- Icons -------------------- */
+import checkmarkIcon from '../../../assets/icons/icon-checkmark.svg'
 
 const CharactersList = () => {
   return (
@@ -26,6 +28,13 @@ const CharactersList = () => {
                 alt=""
                 width={50}
                 height={50}
+              />
+              <img
+                className={styles.checkmarkIcon}
+                src={checkmarkIcon}
+                alt=""
+                width={20}
+                height={20}
               />
             </div>
             <span className={styles.characterName}>Waldo</span>
