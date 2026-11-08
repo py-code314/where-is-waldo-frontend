@@ -1,7 +1,9 @@
 /* ------------------------- Styles ------------------------------- */
 import styles from './GameScene.module.css'
 /* ------------------------- Hooks -------------------------------- */
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
+/* -------------------- Context -------------------- */
+import { ResultContext } from '../../../contexts/game-scene/ResultContext.jsx'
 /* ------------------------- Components --------------------------- */
 import PopupMessage from '../../core/popup/PopupMessage'
 import Dropdown from '../../core/dropdown/Dropdown'
@@ -11,13 +13,12 @@ import Target from '../../core/target/Target.jsx'
 import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
 
 const GameScene = ({
-  result,
-  setResult,
   foundCharacterIds,
   setFoundCharacterIds,
 }) => {
-  // TODO: Create context for result
   // TODO: Create context for foundCharacterIds
+  const { setResult } = useContext(ResultContext)
+  
   /* ----------------------- State -------------------------------- */
 
   const [imgClick, setImgClick] = useState(false)
@@ -657,7 +658,6 @@ const GameScene = ({
           {/* Popup message  */}
           <PopupMessage
             isOption={isOption}
-            result={result}
             popupPosition={popupPosition}
             popupRef={popupRef}
           />

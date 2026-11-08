@@ -1,9 +1,11 @@
 /* -------------------- Styles -------------------- */
 import styles from './GamePage.module.css'
 /* -------------------- Icons -------------------- */
+import homeIcon from '../../assets/icons/icon-home-2.svg'
 /* ------------------------- Hooks -------------------------------- */
 import { useState } from 'react'
-import homeIcon from '../../assets/icons/icon-home-2.svg'
+/* -------------------- Context -------------------- */
+import { ResultContext } from '../../contexts/game-scene/ResultContext'
 /* -------------------- Components -------------------- */
 import { Link } from 'react-router'
 import GameScene from '../../components/sections/game-scene/GameScene'
@@ -13,7 +15,6 @@ import CharactersList from '../../components/core/characters/CharactersList'
 const GamePage = () => {
   const [result, setResult] = useState({ isMatch: null, name: '' })
   const [foundCharacterIds, setFoundCharacterIds] = useState([])
-  // TODO: ? Can i set 'isMatch' to 'false' instead of 'null'
 
   return (
     <>
@@ -59,16 +60,16 @@ const GamePage = () => {
           </div>
         </div>
 
-        {/* Character head shots  */}
-        <CharactersList result={result} foundCharacterIds={foundCharacterIds} />
+        <ResultContext value={{ result, setResult }}>
+          {/* Character head shots  */}
+          <CharactersList foundCharacterIds={foundCharacterIds} />
 
-        {/* Game image  */}
-        <GameScene
-          result={result}
-          setResult={setResult}
-          foundCharacterIds={foundCharacterIds}
-          setFoundCharacterIds={setFoundCharacterIds}
-        />
+          {/* Game image  */}
+          <GameScene
+            foundCharacterIds={foundCharacterIds}
+            setFoundCharacterIds={setFoundCharacterIds}
+          />
+        </ResultContext>
       </div>
     </>
   )

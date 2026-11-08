@@ -1,7 +1,13 @@
 /* -------------------- Styles -------------------- */
 import styles from './PopupMessage.module.css'
+/* -------------------- Hooks -------------------- */
+import { useContext } from 'react'
+/* -------------------- Context -------------------- */
+import { ResultContext } from '../../../contexts/game-scene/ResultContext'
 
-const PopupMessage = ({ isOption, result, popupPosition, popupRef }) => {
+const PopupMessage = ({ isOption, popupPosition, popupRef }) => {
+  const { result } = useContext(ResultContext)
+  
   return (
     <>
       {/* Popup with success or failure message  */}
