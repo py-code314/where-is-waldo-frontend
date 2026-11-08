@@ -1,5 +1,9 @@
 /* -------------------- Styles -------------------- */
 import styles from './Dropdown.module.css'
+/* -------------------- Hooks -------------------- */
+import { useContext } from 'react'
+/* -------------------- Context -------------------- */
+import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
 /* -------------------- Data -------------------- */
 import { charactersData } from '../../../data/charactersData'
 /* -------------------- Components -------------------- */
@@ -11,8 +15,9 @@ const Dropdown = ({
   dropdownPosition,
   dropdownRef,
   handleOptionClick,
-  foundCharacterIds,
 }) => {
+  const { foundCharacterIds } = useContext(CharacterIdsContext)
+
   return (
     <>
       <ul

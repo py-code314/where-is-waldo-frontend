@@ -2,10 +2,16 @@
 import styles from './CharactersList.module.css'
 /* -------------------- Icons -------------------- */
 import checkmarkIcon from '../../../assets/icons/icon-checkmark.svg'
+/* -------------------- Hooks -------------------- */
+import { useContext } from 'react'
+/* -------------------- Context -------------------- */
+import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
 /* -------------------- Data -------------------- */
 import { charactersData } from '../../../data/charactersData'
 
-const CharactersList = ({ foundCharacterIds }) => {
+const CharactersList = () => {
+  const { foundCharacterIds } = useContext(CharacterIdsContext)
+
   return (
     <>
       {/* Character head shots  */}
@@ -32,8 +38,7 @@ const CharactersList = ({ foundCharacterIds }) => {
                 {/* Loop through found characters array and add check marks  */}
                 {foundCharacterIds.map(
                   (characterId) =>
-                    characterId ===
-                      character.id && (
+                    characterId === character.id && (
                       <img
                         key={character.id}
                         className={styles.checkmark}

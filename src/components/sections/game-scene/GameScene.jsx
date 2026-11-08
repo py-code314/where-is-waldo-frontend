@@ -4,6 +4,7 @@ import styles from './GameScene.module.css'
 import { useEffect, useState, useRef, useContext } from 'react'
 /* -------------------- Context -------------------- */
 import { ResultContext } from '../../../contexts/game-scene/ResultContext.jsx'
+import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext.jsx'
 /* ------------------------- Components --------------------------- */
 import PopupMessage from '../../core/popup/PopupMessage'
 import Dropdown from '../../core/dropdown/Dropdown'
@@ -12,13 +13,11 @@ import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
 
-const GameScene = ({
-  foundCharacterIds,
-  setFoundCharacterIds,
-}) => {
-  // TODO: Create context for foundCharacterIds
+const GameScene = () => {
   const { setResult } = useContext(ResultContext)
-  
+  const { foundCharacterIds, setFoundCharacterIds } =
+    useContext(CharacterIdsContext)
+
   /* ----------------------- State -------------------------------- */
 
   const [imgClick, setImgClick] = useState(false)
@@ -645,7 +644,6 @@ const GameScene = ({
             dropdownPosition={dropdownPosition}
             dropdownRef={dropdownRef}
             handleOptionClick={handleOptionClick}
-            foundCharacterIds={foundCharacterIds}
           />
 
           {/* Target animation  */}

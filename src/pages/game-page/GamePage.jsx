@@ -6,6 +6,7 @@ import homeIcon from '../../assets/icons/icon-home-2.svg'
 import { useState } from 'react'
 /* -------------------- Context -------------------- */
 import { ResultContext } from '../../contexts/game-scene/ResultContext'
+import { CharacterIdsContext } from '../../contexts/characters/CharacterIdsContext'
 /* -------------------- Components -------------------- */
 import { Link } from 'react-router'
 import GameScene from '../../components/sections/game-scene/GameScene'
@@ -60,16 +61,22 @@ const GamePage = () => {
           </div>
         </div>
 
-        <ResultContext value={{ result, setResult }}>
-          {/* Character head shots  */}
-          <CharactersList foundCharacterIds={foundCharacterIds} />
+        <CharacterIdsContext
+          value={{
+            foundCharacterIds,
+            setFoundCharacterIds,
+          }}>
+          <ResultContext value={{ result, setResult }}>
+            {/* Character head shots  */}
+            <CharactersList foundCharacterIds={foundCharacterIds} />
 
-          {/* Game image  */}
-          <GameScene
-            foundCharacterIds={foundCharacterIds}
-            setFoundCharacterIds={setFoundCharacterIds}
-          />
-        </ResultContext>
+            {/* Game image  */}
+            <GameScene
+              foundCharacterIds={foundCharacterIds}
+              setFoundCharacterIds={setFoundCharacterIds}
+            />
+          </ResultContext>
+        </CharacterIdsContext>
       </div>
     </>
   )
