@@ -17,6 +17,7 @@ const GameScene = ({
   setFoundCharacterIds,
 }) => {
   // TODO: Create context for result
+  // TODO: Create context for foundCharacterIds
   /* ----------------------- State -------------------------------- */
 
   const [imgClick, setImgClick] = useState(false)
@@ -643,6 +644,7 @@ const GameScene = ({
             dropdownPosition={dropdownPosition}
             dropdownRef={dropdownRef}
             handleOptionClick={handleOptionClick}
+            foundCharacterIds={foundCharacterIds}
           />
 
           {/* Target animation  */}

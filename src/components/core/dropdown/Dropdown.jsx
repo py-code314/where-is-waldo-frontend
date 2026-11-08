@@ -11,6 +11,7 @@ const Dropdown = ({
   dropdownPosition,
   dropdownRef,
   handleOptionClick,
+  foundCharacterIds,
 }) => {
   return (
     <>
@@ -29,7 +30,8 @@ const Dropdown = ({
               <Button
                 className="optionBtn"
                 dataId={character.id}
-                onClick={handleOptionClick}>
+                onClick={handleOptionClick}
+                disabled={foundCharacterIds.includes(character.id)}>
                 {character.name}
               </Button>
             </li>
