@@ -23,13 +23,18 @@ const Dropdown = ({
         }}
         ref={dropdownRef}>
         <li className={styles.select}>Who is this?</li>
-        {charactersData.map((character) => (
-          <li key={character.id}>
-            <Button className="optionBtn" onClick={handleOptionClick}>
-              {character.name}
-            </Button>
-          </li>
-        ))}
+        {charactersData.map((character) => {
+          return (
+            <li key={character.id}>
+              <Button
+                className="optionBtn"
+                dataId={character.id}
+                onClick={handleOptionClick}>
+                {character.name}
+              </Button>
+            </li>
+          )
+        })}
       </ul>
     </>
   )

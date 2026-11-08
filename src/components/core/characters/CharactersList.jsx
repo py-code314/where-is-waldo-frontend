@@ -5,7 +5,7 @@ import checkmarkIcon from '../../../assets/icons/icon-checkmark.svg'
 /* -------------------- Data -------------------- */
 import { charactersData } from '../../../data/charactersData'
 
-const CharactersList = ({ foundCharacters }) => {
+const CharactersList = ({ foundCharacterIds }) => {
   return (
     <>
       {/* Character head shots  */}
@@ -30,10 +30,10 @@ const CharactersList = ({ foundCharacters }) => {
                   height={50}
                 />
                 {/* Loop through found characters array and add check marks  */}
-                {foundCharacters.map(
-                  (foundName) =>
-                    foundName.toLowerCase() ===
-                      character.name.toLowerCase() && (
+                {foundCharacterIds.map(
+                  (characterId) =>
+                    characterId ===
+                      character.id && (
                       <img
                         key={character.id}
                         className={styles.checkmark}

@@ -7,7 +7,7 @@ import odlawImage from '../assets/images/characters/odlaw.png'
 /* Save bounding box co-ordinates for each character */
 export const charactersData = [
   {
-    id: 'wally',
+    id: 1,
     name: 'Wally',
     imgUrl: wallyImage,
     minX: 84.4,
@@ -16,7 +16,7 @@ export const charactersData = [
     maxY: 77.43,
   },
   {
-    id: 'wenda',
+    id: 2,
     name: 'Wenda',
     imgUrl: wendaImage,
     minX: 48.49,
@@ -25,7 +25,7 @@ export const charactersData = [
     maxY: 43.46,
   },
   {
-    id: 'wizard',
+    id: 3,
     name: 'Wizard',
     imgUrl: wizardImage,
     minX: 6.41,
@@ -34,7 +34,7 @@ export const charactersData = [
     maxY: 77.66,
   },
   {
-    id: 'odlaw',
+    id: 4,
     name: 'Odlaw',
     imgUrl: odlawImage,
     minX: 31.36,

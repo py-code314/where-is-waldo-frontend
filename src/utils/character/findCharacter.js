@@ -3,8 +3,11 @@ import { charactersData } from '../../data/charactersData'
 
 export const isCharacterFound = (e, clickCoords) => {
   let isMatch = false
+  let characterId = null
   let name = ''
-  const characterName = e.target.textContent
+
+  // Get id from clicked button
+  const id = parseInt(e.target.dataset.id)
 
   // Get coordinates from state
   const xCoord = clickCoords.x
@@ -12,8 +15,8 @@ export const isCharacterFound = (e, clickCoords) => {
 
   // Loop through each character and check for matching coordinates
   charactersData.forEach((character) => {
-    if (character.name.toLowerCase() === characterName.toLowerCase()) {
-      name = characterName
+    if (character.id === id) {
+      name = character.name
       if (
         xCoord >= character.minX &&
         xCoord <= character.maxX &&
@@ -21,9 +24,11 @@ export const isCharacterFound = (e, clickCoords) => {
         yCoord <= character.maxY
       ) {
         isMatch = true
+        characterId = character.id
       }
     }
   })
 
-  return { isMatch, name }
+  // Return character id and name
+  return { isMatch, characterId, name }
 }

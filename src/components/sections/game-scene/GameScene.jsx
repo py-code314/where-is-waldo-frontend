@@ -10,8 +10,7 @@ import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
 
-const GameScene = ({ result, setResult, setFoundCharacters }) => {
-  // console.log("🚀 ~ GameScene ~ result:", result)
+const GameScene = ({ result, setResult, setFoundCharacterIds }) => {
   // TODO: Create context for result
   /* ----------------------- State -------------------------------- */
 
@@ -19,8 +18,6 @@ const GameScene = ({ result, setResult, setFoundCharacters }) => {
   const [isPanning, setIsPanning] = useState(false)
   // State to not display dropdown after panning the image
   const [isDragging, setIsDragging] = useState(false)
-  // Track result of a single play click
-  // const [result, setResult] = useState({ isMatch: null, name: '' })
   // Track option click
   const [isOption, setIsOption] = useState(false)
   // Initial image position and scale
@@ -551,7 +548,7 @@ const GameScene = ({ result, setResult, setFoundCharacters }) => {
   /* Show success or fail message after player chooses a character */
   const handleOptionClick = (e) => {
     // Get character name and it's location status
-    const { isMatch, name } = isCharacterFound(e, imgClickCoords)
+    const { isMatch, characterId, name } = isCharacterFound(e, imgClickCoords)
 
     // Get values
     const image = imgRef.current
@@ -572,9 +569,9 @@ const GameScene = ({ result, setResult, setFoundCharacters }) => {
 
     /* Add correct guess to an array */
     if (isMatch) {
-      setFoundCharacters((prevFoundCharacters) => [
-        ...prevFoundCharacters,
-        name,
+      setFoundCharacterIds((prevFoundCharacterIds) => [
+        ...prevFoundCharacterIds,
+        characterId,
       ])
     }
 

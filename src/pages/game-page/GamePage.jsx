@@ -12,7 +12,7 @@ import CharactersList from '../../components/core/characters/CharactersList'
 
 const GamePage = () => {
   const [result, setResult] = useState({ isMatch: null, name: '' })
-  const [foundCharacters, setFoundCharacters] = useState([])
+  const [foundCharacterIds, setFoundCharacterIds] = useState([])
   // TODO: ? Can i set 'isMatch' to 'false' instead of 'null'
 
   return (
@@ -60,10 +60,10 @@ const GamePage = () => {
         </div>
 
         {/* Character head shots  */}
-        <CharactersList result={result} foundCharacters={foundCharacters} />
+        <CharactersList result={result} foundCharacterIds={foundCharacterIds} />
 
         {/* Game image  */}
-        <GameScene result={result} setResult={setResult} setFoundCharacters={setFoundCharacters}/>
+        <GameScene result={result} setResult={setResult} setFoundCharacterIds={setFoundCharacterIds}/>
       </div>
     </>
   )

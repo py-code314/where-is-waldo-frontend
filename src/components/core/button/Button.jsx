@@ -5,6 +5,7 @@ import styles from './Button.module.css'
 const Button = ({
   type = 'button',
   id = '',
+  dataId = '',
   className = '',
   title = '',
   onClick,
@@ -22,6 +23,7 @@ const Button = ({
       type={type}
       id={id}
       className={combinedClassName}
+      data-id={dataId}
       title={title}
       onClick={onClick}
       onKeyDown={onKeyDown}
