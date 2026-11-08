@@ -12,8 +12,7 @@
     -0.143rem + 0.714vw,
     var(--space-8, 0.5rem)
   );
-  /* Add margin to make sure clicking at the same position again hides dropdown every time without fail */
-  margin: 2px;
+
   background-color: var(--clr-white, white);
   box-shadow: var(--shadow-4, rgba(0, 0, 0, 0.16) 0px 1px 4px);
 

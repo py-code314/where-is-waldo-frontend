@@ -438,7 +438,6 @@ const GameScene = () => {
 
     // Get elements and their values
     const dropdown = dropdownRef.current
-    const dropdownStyles = window.getComputedStyle(dropdown)
     const target = targetRef.current
     const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
     const imageRect = imgRef.current.getBoundingClientRect()
@@ -479,27 +478,18 @@ const GameScene = () => {
     const widthDiff = imageWrapperRect.right - clientX
     const heightDiff = imageWrapperRect.bottom - clientY
 
-    /* Dynamically calculate total horizontal and vertical margin of
-     dropdown  */
-    const totalMarginX =
-      parseInt(dropdownStyles.marginLeft, 10) +
-        parseInt(dropdownStyles.marginRight, 10) || 0
-    const totalMarginY =
-      parseInt(dropdownStyles.marginTop, 10) +
-        parseInt(dropdownStyles.marginBottom, 10) || 0
-
     /* Place the dropdown box based on the click position.
     Dropdown should always appear inside the image wrapper */
     if (widthDiff > dropdownWidth) {
       dropdownX = wrapperClickX
     } else {
-      dropdownX = wrapperClickX - dropdownWidth - totalMarginX
+      dropdownX = wrapperClickX - dropdownWidth
     }
 
     if (heightDiff > dropdownHeight) {
       dropdownY = wrapperClickY
     } else {
-      dropdownY = wrapperClickY - dropdownHeight - totalMarginY
+      dropdownY = wrapperClickY - dropdownHeight
     }
 
     /* --------------------- Target ------------------------------- */
