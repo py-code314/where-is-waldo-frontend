@@ -10,7 +10,12 @@ import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
 
-const GameScene = ({ result, setResult, setFoundCharacterIds }) => {
+const GameScene = ({
+  result,
+  setResult,
+  foundCharacterIds,
+  setFoundCharacterIds,
+}) => {
   // TODO: Create context for result
   /* ----------------------- State -------------------------------- */
 
@@ -567,12 +572,14 @@ const GameScene = ({ result, setResult, setFoundCharacterIds }) => {
       name,
     }))
 
-    /* Add correct guess to an array */
+    /* Add correct guess to an array only if doesn't has it */
     if (isMatch) {
-      setFoundCharacterIds((prevFoundCharacterIds) => [
-        ...prevFoundCharacterIds,
-        characterId,
-      ])
+      if (!foundCharacterIds.includes(characterId)) {
+        setFoundCharacterIds((prevFoundCharacterIds) => [
+          ...prevFoundCharacterIds,
+          characterId,
+        ])
+      }
     }
 
     setPopupPosition((prevPopupPosition) => ({

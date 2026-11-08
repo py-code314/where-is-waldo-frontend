@@ -63,7 +63,12 @@ const GamePage = () => {
         <CharactersList result={result} foundCharacterIds={foundCharacterIds} />
 
         {/* Game image  */}
-        <GameScene result={result} setResult={setResult} setFoundCharacterIds={setFoundCharacterIds}/>
+        <GameScene
+          result={result}
+          setResult={setResult}
+          foundCharacterIds={foundCharacterIds}
+          setFoundCharacterIds={setFoundCharacterIds}
+        />
       </div>
     </>
   )
