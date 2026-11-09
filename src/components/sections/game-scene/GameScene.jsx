@@ -129,12 +129,6 @@ const GameScene = () => {
         x: newImgPositionX,
         y: newImgPositionY,
       }))
-      // Update image click coordinates with each scaling up or down
-      setImgClickCoords((prevImgClickCoords) => ({
-        ...prevImgClickCoords,
-        x: prevImgClickCoords.x + newImgPositionX,
-        y: prevImgClickCoords.y + newImgPositionY,
-      }))
     }
 
     /* ----------------------- Touch screens ------------------------ */
@@ -331,7 +325,7 @@ const GameScene = () => {
       gameImage.removeEventListener('touchstart', handleTouchStart)
       gameImage.removeEventListener('touchmove', handleTouchMove)
     }
-  }, [isPanning, imgPosition])
+  }, [isPanning, imgPosition, imgClickCoords])
 
   /* ------------------------- Desktop ---------------------------- */
 
@@ -438,9 +432,8 @@ const GameScene = () => {
 
     // Get elements and their values
     const dropdown = dropdownRef.current
-    const target = targetRef.current
     const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
-    const imageRect = imgRef.current.getBoundingClientRect()
+    const imgRect = e.target.getBoundingClientRect()
 
     // Get click positions relative to browser
     const clientX = e.clientX
@@ -450,14 +443,13 @@ const GameScene = () => {
 
     /* Get click co-ordinates relative to image to find characters at
      any zoom level */
-    const imgClickX = clientX - imageRect.left
-    const imgClickY = clientY - imageRect.top
+    const imgClickX = clientX - imgRect.left
+    const imgClickY = clientY - imgRect.top
 
     /* Normalize to percentage of width and height instead of absolute 
-     values for different screen widths */
-    // Multiply by 10000 and divide by 100 to keep 2 decimal places
-    const xCoord = Math.floor((imgClickX / imageRect.width) * 10000) / 100
-    const yCoord = Math.floor((imgClickY / imageRect.height) * 10000) / 100
+     values for different screen widths which also works for zoom */
+    const xPercent = (imgClickX / imgRect.width) * 100
+    const yPercent = (imgClickY / imgRect.height) * 100
 
     /* -------------------- Dropdown ------------------------------ */
 
@@ -492,19 +484,6 @@ const GameScene = () => {
       dropdownY = wrapperClickY - dropdownHeight
     }
 
-    /* --------------------- Target ------------------------------- */
-
-    // Initialize target values
-    let targetX = 0
-    let targetY = 0
-
-    const targetWidth = target.clientWidth
-    const targetHeight = target.clientHeight
-
-    // Place target animation's center at click coordinates
-    targetX = wrapperClickX - targetWidth / 2
-    targetY = wrapperClickY - targetHeight / 2
-
     /* --------------------- Setter functions --------------------- */
 
     /* Reset dropdown position on every second click to prevent 
@@ -523,18 +502,20 @@ const GameScene = () => {
     } else {
       setImgClickCoords((prevImgClickCoords) => ({
         ...prevImgClickCoords,
-        x: xCoord,
-        y: yCoord,
+        x: xPercent,
+        y: yPercent,
       }))
+
       setDropdownPosition((prevDropdownPosition) => ({
         ...prevDropdownPosition,
         x: dropdownX,
         y: dropdownY,
       }))
+
       setTargetPosition((prevTargetPosition) => ({
         ...prevTargetPosition,
-        x: targetX,
-        y: targetY,
+        x: xPercent,
+        y: yPercent,
       }))
     }
 
@@ -616,39 +597,47 @@ const GameScene = () => {
   return (
     <>
       <div className={styles.gameBoardContainer}>
-        <div className={styles.gameBoard} ref={imgWrapperRef}>
-          {/* Game image  */}
-          <GameImage
-            imgRef={imgRef}
-            handleMouseDown={handleMouseDown}
-            handleMouseMove={handleMouseMove}
-            handleMouseUp={handleMouseUp}
-            handleTouchEnd={handleTouchEnd}
-            handleImageClick={handleImageClick}
-            imgPosition={imgPosition}
-          />
+        <div className={styles.gameBoard}>
+          <div
+            className={styles.imgContainer}
+            ref={imgWrapperRef}
+            style={{
+              transformOrigin: '0 0',
+              transform: `translate(${imgPosition.x}px, ${imgPosition.y}px) scale(${imgPosition.scale})`,
+            }}>
+            {/* Game image  */}
+            <GameImage
+              imgRef={imgRef}
+              handleMouseDown={handleMouseDown}
+              handleMouseMove={handleMouseMove}
+              handleMouseUp={handleMouseUp}
+              handleTouchEnd={handleTouchEnd}
+              handleImageClick={handleImageClick}
+            />
 
-          {/* Dropdown  */}
-          <Dropdown
-            imgClick={imgClick}
-            dropdownPosition={dropdownPosition}
-            dropdownRef={dropdownRef}
-            handleOptionClick={handleOptionClick}
-          />
+            {/* Dropdown  */}
+            <Dropdown
+              imgClick={imgClick}
+              dropdownPosition={dropdownPosition}
+              dropdownRef={dropdownRef}
+              handleOptionClick={handleOptionClick}
+            />
 
-          {/* Target animation  */}
-          <Target
-            imgClick={imgClick}
-            targetPosition={targetPosition}
-            targetRef={targetRef}
-          />
+            {/* Target animation  */}
+            <Target
+              imgClick={imgClick}
+              targetPosition={targetPosition}
+              targetRef={targetRef}
+              imgPosition={imgPosition}
+            />
 
-          {/* Popup message  */}
-          <PopupMessage
-            isOption={isOption}
-            popupPosition={popupPosition}
-            popupRef={popupRef}
-          />
+            {/* Popup message  */}
+            <PopupMessage
+              isOption={isOption}
+              popupPosition={popupPosition}
+              popupRef={popupRef}
+            />
+          </div>
         </div>
       </div>
     </>

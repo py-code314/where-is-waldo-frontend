@@ -10,7 +10,6 @@ const GameImage = ({
   handleMouseUp,
   handleTouchEnd,
   handleImageClick,
-  imgPosition,
 }) => {
   return (
     <>
@@ -24,10 +23,6 @@ const GameImage = ({
         onMouseUp={handleMouseUp}
         onTouchEnd={handleTouchEnd}
         onClick={handleImageClick}
-        style={{
-          transformOrigin: '0 0',
-          transform: `translate(${imgPosition.x}px, ${imgPosition.y}px) scale(${imgPosition.scale})`,
-        }}
       />
     </>
   )

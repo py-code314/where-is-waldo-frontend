@@ -5,13 +5,17 @@ they're inside a parent with 'overflow: hidden' */
 }
 
 .gameBoard {
+  /* Hide the zoomed-in image except the part within
+  the container's dimensions */
+  overflow: hidden;
+}
+
+.imgContainer {
   max-width: 1200px; /* Cap max width */
   width: 100%;
   height: auto; /* Container height based on image height */
   cursor: crosshair;
-  /* Hide the zoomed-in image except the part within
-  the container's dimensions */
-  overflow: hidden;
   /* Disable browser's zoom-in functionality on the container */
   touch-action: none;
+  /* position: relative; */
 }
