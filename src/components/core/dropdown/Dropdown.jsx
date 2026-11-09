@@ -11,21 +11,34 @@ import Button from '../button/Button'
 
 /* Display character options list for the player to select */
 const Dropdown = ({
+
   imgClick,
   dropdownPosition,
   dropdownRef,
   handleOptionClick,
+  imgPosition,
 }) => {
   const { foundCharacterIds } = useContext(CharacterIdsContext)
+
+
 
   return (
     <>
       <ul
         className={`${styles.dropdown} ${imgClick ? styles.dropdownOpen : ''}`}
+        // style={{
+        //   position: 'absolute',
+        //   left: `${dropdownPosition.x}%`,
+        //   top: `${dropdownPosition.y}%`,
+        //   transformOrigin: 'top left', // To prevent visual offset
+        //   transform: `scale(${1 / imgPosition.scale})`,
+        // }}
         style={{
           position: 'absolute',
-          left: `${dropdownPosition.x}px`,
-          top: `${dropdownPosition.y}px`,
+          // Calculate dropdown position based on image scale and position
+          left: `${dropdownPosition.x * imgPosition.scale + imgPosition.x}px`,
+          top: `${dropdownPosition.y * imgPosition.scale + imgPosition.y}px`,
+          transformOrigin: 'top left',
         }}
         ref={dropdownRef}>
         <li className={styles.select}>Who is this?</li>

@@ -453,36 +453,8 @@ const GameScene = () => {
 
     /* -------------------- Dropdown ------------------------------ */
 
-    // Initialize dropdown values
-    let dropdownX = 0
-    let dropdownY = 0
-
-    /* Get click co-ordinates relative to wrapper to place dropdown
-     at the click position */
-    const wrapperClickX = clientX - imageWrapperRect.left
-    const wrapperClickY = clientY - imageWrapperRect.top
-
-    const dropdownWidth = dropdown.clientWidth
-    const dropdownHeight = dropdown.clientHeight
-
-    /* Calculate the remaining width and height of wrapper
-    from click position */
-    const widthDiff = imageWrapperRect.right - clientX
-    const heightDiff = imageWrapperRect.bottom - clientY
-
-    /* Place the dropdown box based on the click position.
-    Dropdown should always appear inside the image wrapper */
-    if (widthDiff > dropdownWidth) {
-      dropdownX = wrapperClickX
-    } else {
-      dropdownX = wrapperClickX - dropdownWidth
-    }
-
-    if (heightDiff > dropdownHeight) {
-      dropdownY = wrapperClickY
-    } else {
-      dropdownY = wrapperClickY - dropdownHeight
-    }
+    const unscaledX = imgClickX / imgPosition.scale
+    const unscaledY = imgClickY / imgPosition.scale
 
     /* --------------------- Setter functions --------------------- */
 
@@ -506,10 +478,11 @@ const GameScene = () => {
         y: yPercent,
       }))
 
+      // Save unscaled coordinates in dropdown position
       setDropdownPosition((prevDropdownPosition) => ({
         ...prevDropdownPosition,
-        x: dropdownX,
-        y: dropdownY,
+        x: unscaledX,
+        y: unscaledY,
       }))
 
       setTargetPosition((prevTargetPosition) => ({
@@ -521,6 +494,102 @@ const GameScene = () => {
 
     setImgClick(!imgClick)
   }
+
+  // const handleImageClick = (e) => {
+  //   // Don't show dropdown after panning the image
+  //   if (isDragging) return
+
+  //   // Get elements and their values
+  //   const dropdown = dropdownRef.current
+  //   const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
+  //   const imgRect = e.target.getBoundingClientRect()
+
+  //   // Get click positions relative to browser
+  //   const clientX = e.clientX
+  //   const clientY = e.clientY
+
+  //   /* -------------------- Click coordinates --------------------- */
+
+  //   /* Get click co-ordinates relative to image to find characters at
+  //    any zoom level */
+  //   const imgClickX = clientX - imgRect.left
+  //   const imgClickY = clientY - imgRect.top
+
+  //   /* Normalize to percentage of width and height instead of absolute
+  //    values for different screen widths which also works for zoom */
+  //   const xPercent = (imgClickX / imgRect.width) * 100
+  //   const yPercent = (imgClickY / imgRect.height) * 100
+
+  //   /* -------------------- Dropdown ------------------------------ */
+
+  //   // Initialize dropdown values
+  //   let dropdownX = 0
+  //   let dropdownY = 0
+
+  //   /* Get click co-ordinates relative to wrapper to place dropdown
+  //    at the click position */
+  //   const wrapperClickX = clientX - imageWrapperRect.left
+  //   const wrapperClickY = clientY - imageWrapperRect.top
+
+  //   const dropdownWidth = dropdown.clientWidth
+  //   const dropdownHeight = dropdown.clientHeight
+
+  //   /* Calculate the remaining width and height of wrapper
+  //   from click position */
+  //   const widthDiff = imageWrapperRect.right - clientX
+  //   const heightDiff = imageWrapperRect.bottom - clientY
+
+  //   /* Place the dropdown box based on the click position.
+  //   Dropdown should always appear inside the image wrapper */
+  //   if (widthDiff > dropdownWidth) {
+  //     dropdownX = wrapperClickX
+  //   } else {
+  //     dropdownX = wrapperClickX - dropdownWidth
+  //   }
+
+  //   if (heightDiff > dropdownHeight) {
+  //     dropdownY = wrapperClickY
+  //   } else {
+  //     dropdownY = wrapperClickY - dropdownHeight
+  //   }
+
+  //   /* --------------------- Setter functions --------------------- */
+
+  //   /* Reset dropdown position on every second click to prevent
+  //   scroll bars when screen width changes from wide to narrow */
+  //   if (imgClick) {
+  //     setDropdownPosition((prevDropdownPosition) => ({
+  //       ...prevDropdownPosition,
+  //       x: -9999,
+  //       y: -9999,
+  //     }))
+  //     setTargetPosition((prevTargetPosition) => ({
+  //       ...prevTargetPosition,
+  //       x: -9999,
+  //       y: -9999,
+  //     }))
+  //   } else {
+  //     setImgClickCoords((prevImgClickCoords) => ({
+  //       ...prevImgClickCoords,
+  //       x: xPercent,
+  //       y: yPercent,
+  //     }))
+
+  //     setDropdownPosition((prevDropdownPosition) => ({
+  //       ...prevDropdownPosition,
+  //       x: dropdownX,
+  //       y: dropdownY,
+  //     }))
+
+  //     setTargetPosition((prevTargetPosition) => ({
+  //       ...prevTargetPosition,
+  //       x: xPercent,
+  //       y: yPercent,
+  //     }))
+  //   }
+
+  //   setImgClick(!imgClick)
+  // }
 
   /* Show success or fail message after player chooses a character */
   const handleOptionClick = (e) => {
@@ -616,12 +685,13 @@ const GameScene = () => {
             />
 
             {/* Dropdown  */}
-            <Dropdown
+            {/* <Dropdown
               imgClick={imgClick}
               dropdownPosition={dropdownPosition}
               dropdownRef={dropdownRef}
               handleOptionClick={handleOptionClick}
-            />
+              imgPosition={imgPosition}
+            /> */}
 
             {/* Target animation  */}
             <Target
@@ -639,6 +709,16 @@ const GameScene = () => {
             />
           </div>
         </div>
+
+        {/* Place dropdown out of hidden container to make it overflow  */}
+        <Dropdown
+          imgRef={imgRef}
+          imgClick={imgClick}
+          dropdownPosition={dropdownPosition}
+          dropdownRef={dropdownRef}
+          handleOptionClick={handleOptionClick}
+          imgPosition={imgPosition}
+        />
       </div>
     </>
   )

@@ -5,8 +5,7 @@ they're inside a parent with 'overflow: hidden' */
 }
 
 .gameBoard {
-  /* Hide the zoomed-in image except the part within
-  the container's dimensions */
+  /* Hide the zoomed-in image */
   overflow: hidden;
 }
 
@@ -17,5 +16,9 @@ they're inside a parent with 'overflow: hidden' */
   cursor: crosshair;
   /* Disable browser's zoom-in functionality on the container */
   touch-action: none;
-  /* position: relative; */
+}
+
+.gameImage {
+  width: 100%;
+  height: auto;
 }
