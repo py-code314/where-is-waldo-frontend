@@ -49,8 +49,8 @@ const CharactersList = () => {
                       />
                     ),
                 )}
-                <span className={styles.characterName}>{character.name}</span>
               </div>
+              <span className={styles.characterName}>{character.name}</span>
             </li>
           ))}
         </ul>
