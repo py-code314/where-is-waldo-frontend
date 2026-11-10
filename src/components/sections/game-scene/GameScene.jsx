@@ -572,18 +572,16 @@ const GameScene = () => {
 
   /* Show success or fail message after player chooses a character */
   const handleOptionClick = (e) => {
-    // Get character name and it's location status
+    // Get character name and it's match status
     const { isMatch, characterId, name } = isCharacterFound(e, imgClickCoords)
 
-    // Get values
-    const image = imgContainerRef.current
-    const imgWidth = image.width
+    const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
     const popup = popupRef.current
     const popupWidth = popup.clientWidth
 
-    /* Place popup at the half width of image and then center it
+    /* Place popup in the top middle of game board and then center it
     using 'translateX' */
-    let popupX = imgWidth / 2 - popupWidth / 2
+    let popupX = gameBoardRect.width / 2 - popupWidth / 2
     let popupY = 0
 
     setResult((prevResult) => ({
@@ -592,7 +590,7 @@ const GameScene = () => {
       name,
     }))
 
-    /* Add correct guess to an array only if doesn't has it */
+    /* Add correct guess to an array only if doesn't already has it */
     if (isMatch) {
       if (!foundCharacterIds.includes(characterId)) {
         setFoundCharacterIds((prevFoundCharacterIds) => [
@@ -678,6 +676,12 @@ const GameScene = () => {
               popupRef={popupRef}
             />
           </div>
+
+          <PopupMessage
+            isOption={isOption}
+            popupPosition={popupPosition}
+            popupRef={popupRef}
+          />
         </div>
 
         {/* Place dropdown out of hidden container to make it overflow  */}

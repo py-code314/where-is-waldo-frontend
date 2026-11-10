@@ -2,6 +2,7 @@
 they're inside a parent with 'overflow: hidden' */
 .gameBoardContainer {
   position: relative;
+
 }
 
 .gameBoard {
@@ -11,6 +12,9 @@ they're inside a parent with 'overflow: hidden' */
   width: 100%;
   height: auto;
   border: 2px solid green;
+
+  position: relative;
+
 }
 
 .imgContainer {
@@ -20,6 +24,8 @@ they're inside a parent with 'overflow: hidden' */
   /* Disable browser's zoom-in functionality on the container */
   touch-action: none;
   border: 1px solid blue;
+  position: relative;
+
 }
 
 .gameImage {
