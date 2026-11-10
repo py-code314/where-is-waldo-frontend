@@ -473,9 +473,8 @@ const GameScene = () => {
     // Don't show dropdown after panning the image
     if (isDragging) return
 
-    // Get elements and their values
-    const dropdown = dropdownRef.current
     const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
+    const dropdown = dropdownRef.current
     /* Using 'imgRect' variable instead of 'imgContainerRect' for
     convenience as their values are same */
     const imgRect = e.target.getBoundingClientRect()
@@ -529,6 +528,13 @@ const GameScene = () => {
     const unscaledY =
       (dropdownY - imgContainerPosition.y) / imgContainerPosition.scale
 
+    /* --------------------- Target --------------------- */
+
+    const unscaledTargetX =
+      (clickX - imgContainerPosition.x) / imgContainerPosition.scale
+    const unscaledTargetY =
+      (clickY - imgContainerPosition.y) / imgContainerPosition.scale
+
     /* --------------------- Setter functions --------------------- */
 
     /* Reset dropdown position on every second click to prevent 
@@ -562,8 +568,8 @@ const GameScene = () => {
       // Target anchors to click position
       setTargetPosition((prevTargetPosition) => ({
         ...prevTargetPosition,
-        x: xPercent,
-        y: yPercent,
+        x: unscaledTargetX,
+        y: unscaledTargetY,
       }))
     }
 
@@ -661,14 +667,6 @@ const GameScene = () => {
               handleImageClick={handleImageClick}
             />
 
-            {/* Target animation  */}
-            <Target
-              imgClick={imgClick}
-              targetPosition={targetPosition}
-              targetRef={targetRef}
-              imgContainerPosition={imgContainerPosition}
-            />
-
             {/* Popup message  */}
             <PopupMessage
               isOption={isOption}
@@ -683,6 +681,14 @@ const GameScene = () => {
             popupRef={popupRef}
           />
         </div>
+
+        {/* Target animation */}
+        <Target
+          imgClick={imgClick}
+          targetPosition={targetPosition}
+          targetRef={targetRef}
+          imgContainerPosition={imgContainerPosition}
+        />
 
         {/* Place dropdown out of hidden container to make it overflow  */}
         <Dropdown

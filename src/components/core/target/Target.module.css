@@ -1,11 +1,18 @@
 .target {
-  width: clamp(var(--space-8, 0.5rem), 0.357rem + 0.714vw, var(--space-16, 1rem));
-  height: clamp(var(--space-8, 0.5rem), 0.357rem + 0.714vw, var(--space-16, 1rem));
+  width: clamp(
+    var(--space-8, 0.5rem),
+    0.357rem + 0.714vw,
+    var(--space-16, 1rem)
+  );
+  height: clamp(
+    var(--space-8, 0.5rem),
+    0.357rem + 0.714vw,
+    var(--space-16, 1rem)
+  );
   border-radius: var(--radius-round, 50%);
   display: block;
   position: relative;
   background: var(--clr-target-animation, red);
-  z-index: 999;
 
   /* Hide the element */
   visibility: hidden;
@@ -32,7 +39,8 @@
   opacity: 1;
   pointer-events: auto;
 
-
+  position: relative;
+  z-index: 999;
 }
 
 @keyframes ripple {
