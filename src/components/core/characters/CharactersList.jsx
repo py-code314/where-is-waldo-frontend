@@ -11,6 +11,7 @@ import { charactersData } from '../../../data/charactersData'
 
 const CharactersList = () => {
   const { foundCharacterIds } = useContext(CharacterIdsContext)
+  const length = foundCharacterIds.length
 
   return (
     <>
@@ -20,7 +21,7 @@ const CharactersList = () => {
           <p className={styles.heading}>
             <span className={styles.mobileHidden}>Find</span> characters
           </p>
-          <p className={styles.counter}>0/4 Found</p>
+          <p className={styles.counter}>{length}/4 Found</p>
         </div>
 
         {/* Loop through characters list  */}
