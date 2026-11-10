@@ -10,7 +10,7 @@ they're inside a parent with 'overflow: hidden' */
   max-width: 1200px; /* Cap max width */
   width: 100%;
   height: auto;
-  border: 2px solid green;
+  /* border: 2px solid green; */
   position: relative;
 
 }
@@ -21,7 +21,7 @@ they're inside a parent with 'overflow: hidden' */
   cursor: crosshair;
   /* Disable browser's zoom-in functionality on the container */
   touch-action: none;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   position: relative;
 
 
@@ -30,6 +30,6 @@ they're inside a parent with 'overflow: hidden' */
 .gameImage {
   width: 100%;
   height: auto;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   /* pointer-events: none; */
 }

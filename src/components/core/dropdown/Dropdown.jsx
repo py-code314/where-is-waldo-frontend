@@ -11,7 +11,6 @@ import Button from '../button/Button'
 
 /* Display character options list for the player to select */
 const Dropdown = ({
-
   imgClick,
   dropdownPosition,
   dropdownRef,
@@ -20,15 +19,13 @@ const Dropdown = ({
 }) => {
   const { foundCharacterIds } = useContext(CharacterIdsContext)
 
-
-
   return (
     <>
       <ul
         className={`${styles.dropdown} ${imgClick ? styles.dropdownOpen : ''}`}
         style={{
           position: 'absolute',
-          // Calculate dropdown position based on image scale and position
+          // Calculate dropdown position based on image container's scale and position
           left: `${dropdownPosition.x * imgContainerPosition.scale + imgContainerPosition.x}px`,
           top: `${dropdownPosition.y * imgContainerPosition.scale + imgContainerPosition.y}px`,
           transformOrigin: 'top left',
