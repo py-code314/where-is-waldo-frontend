@@ -16,7 +16,7 @@ const Dropdown = ({
   dropdownPosition,
   dropdownRef,
   handleOptionClick,
-  imgPosition,
+  imgContainerPosition,
 }) => {
   const { foundCharacterIds } = useContext(CharacterIdsContext)
 
@@ -26,18 +26,11 @@ const Dropdown = ({
     <>
       <ul
         className={`${styles.dropdown} ${imgClick ? styles.dropdownOpen : ''}`}
-        // style={{
-        //   position: 'absolute',
-        //   left: `${dropdownPosition.x}%`,
-        //   top: `${dropdownPosition.y}%`,
-        //   transformOrigin: 'top left', // To prevent visual offset
-        //   transform: `scale(${1 / imgPosition.scale})`,
-        // }}
         style={{
           position: 'absolute',
           // Calculate dropdown position based on image scale and position
-          left: `${dropdownPosition.x * imgPosition.scale + imgPosition.x}px`,
-          top: `${dropdownPosition.y * imgPosition.scale + imgPosition.y}px`,
+          left: `${dropdownPosition.x * imgContainerPosition.scale + imgContainerPosition.x}px`,
+          top: `${dropdownPosition.y * imgContainerPosition.scale + imgContainerPosition.y}px`,
           transformOrigin: 'top left',
         }}
         ref={dropdownRef}>

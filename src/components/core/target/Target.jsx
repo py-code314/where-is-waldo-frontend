@@ -1,7 +1,7 @@
 /* ------------------------- Styles ------------------------------- */
 import styles from './Target.module.css'
 
-const Target = ({ imgClick, targetPosition, targetRef, imgPosition }) => {
+const Target = ({ imgClick, targetPosition, targetRef, imgContainerPosition }) => {
   return (
     <>
       <span
@@ -10,7 +10,8 @@ const Target = ({ imgClick, targetPosition, targetRef, imgPosition }) => {
           position: 'absolute',
           left: `${targetPosition.x}%`,
           top: `${targetPosition.y}%`,
-          transform: `translate(-50%, -50%) scale(${1 / imgPosition.scale})`,
+          // Place target in the middle of click position
+          transform: `translate(-50%, -50%) scale(${1 / imgContainerPosition.scale})`,
         }}
         ref={targetRef}></span>
     </>

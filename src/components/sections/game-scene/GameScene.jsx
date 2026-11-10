@@ -26,8 +26,12 @@ const GameScene = () => {
   const [isDragging, setIsDragging] = useState(false)
   // Track option click
   const [isOption, setIsOption] = useState(false)
-  // Initial image position and scale
-  const [imgPosition, setImgPosition] = useState({ x: 0, y: 0, scale: 1 })
+  // Initial image container position and scale
+  const [imgContainerPosition, setImgContainerPosition] = useState({
+    x: 0,
+    y: 0,
+    scale: 1,
+  })
   // Track image click coordinates
   const [imgClickCoords, setImgClickCoords] = useState({ x: 0, y: 0 })
   // Place dropdown, target, and popup off screen
@@ -43,7 +47,8 @@ const GameScene = () => {
 
   /* ----------------------- Refs --------------------------------- */
   const imgRef = useRef(null)
-  const imgWrapperRef = useRef(null)
+  const imgContainerRef = useRef(null)
+  const gameBoardRef = useRef(null)
   const dropdownRef = useRef(null)
   const targetRef = useRef(null)
   const popupRef = useRef(null)
@@ -79,55 +84,59 @@ const GameScene = () => {
       const delta = e.deltaY * -0.01
 
       // Limit zoom between 1x and 4x
-      const newScale = Math.max(1, Math.min(imgPosition.scale + delta, 4))
+      const newScale = Math.max(
+        1,
+        Math.min(imgContainerPosition.scale + delta, 4),
+      )
 
       // Growth or shrink factor
-      const ratio = 1 - newScale / imgPosition.scale
+      const ratio = 1 - newScale / imgContainerPosition.scale
 
       /* Enables cursor centered zooming rather than zooming at the
        top left corner (0, 0) */
-      let newImgPositionX = imgPosition.x + (e.clientX - imgPosition.x) * ratio
-      let newImgPositionY = imgPosition.y + (e.clientY - imgPosition.y) * ratio
+      let newImgContainerPositionX =
+        imgContainerPosition.x + (e.clientX - imgContainerPosition.x) * ratio
+      let newImgContainerPositionY =
+        imgContainerPosition.y + (e.clientY - imgContainerPosition.y) * ratio
 
       // Get wrapper's width and height
-      const imageWrapper = imgWrapperRef.current
-      const imageWrapperWidth = imageWrapper.clientWidth
-      const imageWrapperHeight = imageWrapper.clientHeight
+      const gameBoard = gameBoardRef.current
+      const gameBoardWidth = gameBoard.clientWidth
+      const gameBoardHeight = gameBoard.clientHeight
 
-      // Get image's width and height
-      const image = imgRef.current
-      const imageWidth = image.width
-      const imageHeight = image.height
+      // Get image container's width and height
+      const imgContainer = imgContainerRef.current.getBoundingClientRect()
+      const imgContainerWidth = imgContainer.width
+      const imgContainerHeight = imgContainer.height
 
-      // Get scaled image's width and height
-      const scaledImgWidth = imageWidth * newScale
-      const scaledImgHeight = imageHeight * newScale
+      // Get scaled width and height
+      const scaledImgContainerWidth = imgContainerWidth * newScale
+      const scaledImgContainerHeight = imgContainerHeight * newScale
 
-      /* Set boundaries to prevent gaps between the image and
+      /* Set boundaries to prevent gaps between the image container and
         wrapper at corners when zooming out */
       const maxX = 0
       const maxY = 0
-      const minX = imageWrapperWidth - scaledImgWidth
-      const minY = imageWrapperHeight - scaledImgHeight
+      const minX = gameBoardWidth - scaledImgContainerWidth
+      const minY = gameBoardHeight - scaledImgContainerHeight
 
-      // Update newX and newY if they go out of boundaries
-      if (newImgPositionX > maxX) {
-        newImgPositionX = maxX
-      } else if (newImgPositionX < minX) {
-        newImgPositionX = minX
+      // Update X and Y if they go out of boundaries
+      if (newImgContainerPositionX > maxX) {
+        newImgContainerPositionX = maxX
+      } else if (newImgContainerPositionX < minX) {
+        newImgContainerPositionX = minX
       }
-      if (newImgPositionY > maxY) {
-        newImgPositionY = maxY
-      } else if (newImgPositionY < minY) {
-        newImgPositionY = minY
+      if (newImgContainerPositionY > maxY) {
+        newImgContainerPositionY = maxY
+      } else if (newImgContainerPositionY < minY) {
+        newImgContainerPositionY = minY
       }
 
-      // Use functional updates
-      setImgPosition((prevImgPosition) => ({
-        ...prevImgPosition,
+      setImgContainerPosition((prevImgContainerPosition) => ({
+        ...prevImgContainerPosition,
         scale: newScale,
-        x: newImgPositionX,
-        y: newImgPositionY,
+        x: newImgContainerPositionX,
+        y: newImgContainerPositionY,
       }))
     }
 
@@ -139,7 +148,7 @@ const GameScene = () => {
     const handleTouchStart = (e) => {
       /* 'getBoundingClientRect()' method returns object containing the
       size and position of an element relative to the viewport */
-      const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
+      const imageWrapperRect = gameBoardRef.current.getBoundingClientRect()
 
       if (e.touches.length === 1) {
         // Single finger touch (panning)
@@ -149,8 +158,8 @@ const GameScene = () => {
         const currentX = touchOne.clientX - imageWrapperRect.left
         const currentY = touchOne.clientY - imageWrapperRect.top
         touchOneStartRef.current = {
-          x: currentX - imgPosition.x,
-          y: currentY - imgPosition.y,
+          x: currentX - imgContainerPosition.x,
+          y: currentY - imgContainerPosition.y,
         }
 
         setIsPanning(true)
@@ -168,15 +177,15 @@ const GameScene = () => {
         const currentTouchOneX = touchOne.clientX - imageWrapperRect.left
         const currentTouchOneY = touchOne.clientY - imageWrapperRect.top
         touchOneStartRef.current = {
-          x: currentTouchOneX - imgPosition.x,
-          y: currentTouchOneY - imgPosition.y,
+          x: currentTouchOneX - imgContainerPosition.x,
+          y: currentTouchOneY - imgContainerPosition.y,
         }
 
         const currentTouchTwoX = touchTwo.clientX - imageWrapperRect.left
         const currentTouchTwoY = touchTwo.clientY - imageWrapperRect.top
         touchTwoStartRef.current = {
-          x: currentTouchTwoX - imgPosition.x,
-          y: currentTouchTwoY - imgPosition.y,
+          x: currentTouchTwoX - imgContainerPosition.x,
+          y: currentTouchTwoY - imgContainerPosition.y,
         }
 
         // Update previous difference value for multi-step pinch to zoom
@@ -199,7 +208,7 @@ const GameScene = () => {
         const touchOne = e.touches[0]
 
         // Prevent dragging if image isn't zoomed-in
-        if (imgPosition.scale <= 1 || !isPanning) return
+        if (imgContainerPosition.scale <= 1 || !isPanning) return
 
         // Assign them to variables to call the function 'getUpdatedImgCoords'
         const event = touchOne
@@ -208,14 +217,14 @@ const GameScene = () => {
         // Get up-to-date image coordinates with each move
         const [newX, newY] = getUpdatedImgCoords(
           event,
-          imgWrapperRef,
-          imgRef,
-          imgPosition,
+          gameBoardRef,
+          imgContainerRef,
+          imgContainerPosition,
           startRef,
         )
 
-        setImgPosition((prevImgPosition) => ({
-          ...prevImgPosition,
+        setImgContainerPosition((prevImgContainerPosition) => ({
+          ...prevImgContainerPosition,
           x: newX,
           y: newY,
         }))
@@ -234,7 +243,7 @@ const GameScene = () => {
         const prevDifference = prevDifferenceRef.current
 
         if (prevDifference && prevDifference > 0) {
-          const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
+          const imageWrapperRect = gameBoardRef.current.getBoundingClientRect()
 
           // Center points relative to image wrapper
           const centerX =
@@ -248,27 +257,32 @@ const GameScene = () => {
 
           if (deltaDistance !== 0) {
             // Get wrapper's width and height
-            const imageWrapper = imgWrapperRef.current
+            const imageWrapper = gameBoardRef.current
             const imageWrapperWidth = imageWrapper.clientWidth
             const imageWrapperHeight = imageWrapper.clientHeight
 
             // Get image's width and height
-            const image = imgRef.current
+            const image = imgContainerRef.current
             const imageWidth = image.width
             const imageHeight = image.height
 
             /* Zoom upper limit is 6x and lower limit is 1x. Image
               doesn't zoom-out less than the original 1x size */
-            const newScale = Math.max(1, Math.min(imgPosition.scale + delta, 6))
+            const newScale = Math.max(
+              1,
+              Math.min(imgContainerPosition.scale + delta, 6),
+            )
 
             // Growth or shrink factor
-            const ratio = 1 - newScale / imgPosition.scale
+            const ratio = 1 - newScale / imgContainerPosition.scale
 
             // Calculate new coordinates
-            let newImgPositionX =
-              imgPosition.x + (centerX - imgPosition.x) * ratio
-            let newImgPositionY =
-              imgPosition.y + (centerY - imgPosition.y) * ratio
+            let newImgContainerPositionX =
+              imgContainerPosition.x +
+              (centerX - imgContainerPosition.x) * ratio
+            let newImgContainerPositionY =
+              imgContainerPosition.y +
+              (centerY - imgContainerPosition.y) * ratio
 
             // Get scaled image's width and height
             const scaledImgWidth = imageWidth * newScale
@@ -282,23 +296,23 @@ const GameScene = () => {
             const minY = imageWrapperHeight - scaledImgHeight
 
             // Update newX and newY if they go out of boundaries
-            if (newImgPositionX > maxX) {
-              newImgPositionX = maxX
-            } else if (newImgPositionX < minX) {
-              newImgPositionX = minX
+            if (newImgContainerPositionX > maxX) {
+              newImgContainerPositionX = maxX
+            } else if (newImgContainerPositionX < minX) {
+              newImgContainerPositionX = minX
             }
-            if (newImgPositionY > maxY) {
-              newImgPositionY = maxY
-            } else if (newImgPositionY < minY) {
-              newImgPositionY = minY
+            if (newImgContainerPositionY > maxY) {
+              newImgContainerPositionY = maxY
+            } else if (newImgContainerPositionY < minY) {
+              newImgContainerPositionY = minY
             }
 
             // Use functional updates
-            setImgPosition((prevImgPosition) => ({
-              ...prevImgPosition,
+            setImgContainerPosition((prevImgContainerPosition) => ({
+              ...prevImgContainerPosition,
               scale: newScale,
-              x: newImgPositionX,
-              y: newImgPositionY,
+              x: newImgContainerPositionX,
+              y: newImgContainerPositionY,
             }))
           }
         }
@@ -325,7 +339,7 @@ const GameScene = () => {
       gameImage.removeEventListener('touchstart', handleTouchStart)
       gameImage.removeEventListener('touchmove', handleTouchMove)
     }
-  }, [isPanning, imgPosition, imgClickCoords])
+  }, [isPanning, imgContainerPosition, imgClickCoords])
 
   /* ------------------------- Desktop ---------------------------- */
 
@@ -336,19 +350,19 @@ const GameScene = () => {
 
     /* 'getBoundingClientRect()' method returns object containing the
      size and position of an element relative to the viewport */
-    const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
+    const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
 
-    // Current click coordinates relative to wrapper after mouse down
-    const currentX = e.clientX - imageWrapperRect.left
-    const currentY = e.clientY - imageWrapperRect.top
+    // Current click coordinates relative to wrapper
+    const currentX = e.clientX - gameBoardRect.left
+    const currentY = e.clientY - gameBoardRect.top
 
     /* Store starting click position relative to the previous offset
       position either because of zoom or drag. This prevents image
       jumping back to the starting position (0, 0) on subsequent clicks
       (mouse downs) */
     dragStartRef.current = {
-      x: currentX - imgPosition.x,
-      y: currentY - imgPosition.y,
+      x: currentX - imgContainerPosition.x,
+      y: currentY - imgContainerPosition.y,
     }
 
     setIsPanning(true)
@@ -360,7 +374,7 @@ const GameScene = () => {
     e.preventDefault()
 
     // Prevent dragging if image isn't zoomed-in
-    if (imgPosition.scale <= 1 || !isPanning) return
+    if (imgContainerPosition.scale <= 1 || !isPanning) return
 
     // If LMB is not held, the pan can't be active
     if (e.buttons % 2 === 0) {
@@ -373,24 +387,53 @@ const GameScene = () => {
     const startRef = dragStartRef
 
     // Get up-to-date image coordinates with each mouse move
-    const [newX, newY] = getUpdatedImgCoords(
+    let [newX, newY] = getUpdatedImgCoords(
       event,
-      imgWrapperRef,
-      imgRef,
-      imgPosition,
+      gameBoardRef,
+      imgContainerRef,
+      imgContainerPosition,
       startRef,
     )
 
-    setImgPosition((prevImgPosition) => ({
-      ...prevImgPosition,
+    const gameBoard = gameBoardRef.current
+    const gameBoardWidth = gameBoard.clientWidth
+    const gameBoardHeight = gameBoard.clientHeight
+
+    const imgContainerRect = imgContainerRef.current.getBoundingClientRect()
+    const imgContainerWidth = imgContainerRect.width
+    const imgContainerHeight = imgContainerRect.height
+
+    /* Set boundaries to prevent gaps between the imgContainer and
+        wrapper at corners when zooming out */
+    const maxX = 0
+    const maxY = 0
+    const minX = gameBoardWidth - imgContainerWidth
+    const minY = gameBoardHeight - imgContainerHeight
+
+    // Update newX and newY if they go out of boundaries
+    if (newX > maxX) {
+      newX = maxX
+    } else if (newX < minX) {
+      newX = minX
+    }
+    if (newY > maxY) {
+      newY = maxY
+    } else if (newY < minY) {
+      newY = minY
+    }
+
+    setImgContainerPosition((prevImgContainerPosition) => ({
+      ...prevImgContainerPosition,
       x: newX,
       y: newY,
     }))
+
     setIsDragging(true)
   }
 
   const handleMouseUp = () => {
     if (!isPanning) return
+
     setIsPanning(false)
   }
 
@@ -410,14 +453,14 @@ const GameScene = () => {
 
       const touchOne = e.touches[0]
 
-      const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
+      const imageWrapperRect = gameBoardRef.current.getBoundingClientRect()
 
       // Current touch position relative to wrapper after touch
       const currentX = touchOne.clientX - imageWrapperRect.left
       const currentY = touchOne.clientY - imageWrapperRect.top
       touchOneStartRef.current = {
-        x: currentX - imgPosition.x,
-        y: currentY - imgPosition.y,
+        x: currentX - imgContainerPosition.x,
+        y: currentY - imgContainerPosition.y,
       }
 
       setIsPanning(true)
@@ -432,7 +475,9 @@ const GameScene = () => {
 
     // Get elements and their values
     const dropdown = dropdownRef.current
-    const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
+    const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
+    /* Using 'imgRect' variable instead of 'imgContainerRect' for
+    convenience as their values are same */
     const imgRect = e.target.getBoundingClientRect()
 
     // Get click positions relative to browser
@@ -453,8 +498,36 @@ const GameScene = () => {
 
     /* -------------------- Dropdown ------------------------------ */
 
-    const unscaledX = imgClickX / imgPosition.scale
-    const unscaledY = imgClickY / imgPosition.scale
+    /* Get click co-ordinates relative to wrapper to place dropdown
+     at the click position */
+    const clickX = clientX - gameBoardRect.left
+    const clickY = clientY - gameBoardRect.top
+
+    const dropdownWidth = dropdown.clientWidth
+    const dropdownHeight = dropdown.clientHeight
+
+    /* Calculate the remaining width and height of wrapper
+    from click position */
+    const widthDiff = gameBoardRect.right - clientX
+    const heightDiff = gameBoardRect.bottom - clientY
+
+    // Flip dropdown based on how much width/bottom left
+    let dropdownX = clickX
+    if (widthDiff < dropdownWidth) {
+      dropdownX = clickX - dropdownWidth
+    }
+
+    let dropdownY = clickY
+    if (heightDiff < dropdownHeight) {
+      dropdownY = clickY - dropdownHeight
+    }
+
+    /* Get raw pixels which can be used to calculate the position at
+    render time */
+    const unscaledX =
+      (dropdownX - imgContainerPosition.x) / imgContainerPosition.scale
+    const unscaledY =
+      (dropdownY - imgContainerPosition.y) / imgContainerPosition.scale
 
     /* --------------------- Setter functions --------------------- */
 
@@ -478,13 +551,15 @@ const GameScene = () => {
         y: yPercent,
       }))
 
-      // Save unscaled coordinates in dropdown position
+      /* Save unscaled values to recalculate position on every click
+      because it is outside of image container */
       setDropdownPosition((prevDropdownPosition) => ({
         ...prevDropdownPosition,
         x: unscaledX,
         y: unscaledY,
       }))
 
+      // Target anchors to click position
       setTargetPosition((prevTargetPosition) => ({
         ...prevTargetPosition,
         x: xPercent,
@@ -495,109 +570,13 @@ const GameScene = () => {
     setImgClick(!imgClick)
   }
 
-  // const handleImageClick = (e) => {
-  //   // Don't show dropdown after panning the image
-  //   if (isDragging) return
-
-  //   // Get elements and their values
-  //   const dropdown = dropdownRef.current
-  //   const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
-  //   const imgRect = e.target.getBoundingClientRect()
-
-  //   // Get click positions relative to browser
-  //   const clientX = e.clientX
-  //   const clientY = e.clientY
-
-  //   /* -------------------- Click coordinates --------------------- */
-
-  //   /* Get click co-ordinates relative to image to find characters at
-  //    any zoom level */
-  //   const imgClickX = clientX - imgRect.left
-  //   const imgClickY = clientY - imgRect.top
-
-  //   /* Normalize to percentage of width and height instead of absolute
-  //    values for different screen widths which also works for zoom */
-  //   const xPercent = (imgClickX / imgRect.width) * 100
-  //   const yPercent = (imgClickY / imgRect.height) * 100
-
-  //   /* -------------------- Dropdown ------------------------------ */
-
-  //   // Initialize dropdown values
-  //   let dropdownX = 0
-  //   let dropdownY = 0
-
-  //   /* Get click co-ordinates relative to wrapper to place dropdown
-  //    at the click position */
-  //   const wrapperClickX = clientX - imageWrapperRect.left
-  //   const wrapperClickY = clientY - imageWrapperRect.top
-
-  //   const dropdownWidth = dropdown.clientWidth
-  //   const dropdownHeight = dropdown.clientHeight
-
-  //   /* Calculate the remaining width and height of wrapper
-  //   from click position */
-  //   const widthDiff = imageWrapperRect.right - clientX
-  //   const heightDiff = imageWrapperRect.bottom - clientY
-
-  //   /* Place the dropdown box based on the click position.
-  //   Dropdown should always appear inside the image wrapper */
-  //   if (widthDiff > dropdownWidth) {
-  //     dropdownX = wrapperClickX
-  //   } else {
-  //     dropdownX = wrapperClickX - dropdownWidth
-  //   }
-
-  //   if (heightDiff > dropdownHeight) {
-  //     dropdownY = wrapperClickY
-  //   } else {
-  //     dropdownY = wrapperClickY - dropdownHeight
-  //   }
-
-  //   /* --------------------- Setter functions --------------------- */
-
-  //   /* Reset dropdown position on every second click to prevent
-  //   scroll bars when screen width changes from wide to narrow */
-  //   if (imgClick) {
-  //     setDropdownPosition((prevDropdownPosition) => ({
-  //       ...prevDropdownPosition,
-  //       x: -9999,
-  //       y: -9999,
-  //     }))
-  //     setTargetPosition((prevTargetPosition) => ({
-  //       ...prevTargetPosition,
-  //       x: -9999,
-  //       y: -9999,
-  //     }))
-  //   } else {
-  //     setImgClickCoords((prevImgClickCoords) => ({
-  //       ...prevImgClickCoords,
-  //       x: xPercent,
-  //       y: yPercent,
-  //     }))
-
-  //     setDropdownPosition((prevDropdownPosition) => ({
-  //       ...prevDropdownPosition,
-  //       x: dropdownX,
-  //       y: dropdownY,
-  //     }))
-
-  //     setTargetPosition((prevTargetPosition) => ({
-  //       ...prevTargetPosition,
-  //       x: xPercent,
-  //       y: yPercent,
-  //     }))
-  //   }
-
-  //   setImgClick(!imgClick)
-  // }
-
   /* Show success or fail message after player chooses a character */
   const handleOptionClick = (e) => {
     // Get character name and it's location status
     const { isMatch, characterId, name } = isCharacterFound(e, imgClickCoords)
 
     // Get values
-    const image = imgRef.current
+    const image = imgContainerRef.current
     const imgWidth = image.width
     const popup = popupRef.current
     const popupWidth = popup.clientWidth
@@ -666,13 +645,13 @@ const GameScene = () => {
   return (
     <>
       <div className={styles.gameBoardContainer}>
-        <div className={styles.gameBoard}>
+        <div className={styles.gameBoard} ref={gameBoardRef}>
           <div
             className={styles.imgContainer}
-            ref={imgWrapperRef}
+            ref={imgContainerRef}
             style={{
               transformOrigin: '0 0',
-              transform: `translate(${imgPosition.x}px, ${imgPosition.y}px) scale(${imgPosition.scale})`,
+              transform: `translate(${imgContainerPosition.x}px, ${imgContainerPosition.y}px) scale(${imgContainerPosition.scale})`,
             }}>
             {/* Game image  */}
             <GameImage
@@ -684,21 +663,12 @@ const GameScene = () => {
               handleImageClick={handleImageClick}
             />
 
-            {/* Dropdown  */}
-            {/* <Dropdown
-              imgClick={imgClick}
-              dropdownPosition={dropdownPosition}
-              dropdownRef={dropdownRef}
-              handleOptionClick={handleOptionClick}
-              imgPosition={imgPosition}
-            /> */}
-
             {/* Target animation  */}
             <Target
               imgClick={imgClick}
               targetPosition={targetPosition}
               targetRef={targetRef}
-              imgPosition={imgPosition}
+              imgContainerPosition={imgContainerPosition}
             />
 
             {/* Popup message  */}
@@ -712,12 +682,12 @@ const GameScene = () => {
 
         {/* Place dropdown out of hidden container to make it overflow  */}
         <Dropdown
-          imgRef={imgRef}
+          imgContainerRef={imgContainerRef}
           imgClick={imgClick}
           dropdownPosition={dropdownPosition}
           dropdownRef={dropdownRef}
           handleOptionClick={handleOptionClick}
-          imgPosition={imgPosition}
+          imgContainerPosition={imgContainerPosition}
         />
       </div>
     </>

@@ -7,18 +7,24 @@ they're inside a parent with 'overflow: hidden' */
 .gameBoard {
   /* Hide the zoomed-in image */
   overflow: hidden;
+  max-width: 1200px; /* Cap max width */
+  width: 100%;
+  height: auto;
+  border: 2px solid green;
 }
 
 .imgContainer {
-  max-width: 1200px; /* Cap max width */
   width: 100%;
   height: auto; /* Container height based on image height */
   cursor: crosshair;
   /* Disable browser's zoom-in functionality on the container */
   touch-action: none;
+  border: 1px solid blue;
 }
 
 .gameImage {
   width: 100%;
   height: auto;
+  border: 1px solid red;
+  /* pointer-events: none; */
 }

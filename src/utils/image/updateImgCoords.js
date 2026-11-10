@@ -1,37 +1,37 @@
 /* Get new coordinates with each mouse move */
 export const getUpdatedImgCoords = (
   event,
-  imgWrapperRef,
-  imgRef,
-  imgPosition,
+  gameBoardRef,
+  imgContainerRef,
+  imgContainerPosition,
   startRef,
 ) => {
   // Get wrapper's width and height
-  const imageWrapper = imgWrapperRef.current
-  const imageWrapperWidth = imageWrapper.clientWidth
-  const imageWrapperHeight = imageWrapper.clientHeight
+  const gameBoard = gameBoardRef.current
+  const gameBoardWidth = gameBoard.clientWidth
+  const gameBoardHeight = gameBoard.clientHeight
 
-  const imageWrapperRect = imgWrapperRef.current.getBoundingClientRect()
+  const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
 
   // Get image's width and height
-  const image = imgRef.current
-  const imageWidth = image.width
-  const imageHeight = image.height
+  const imgContainer = imgContainerRef.current
+  const imgContainerWidth = imgContainer.width
+  const imgContainerHeight = imgContainer.height
 
-  // Get scaled image's width and height
-  const currentScale = imgPosition.scale
-  const scaledImgWidth = imageWidth * currentScale
-  const scaledImgHeight = imageHeight * currentScale
+  // Get scaled imgContainer's width and height
+  const currentScale = imgContainerPosition.scale
+  const scaledImgContainerWidth = imgContainerWidth * currentScale
+  const scaledImgContainerHeight = imgContainerHeight * currentScale
 
-  // Set boundaries for panning the image
+  // Set boundaries for panning the imgContainer
   const maxX = 0
   const maxY = 0
-  const minX = imageWrapperWidth - scaledImgWidth
-  const minY = imageWrapperHeight - scaledImgHeight
+  const minX = gameBoardWidth - scaledImgContainerWidth
+  const minY = gameBoardHeight - scaledImgContainerHeight
 
   // Update cursor position continuously relative to wrapper while moving the mouse
-  const currentX = event.clientX - imageWrapperRect.left
-  const currentY = event.clientY - imageWrapperRect.top
+  const currentX = event.clientX - gameBoardRect.left
+  const currentY = event.clientY - gameBoardRect.top
 
   // Net difference between previous offset position and current cursor position
   let newX = currentX - startRef.current.x
