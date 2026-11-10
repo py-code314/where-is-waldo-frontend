@@ -10,15 +10,15 @@ import Navbar from '../navbar/Navbar'
 const Header = () => {
   return (
     <header className={styles.header}>
-      <title>Where's Waldo</title>
+      <title>Where's Wally</title>
 
       <Link to={`/home`} className={styles.link}>
         {/* Logo  */}
         <img className={styles.wallyImg} src={wallyImg} alt="" width={70} height={50} />
         {/* Title */}
         <h1 className={styles.title}>
-          <span className={styles.titlePrefix}>where is</span> <span className={styles.titleMain}>Waldo</span>
-          {/* <span className={styles.titlePrefix}>Where Is</span> <span className={styles.titleMain}>Waldo</span> */}
+          <span className={styles.titlePrefix}>where is</span> <span className={styles.titleMain}>Wally</span>
+          {/* <span className={styles.titlePrefix}>Where Is</span> <span className={styles.titleMain}>Wally</span> */}
         </h1>
       </Link>
 

@@ -10,9 +10,9 @@ const LevelSelection = () => {
   return (
     <>
       <section className={styles.levels}>
-        <h2 className={styles.sectionTitle}>Choose Your Where's Waldo Level</h2>
+        <h2 className={styles.sectionTitle}>Choose Your Where's Wally Level</h2>
         <p className={styles.description}>
-          Pick a scene and start your Where's Waldo game challenge. Each level
+          Pick a scene and start your Where's Wally game challenge. Each level
           has a unique puzzle, different difficulty, and hidden characters
           waiting to be found.
         </p>

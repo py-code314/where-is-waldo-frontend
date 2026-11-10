@@ -44,7 +44,7 @@ const GamePage = () => {
             <div className={styles.sceneInfo}>
               <h2 className={styles.title}>The Ski Slopes of Anarchy</h2>
               <p className={styles.instructions}>
-                Find Waldo, Wenda, Odlaw, and Wizard to solve the puzzle.
+                Find Wally, Wenda, Odlaw, and Wizard to solve the puzzle.
               </p>
             </div>
             <div className={styles.gameStats}>

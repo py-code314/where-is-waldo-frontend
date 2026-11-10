@@ -12,7 +12,7 @@ export const scenesData = [
     id: crypto.randomUUID(),
     title: 'The Ski Slopes of Anarchy',
     description:
-      'Hit the slopes! Amidst the snowy chaos, ski lifts, and runaway sleds, can you spot Waldo, Wenda, Odlaw, and the Wizard before they glide away?',
+      'Hit the slopes! Amidst the snowy chaos, ski lifts, and runaway sleds, can you spot Wally, Wenda, Odlaw, and the Wizard before they glide away?',
     image: skiingImage,
     difficulty: 'easy',
     characters: [wallyImage, wendaImage, wizardImage, odlawImage],
@@ -22,7 +22,7 @@ export const scenesData = [
     title: 'Space Colony Chaos',
     image: spaceStationImage,
     description:
-      'Aliens, floating debris, and bustling space stations. Can you find Waldo, Wenda, Odlaw, and the Wizard wandering among the astronauts in this futuristic chaos?',
+      'Aliens, floating debris, and bustling space stations. Can you find Wally, Wenda, Odlaw, and the Wizard wandering among the astronauts in this futuristic chaos?',
     difficulty: 'medium',
     characters: [wallyImage, wendaImage, wizardImage, odlawImage],
   },
@@ -30,7 +30,7 @@ export const scenesData = [
     id: crypto.randomUUID(),
     title: 'The Gobbling Gluttons',
     description:
-      'A huge banquet where tables overflow with food and people crowd every corner. Waldo, Wenda, Odlaw, and the Wizard are all somewhere in the middle of this mess.',
+      'A huge banquet where tables overflow with food and people crowd every corner. Wally, Wenda, Odlaw, and the Wizard are all somewhere in the middle of this mess.',
     image: foodCourtImage,
     difficulty: 'hard',
     characters: [wallyImage, wendaImage, wizardImage, odlawImage],

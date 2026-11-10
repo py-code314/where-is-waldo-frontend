@@ -55,7 +55,7 @@ const Navbar = () => {
           <li className={styles.navItem}>
             {/* Home link  */}
             <Link className={styles.link} to={`/home`}>
-              Where's Waldo
+              Where's Wally
             </Link>
           </li>
           {/* Inactive links  */}

@@ -27,7 +27,7 @@ const Footer = () => {
         <hr />
 
         <p className={styles.copyright}>
-          <span>&copy; 2026 whereiswaldo.com. </span>
+          <span>&copy; 2026 whereiswally.com. </span>
           <span>All rights reserved.</span>
         </p>
       </footer>
