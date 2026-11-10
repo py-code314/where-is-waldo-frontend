@@ -142,21 +142,21 @@ const GameScene = () => {
 
     /* ----------------------- Touch screens ------------------------ */
 
-    /* Don't put 'preventDefault()' inside the handler as it prevents
+    /* Don't add 'preventDefault()' inside the handler as it prevents
     'click' event from firing as it is needed for 'tap' gesture. And
     the 'click' event runs 'handleImageClick()' which displays dropdown */
     const handleTouchStart = (e) => {
       /* 'getBoundingClientRect()' method returns object containing the
       size and position of an element relative to the viewport */
-      const imageWrapperRect = gameBoardRef.current.getBoundingClientRect()
+      const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
 
       if (e.touches.length === 1) {
         // Single finger touch (panning)
         const touchOne = e.touches[0]
 
         // Current touch position relative to wrapper
-        const currentX = touchOne.clientX - imageWrapperRect.left
-        const currentY = touchOne.clientY - imageWrapperRect.top
+        const currentX = touchOne.clientX - gameBoardRect.left
+        const currentY = touchOne.clientY - gameBoardRect.top
         touchOneStartRef.current = {
           x: currentX - imgContainerPosition.x,
           y: currentY - imgContainerPosition.y,
@@ -169,20 +169,20 @@ const GameScene = () => {
       } else if (e.touches.length === 2) {
         // Two finger touch (zoom to pinch)
         setIsPanning(false)
-
+  
         const touchOne = e.touches[0]
         const touchTwo = e.touches[1]
 
         // Save initial touch coordinates
-        const currentTouchOneX = touchOne.clientX - imageWrapperRect.left
-        const currentTouchOneY = touchOne.clientY - imageWrapperRect.top
+        const currentTouchOneX = touchOne.clientX - gameBoardRect.left
+        const currentTouchOneY = touchOne.clientY - gameBoardRect.top
         touchOneStartRef.current = {
           x: currentTouchOneX - imgContainerPosition.x,
           y: currentTouchOneY - imgContainerPosition.y,
         }
 
-        const currentTouchTwoX = touchTwo.clientX - imageWrapperRect.left
-        const currentTouchTwoY = touchTwo.clientY - imageWrapperRect.top
+        const currentTouchTwoX = touchTwo.clientX - gameBoardRect.left
+        const currentTouchTwoY = touchTwo.clientY - gameBoardRect.top
         touchTwoStartRef.current = {
           x: currentTouchTwoX - imgContainerPosition.x,
           y: currentTouchTwoY - imgContainerPosition.y,
@@ -215,13 +215,40 @@ const GameScene = () => {
         const startRef = touchOneStartRef
 
         // Get up-to-date image coordinates with each move
-        const [newX, newY] = getUpdatedImgCoords(
+        let [newX, newY] = getUpdatedImgCoords(
           event,
           gameBoardRef,
           imgContainerRef,
           imgContainerPosition,
           startRef,
         )
+
+        const gameBoard = gameBoardRef.current
+        const gameBoardWidth = gameBoard.clientWidth
+        const gameBoardHeight = gameBoard.clientHeight
+
+        const imgContainerRect = imgContainerRef.current.getBoundingClientRect()
+        const imgContainerWidth = imgContainerRect.width
+        const imgContainerHeight = imgContainerRect.height
+
+        /* Set boundaries to prevent gaps between the imgContainer and
+        wrapper at corners when zooming out */
+        const maxX = 0
+        const maxY = 0
+        const minX = gameBoardWidth - imgContainerWidth
+        const minY = gameBoardHeight - imgContainerHeight
+
+        // Update newX and newY if they go out of boundaries
+        if (newX > maxX) {
+          newX = maxX
+        } else if (newX < minX) {
+          newX = minX
+        }
+        if (newY > maxY) {
+          newY = maxY
+        } else if (newY < minY) {
+          newY = minY
+        }
 
         setImgContainerPosition((prevImgContainerPosition) => ({
           ...prevImgContainerPosition,
@@ -243,29 +270,19 @@ const GameScene = () => {
         const prevDifference = prevDifferenceRef.current
 
         if (prevDifference && prevDifference > 0) {
-          const imageWrapperRect = gameBoardRef.current.getBoundingClientRect()
+          const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
 
           // Center points relative to image wrapper
           const centerX =
-            (touchOne.clientX + touchTwo.clientX) / 2 - imageWrapperRect.left
+            (touchOne.clientX + touchTwo.clientX) / 2 - gameBoardRect.left
           const centerY =
-            (touchOne.clientY + touchTwo.clientY) / 2 - imageWrapperRect.top
+            (touchOne.clientY + touchTwo.clientY) / 2 - gameBoardRect.top
 
           // Zoom factor depends on distance between two finger touches
           const deltaDistance = currentDifference - prevDifference
           const delta = deltaDistance * 0.05
 
           if (deltaDistance !== 0) {
-            // Get wrapper's width and height
-            const imageWrapper = gameBoardRef.current
-            const imageWrapperWidth = imageWrapper.clientWidth
-            const imageWrapperHeight = imageWrapper.clientHeight
-
-            // Get image's width and height
-            const image = imgContainerRef.current
-            const imageWidth = image.width
-            const imageHeight = image.height
-
             /* Zoom upper limit is 6x and lower limit is 1x. Image
               doesn't zoom-out less than the original 1x size */
             const newScale = Math.max(
@@ -284,16 +301,25 @@ const GameScene = () => {
               imgContainerPosition.y +
               (centerY - imgContainerPosition.y) * ratio
 
+            const gameBoard = gameBoardRef.current
+            const gameBoardWidth = gameBoard.clientWidth
+            const gameBoardHeight = gameBoard.clientHeight
+
+            const imgContainerRect =
+              imgContainerRef.current.getBoundingClientRect()
+            const imgContainerWidth = imgContainerRect.width
+            const imgContainerHeight = imgContainerRect.height
+
             // Get scaled image's width and height
-            const scaledImgWidth = imageWidth * newScale
-            const scaledImgHeight = imageHeight * newScale
+            const scaledImgContainerWidth = imgContainerWidth * newScale
+            const scaledImgContainerHeight = imgContainerHeight * newScale
 
             /* Set boundaries to prevent gaps between the image and
               wrapper when zooming out */
             const maxX = 0
             const maxY = 0
-            const minX = imageWrapperWidth - scaledImgWidth
-            const minY = imageWrapperHeight - scaledImgHeight
+            const minX = gameBoardWidth - scaledImgContainerWidth
+            const minY = gameBoardHeight - scaledImgContainerHeight
 
             // Update newX and newY if they go out of boundaries
             if (newImgContainerPositionX > maxX) {
@@ -307,7 +333,6 @@ const GameScene = () => {
               newImgContainerPositionY = minY
             }
 
-            // Use functional updates
             setImgContainerPosition((prevImgContainerPosition) => ({
               ...prevImgContainerPosition,
               scale: newScale,
@@ -453,11 +478,11 @@ const GameScene = () => {
 
       const touchOne = e.touches[0]
 
-      const imageWrapperRect = gameBoardRef.current.getBoundingClientRect()
+      const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
 
       // Current touch position relative to wrapper after touch
-      const currentX = touchOne.clientX - imageWrapperRect.left
-      const currentY = touchOne.clientY - imageWrapperRect.top
+      const currentX = touchOne.clientX - gameBoardRect.left
+      const currentY = touchOne.clientY - gameBoardRect.top
       touchOneStartRef.current = {
         x: currentX - imgContainerPosition.x,
         y: currentY - imgContainerPosition.y,
