@@ -3,15 +3,24 @@ import styles from './CharactersList.module.css'
 /* -------------------- Icons -------------------- */
 import checkmarkIcon from '../../../assets/icons/icon-checkmark.svg'
 /* -------------------- Hooks -------------------- */
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 /* -------------------- Context -------------------- */
 import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
+import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
 /* -------------------- Data -------------------- */
 import { charactersData } from '../../../data/charactersData'
 
 const CharactersList = () => {
+  const {setGameOver} = useContext(StopwatchContext)
   const { foundCharacterIds } = useContext(CharacterIdsContext)
   const length = foundCharacterIds.length
+
+  // Stop clock if all characters are found
+  useEffect(() => {
+    if (length === 4) {
+      setGameOver(true)
+    }
+  }, [length, setGameOver])
 
   return (
     <>

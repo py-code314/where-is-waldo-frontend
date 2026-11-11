@@ -7,6 +7,7 @@ import { useState } from 'react'
 /* -------------------- Context -------------------- */
 import { ResultContext } from '../../contexts/game-scene/ResultContext'
 import { CharacterIdsContext } from '../../contexts/characters/CharacterIdsContext'
+import { StopwatchContext } from '../../contexts/game-scene/StopwatchContext'
 /* -------------------- Components -------------------- */
 import { Link } from 'react-router'
 import GameScene from '../../components/sections/game-scene/GameScene'
@@ -16,6 +17,7 @@ import CharactersList from '../../components/core/characters/CharactersList'
 const GamePage = () => {
   const [result, setResult] = useState({ isMatch: null, name: '' })
   const [foundCharacterIds, setFoundCharacterIds] = useState([])
+  const [gameOver, setGameOver] = useState(false)
 
   return (
     <>
@@ -55,8 +57,10 @@ const GamePage = () => {
                 </p>
               </div>
 
-              {/* Show stopwatch  */}
-              <StopWatch />
+              <StopwatchContext value={{ gameOver, setGameOver }}>
+                {/* Show stopwatch  */}
+                <StopWatch />
+              </StopwatchContext>
             </div>
           </div>
         </div>
@@ -66,15 +70,14 @@ const GamePage = () => {
             foundCharacterIds,
             setFoundCharacterIds,
           }}>
-          <ResultContext value={{ result, setResult }}>
+          <StopwatchContext value={{ gameOver, setGameOver }}>
             {/* Character head shots  */}
-            <CharactersList foundCharacterIds={foundCharacterIds} />
+            <CharactersList />
+          </StopwatchContext>
 
+          <ResultContext value={{ result, setResult }}>
             {/* Game image  */}
-            <GameScene
-              foundCharacterIds={foundCharacterIds}
-              setFoundCharacterIds={setFoundCharacterIds}
-            />
+            <GameScene />
           </ResultContext>
         </CharacterIdsContext>
       </div>

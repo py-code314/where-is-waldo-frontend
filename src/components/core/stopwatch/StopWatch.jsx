@@ -3,12 +3,15 @@ import styles from './StopWatch.module.css'
 /* -------------------- Icons -------------------- */
 import stopwatchIcon from '../../../assets/icons/icon-stopwatch.svg'
 /* -------------------- Hooks -------------------- */
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+/* -------------------- Context -------------------- */
+import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
 
 const StopWatch = () => {
+  const { gameOver } = useContext(StopwatchContext)
+
   // State
   const [time, setTime] = useState(0)
-  const [gameOver, setGameOver] = useState(false)
 
   useEffect(() => {
     if (gameOver) return
@@ -26,10 +29,6 @@ const StopWatch = () => {
   const minutes = Math.floor(time / 60) % 60
   const hours = Math.floor(time / 3600)
 
-  const watchStop = () => {
-    // Stop stopwatch
-    setGameOver(true)
-  }
   return (
     <>
       {/* Show stopwatch  */}
