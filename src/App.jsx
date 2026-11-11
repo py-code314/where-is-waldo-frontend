@@ -12,9 +12,10 @@ import GameCompleteModal from './components/modals/game/GameCompleteModal'
 
 function App() {
   const [showModal, setShowModal] = useState(false)
+  // console.log('🚀 ~ App ~ showModal:', showModal)
   const modalRef = useRef(null)
 
-  // Show and close modal 
+  // Show and close modal
   useEffect(() => {
     const modal = modalRef.current
     if (!modal) return
@@ -38,8 +39,10 @@ function App() {
         <Footer />
       </div>
 
-      {/* Game over modal  */}
-      <GameCompleteModal modalRef={modalRef} />
+      <ModalContext value={{ setShowModal }}>
+        {/* Game over modal  */}
+        <GameCompleteModal modalRef={modalRef} />
+      </ModalContext>
     </>
   )
 }

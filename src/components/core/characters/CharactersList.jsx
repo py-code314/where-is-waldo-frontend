@@ -19,7 +19,7 @@ const CharactersList = () => {
 
   // Stop clock and show modal if all characters are found
   useEffect(() => {
-    if (length === 4) {
+    if (length === 1) {
       setGameOver(true)
       setShowModal(true)
     }
