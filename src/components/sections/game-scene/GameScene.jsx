@@ -668,7 +668,7 @@ const GameScene = () => {
       }))
     }
 
-    window.setTimeout(resetPopup, 1000)
+    window.setTimeout(resetPopup, 2000)
   }
 
   return (

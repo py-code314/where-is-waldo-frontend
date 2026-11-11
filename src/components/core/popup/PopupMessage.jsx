@@ -7,11 +7,13 @@ import { ResultContext } from '../../../contexts/game-scene/ResultContext'
 
 const PopupMessage = ({ isOption, popupPosition, popupRef }) => {
   const { result } = useContext(ResultContext)
-  
+
   return (
     <>
       {/* Popup with success or failure message  */}
       <div
+        role={result.isMatch ? 'status' : 'alert'}
+        aria-live={result.isMatch ? 'polite' : 'assertive'}
         className={`${styles.popup} ${isOption ? styles.popupOpen : ''} ${result.isMatch === true ? styles.yay : result.isMatch === false ? styles.nope : ''}`}
         style={{
           position: 'absolute',
