@@ -14,7 +14,7 @@ const PopupMessage = ({ isOption, popupPosition, popupRef }) => {
       <div
         role={result.isMatch ? 'status' : 'alert'}
         aria-live={result.isMatch ? 'polite' : 'assertive'}
-        className={`${styles.popup} ${isOption ? styles.popupOpen : ''} ${result.isMatch === true ? styles.yay : result.isMatch === false ? styles.nope : ''}`}
+        className={`${styles.popup} ${isOption ? styles.popupOpen : ''} ${result.isMatch === true ? styles.yay : styles.nope}`}
         style={{
           position: 'absolute',
           left: `${popupPosition.x}px`,

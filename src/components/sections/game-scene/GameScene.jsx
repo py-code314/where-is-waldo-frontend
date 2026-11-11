@@ -169,7 +169,7 @@ const GameScene = () => {
       } else if (e.touches.length === 2) {
         // Two finger touch (zoom to pinch)
         setIsPanning(false)
-  
+
         const touchOne = e.touches[0]
         const touchTwo = e.touches[1]
 
@@ -609,10 +609,11 @@ const GameScene = () => {
     const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
     const popup = popupRef.current
     const popupWidth = popup.clientWidth
+    const popupHeight = popup.clientHeight
 
     /* Place popup in the top middle of game board and then center it
     using 'translateX' */
-    let popupX = gameBoardRect.width / 2 - popupWidth / 2
+    const popupX = gameBoardRect.width / 2 - popupWidth / 2
     let popupY = 0
 
     setResult((prevResult) => ({
@@ -656,16 +657,18 @@ const GameScene = () => {
     const resetPopup = () => {
       setIsOption(false)
 
-      setPopupPosition((prevPopupPosition) => ({
-        ...prevPopupPosition,
-        x: -9999,
-        y: -9999,
-      }))
-      setResult((prevResult) => ({
-        ...prevResult,
-        isMatch: null,
-        name: '',
-      }))
+      setTimeout(() => {
+        setPopupPosition((prevPopupPosition) => ({
+          ...prevPopupPosition,
+          x: popupX,
+          y: 0 - popupHeight,
+        }))
+        setResult((prevResult) => ({
+          ...prevResult,
+          isMatch: null,
+          name: '',
+        }))
+      }, 300)
     }
 
     window.setTimeout(resetPopup, 2000)

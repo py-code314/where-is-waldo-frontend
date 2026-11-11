@@ -15,7 +15,7 @@ import StopWatch from '../../components/core/stopwatch/StopWatch'
 import CharactersList from '../../components/core/characters/CharactersList'
 
 const GamePage = () => {
-  const [result, setResult] = useState({ isMatch: null, name: '' })
+  const [result, setResult] = useState({ isMatch: false, name: '' })
   const [foundCharacterIds, setFoundCharacterIds] = useState([])
   const [gameOver, setGameOver] = useState(false)
 

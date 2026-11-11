@@ -32,7 +32,7 @@
   align-items: center;
 
   /* Animation */
-  visibility: hidden;
+  /* visibility: hidden; */
   opacity: 0;
   pointer-events: none;
   transform: translateY(-25px);
@@ -42,10 +42,14 @@
 }
 
 .popupOpen {
-  visibility: visible;
+  /* visibility: visible; */
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0px);
+
+  transition:
+    opacity 300ms ease-in,
+    transform 300ms ease-in;
 }
 
 .yay {
