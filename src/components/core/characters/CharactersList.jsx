@@ -7,6 +7,7 @@ import { useContext, useEffect } from 'react'
 /* -------------------- Context -------------------- */
 import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
 import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
+import { ModalContext } from '../../../contexts/modal/ModalContext'
 /* -------------------- Data -------------------- */
 import { charactersData } from '../../../data/charactersData'
 
@@ -14,13 +15,15 @@ const CharactersList = () => {
   const {setGameOver} = useContext(StopwatchContext)
   const { foundCharacterIds } = useContext(CharacterIdsContext)
   const length = foundCharacterIds.length
+  const {setShowModal} = useContext(ModalContext)
 
-  // Stop clock if all characters are found
+  // Stop clock and show modal if all characters are found
   useEffect(() => {
     if (length === 4) {
       setGameOver(true)
+      setShowModal(true)
     }
-  }, [length, setGameOver])
+  }, [length, setGameOver, setShowModal])
 
   return (
     <>
