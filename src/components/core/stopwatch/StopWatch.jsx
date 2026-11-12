@@ -3,31 +3,43 @@ import styles from './StopWatch.module.css'
 /* -------------------- Icons -------------------- */
 import stopwatchIcon from '../../../assets/icons/icon-stopwatch.svg'
 /* -------------------- Hooks -------------------- */
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useRef } from 'react'
 /* -------------------- Context -------------------- */
 import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
+import { DurationContext } from '../../../contexts/stopwatch/DurationContext'
+/* -------------------- Functions -------------------- */
+import { formatTime } from '../../../utils/index.js'
+
 
 const StopWatch = () => {
   const { gameOver } = useContext(StopwatchContext)
+  const { setDuration } = useContext(DurationContext)
 
-  // State
   const [time, setTime] = useState(0)
+  const timeRef = useRef(0)
 
   useEffect(() => {
-    if (gameOver) return
+    if (gameOver) {
+      setDuration(timeRef.current)
+      return
+    }
 
     // Start stopwatch
     const intervalId = setInterval(() => {
-      setTime((prevTime) => prevTime + 1)
+      setTime((prevTime) => {
+        const newTime = prevTime + 1
+
+        // Update ref to prevent re-renders every second
+        timeRef.current = newTime
+        return newTime
+      })
     }, 1000)
 
     return () => clearInterval(intervalId)
-  }, [gameOver])
+  }, [gameOver, setTime, setDuration])
 
-  // Computed variables
-  const seconds = time % 60
-  const minutes = Math.floor(time / 60) % 60
-  const hours = Math.floor(time / 3600)
+
+  const formattedTime = formatTime(time)
 
   return (
     <>
@@ -45,10 +57,9 @@ const StopWatch = () => {
         <div className={styles.timeDisplay}>
           <p className={styles.label}>Time</p>
           <p className={styles.time}>
-            <strong>
-              {hours}:{minutes.toString().padStart(2, '0')}:
-              {seconds.toString().padStart(2, '0')}
-            </strong>
+            <time dateTime="">
+              <strong>{formattedTime}</strong>
+            </time>
           </p>
         </div>
       </div>

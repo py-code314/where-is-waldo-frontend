@@ -4,6 +4,7 @@ import styles from './App.module.css'
 import { useState, useEffect, useRef } from 'react'
 /* -------------------- Context -------------------- */
 import { ModalContext } from './contexts/modal/ModalContext'
+import { DurationContext } from './contexts/stopwatch/DurationContext'
 /* -------------------- Components -------------------- */
 import { Outlet } from 'react-router'
 import Header from './components/layouts/header/Header'
@@ -12,7 +13,7 @@ import GameCompleteModal from './components/modals/game/GameCompleteModal'
 
 function App() {
   const [showModal, setShowModal] = useState(false)
-  // console.log('🚀 ~ App ~ showModal:', showModal)
+  const [duration, setDuration] = useState(0)
   const modalRef = useRef(null)
 
   // Show and close modal
@@ -32,16 +33,19 @@ function App() {
         <Header />
 
         <ModalContext value={{ setShowModal }}>
-          {' '}
-          <Outlet />
+          <DurationContext value={{ setDuration }}>
+            <Outlet />
+          </DurationContext>
         </ModalContext>
 
         <Footer />
       </div>
 
       <ModalContext value={{ setShowModal }}>
-        {/* Game over modal  */}
-        <GameCompleteModal modalRef={modalRef} />
+        <DurationContext value={{ duration }}>
+          {/* Game over modal  */}
+          <GameCompleteModal modalRef={modalRef} />
+        </DurationContext>
       </ModalContext>
     </>
   )
