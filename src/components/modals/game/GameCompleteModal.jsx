@@ -4,12 +4,14 @@ import styles from './GameCompleteModal.module.css'
 import closeIcon from '../../../assets/icons/icon-close-1.svg'
 import successIcon from '../../../assets/icons/icon-success.svg'
 import errorIcon from '../../../assets/icons/icon-error-1.svg'
+import trophyIcon from '../../../assets/icons/icon-trophy-1.svg'
 /* ---------------------- Hooks ------------------------------ */
 import { useContext, useRef, useState } from 'react'
 /* ---------------------- Context ------------------------------ */
 import { ModalContext } from '../../../contexts/modal/ModalContext'
 import { DurationContext } from '../../../contexts/stopwatch/DurationContext'
 /* ---------------------- Components ------------------------------ */
+import { Link } from 'react-router'
 import Button from '../../core/button/Button'
 /* ---------------------- Functions ------------------------------ */
 import { formatTime } from '../../../utils/index.js'
@@ -99,6 +101,9 @@ const GameCompleteModal = ({ modalRef }) => {
             Save to Leaderboard
           </Button>
         </form>
+
+        {/* Link to top scores  */}
+        <Link><img src={trophyIcon} alt="" width={20} height={20} />Top Scores</Link>
       </dialog>
     </>
   )
