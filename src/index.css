@@ -79,7 +79,7 @@ a {
   font-family: 'Playfair Display';
   src:
     url('./assets/fonts/Playfair-Display/PlayfairDisplay-Black.woff2'),
-      url('./assets/fonts/Playfair-Display/PlayfairDisplay-Black.woff')
+    url('./assets/fonts/Playfair-Display/PlayfairDisplay-Black.woff')
       format('woff');
   font-weight: 900;
   font-style: normal;
@@ -257,7 +257,6 @@ a {
   font-display: swap;
 }
 
-
 /* CSS variables */
 :root {
   /* Core units
@@ -316,11 +315,13 @@ a {
   --space-36: calc(var(--space-base-unit) * 9);
   --space-38: calc(var(--space-base-unit) * 9.5);
   --space-40: calc(var(--space-base-unit) * 10);
+  --space-42: calc(var(--space-base-unit) * 10.5);
   --space-48: calc(var(--space-base-unit) * 12);
   --space-56: calc(var(--space-base-unit) * 14);
   --space-58: calc(var(--space-base-unit) * 14.5);
   --space-60: calc(var(--space-base-unit) * 15);
   --space-64: calc(var(--space-base-unit) * 16);
+  --space-70: calc(var(--space-base-unit) * 17.5);
   --space-72: calc(var(--space-base-unit) * 18);
   --space-80: calc(var(--space-base-unit) * 20);
   --space-96: calc(var(--space-base-unit) * 24);
@@ -337,7 +338,9 @@ a {
   --space-280: calc(var(--space-base-unit) * 70);
   --space-300: calc(var(--space-base-unit) * 75);
   --space-400: calc(var(--space-base-unit) * 100);
+  --space-420: calc(var(--space-base-unit) * 105);
   --space-430: calc(var(--space-base-unit) * 107.5);
+  --space-450: calc(var(--space-base-unit) * 112.5);
   --space-500: calc(var(--space-base-unit) * 125);
   --space-600: calc(var(--space-base-unit) * 150);
   --space-700: calc(var(--space-base-unit) * 175);
@@ -377,10 +380,14 @@ a {
   --shadow-1: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   --shadow-2:
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    --shadow-3: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+  --shadow-3:
+    rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-    --shadow-4: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-    --shadow-5: rgb(38, 57, 77) 0px 20px 30px -10px;
+  --shadow-4:
+    rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  --shadow-5: rgb(38, 57, 77) 0px 20px 30px -10px;
+  --shadow-6:  rgba(0, 0, 0, 0.4) 0px 30px 90px;
+  --shadow-7: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 /* Page styles  */

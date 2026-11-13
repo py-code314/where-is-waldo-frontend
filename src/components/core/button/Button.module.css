@@ -44,6 +44,35 @@
   background-color: var(--clr-accent-1, red);
 }
 
+/* Target area for buttons should be a minimum of 42 x 42 */
+.closeBtn {
+  justify-self: end;
+  width: var(--space-42, 2.625rem);
+  height: var(--space-42, 2.625rem);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.saveBtn {
+  background-color: var(--clr-accent-5, crimson);
+  padding: clamp(
+      var(--space-6, 0.375rem),
+      0.107rem + 0.714vw,
+      var(--space-12, 0.75rem)
+    )
+    clamp(var(--space-12, 0.75rem), 0.214rem + 1.429vw, var(--space-24, 1.5rem));
+  border-radius: var(--radius-10, 00.625rem);
+  font-size: clamp(
+    var(--space-12, 0.75rem),
+    0.571rem + 0.476vw,
+    var(--space-16, 1rem)
+  );
+  font-weight: 700;
+  color: var(--clr-white, white);
+}
+
 /* Mobile styles */
 @media (max-width: 68.75rem /* 1100px */) {
   /* Show 'toggle menu' button */
