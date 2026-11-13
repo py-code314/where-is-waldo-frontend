@@ -8,8 +8,7 @@ import { useContext, useEffect, useState, useRef } from 'react'
 import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
 import { DurationContext } from '../../../contexts/stopwatch/DurationContext'
 /* -------------------- Functions -------------------- */
-import { formatTime } from '../../../utils/index.js'
-
+import { formatDuration, formatDatetime } from '../../../utils/index.js'
 
 const StopWatch = () => {
   const { gameOver } = useContext(StopwatchContext)
@@ -38,8 +37,9 @@ const StopWatch = () => {
     return () => clearInterval(intervalId)
   }, [gameOver, setTime, setDuration])
 
-
-  const formattedTime = formatTime(time)
+  // Format duration and dateTime
+  const formattedDuration = formatDuration(time)
+  const formattedDatetime = formatDatetime(time)
 
   return (
     <>
@@ -57,8 +57,8 @@ const StopWatch = () => {
         <div className={styles.timeDisplay}>
           <p className={styles.label}>Time</p>
           <p className={styles.time}>
-            <time dateTime="">
-              <strong>{formattedTime}</strong>
+            <time dateTime={formattedDatetime}>
+              <strong>{formattedDuration}</strong>
             </time>
           </p>
         </div>

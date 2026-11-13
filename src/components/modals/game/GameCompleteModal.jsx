@@ -14,14 +14,19 @@ import { DurationContext } from '../../../contexts/stopwatch/DurationContext'
 import { Link } from 'react-router'
 import Button from '../../core/button/Button'
 /* ---------------------- Functions ------------------------------ */
-import { formatTime, validateForm } from '../../../utils/index.js'
+import {
+  formatDatetime,
+  formatDuration,
+  validateForm,
+} from '../../../utils/index.js'
 
 const GameCompleteModal = ({ modalRef }) => {
   const { setShowModal } = useContext(ModalContext)
   const { duration } = useContext(DurationContext)
-  const formattedTime = formatTime(duration)
 
-  // TODO: add datetime value
+  // Format duration and dateTime
+  const formattedDuration = formatDuration(duration)
+  const formattedDatetime = formatDatetime(duration)
 
   const nameInputRef = useRef(null)
 
@@ -85,8 +90,8 @@ const GameCompleteModal = ({ modalRef }) => {
             </div>
             <div className={styles.time}>
               <p className={styles.timeText}>Completion Time:</p>
-              <time className={styles.duration} dateTime="00H00M19S">
-                {formattedTime}
+              <time className={styles.duration} dateTime={formattedDatetime}>
+                {formattedDuration}
               </time>
             </div>
             <div className={styles.subContent}>
