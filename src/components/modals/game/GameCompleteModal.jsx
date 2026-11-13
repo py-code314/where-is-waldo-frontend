@@ -3,7 +3,7 @@ import styles from './GameCompleteModal.module.css'
 /* ---------------------- Icons ---------------------------------- */
 import closeIcon from '../../../assets/icons/icon-close.svg'
 import successIcon from '../../../assets/icons/icon-success.svg'
-import errorIcon from '../../../assets/icons/icon-error-1.svg'
+import errorIcon from '../../../assets/icons/icon-error.svg'
 import trophyIcon from '../../../assets/icons/icon-trophy.svg'
 /* ---------------------- Hooks ------------------------------ */
 import { useContext, useRef, useState } from 'react'
@@ -14,28 +14,46 @@ import { DurationContext } from '../../../contexts/stopwatch/DurationContext'
 import { Link } from 'react-router'
 import Button from '../../core/button/Button'
 /* ---------------------- Functions ------------------------------ */
-import { formatTime } from '../../../utils/index.js'
+import { formatTime, validateForm } from '../../../utils/index.js'
 
 const GameCompleteModal = ({ modalRef }) => {
   const { setShowModal } = useContext(ModalContext)
   const { duration } = useContext(DurationContext)
   const formattedTime = formatTime(duration)
+
   // TODO: add datetime value
 
   const nameInputRef = useRef(null)
 
   // State variables
-  const [formData, setformData] = useState({ name: '' })
+  const [formData, setFormData] = useState({ name: '' })
   const [validFormData, setValidFormData] = useState({ name: null })
   const [errorMsgs, setErrorMsgs] = useState({ name: '' })
 
   const handleCloseModal = () => {
-    console.log('change modal status')
     setShowModal(false)
   }
 
-  const handleNameChange = () => {}
-  const handleFormSubmit = () => {}
+  const handleNameChange = (e) => {
+    const name = e.target.value
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      name,
+    }))
+  }
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    setErrorMsgs('')
+
+    const isValid = validateForm(formData, setValidFormData, setErrorMsgs)
+
+    if (isValid) {
+      console.log('name is valid')
+    } else {
+      console.log('name is empty')
+    }
+  }
 
   return (
     <>
@@ -56,15 +74,26 @@ const GameCompleteModal = ({ modalRef }) => {
           </Button>
           <div className={styles.content}>
             <div className={styles.subContent}>
-              <img className={styles.successIcon} src={successIcon} alt="" width={50} height={50} />
+              <img
+                className={styles.successIcon}
+                src={successIcon}
+                alt=""
+                width={70}
+                height={70}
+              />
               <p className={styles.successMsg}>All Characters Found!</p>
             </div>
             <div className={styles.time}>
               <p className={styles.timeText}>Completion Time:</p>
-              <time className={styles.duration} dateTime="">{formattedTime}</time>
+              <time className={styles.duration} dateTime="00H00M19S">
+                {formattedTime}
+              </time>
             </div>
             <div className={styles.subContent}>
-              <form className={styles.form} noValidate onSubmit={handleFormSubmit}>
+              <form
+                className={styles.form}
+                noValidate
+                onSubmit={handleFormSubmit}>
                 {/* Name input */}
                 <div className={styles.formControl}>
                   <label htmlFor="name" className={styles.formLabel}>
@@ -84,12 +113,12 @@ const GameCompleteModal = ({ modalRef }) => {
                   {validFormData.name === false && (
                     <div className={styles.formError}>
                       <img
-                        className={styles.formErrorIcon}
+                        className={styles.errorIcon}
                         aria-hidden="true"
                         src={errorIcon}
                         alt=""
-                        width={16}
-                        height={16}
+                        width={14}
+                        height={14}
                       />
                       <p
                         className={styles.formErrorMsg}
@@ -106,7 +135,16 @@ const GameCompleteModal = ({ modalRef }) => {
                 </Button>
               </form>
               {/* Link to top scores  */}
-              <Link className={styles.scoresLink}><img className={styles.trophyIcon} src={trophyIcon} alt="" width={20} height={20} />Top Scores</Link>
+              <Link className={styles.scoresLink}>
+                <img
+                  className={styles.trophyIcon}
+                  src={trophyIcon}
+                  alt=""
+                  width={20}
+                  height={20}
+                />
+                Top Scores
+              </Link>
             </div>
           </div>
         </div>

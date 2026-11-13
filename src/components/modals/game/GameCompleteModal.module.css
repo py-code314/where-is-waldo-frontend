@@ -191,12 +191,22 @@
     0.071rem + 0.476vw,
     var(--space-8, 0.5rem)
   );
+  padding: 8px 8px 8px 0;
+}
+
+.errorIcon {
+  width: clamp(var(--space-10, 0.625rem), 0.446rem + 0.476vw, var(--space-14, 0.875rem));
+  height: clamp(var(--space-10, 0.625rem), 0.446rem + 0.476vw, var(--space-14, 0.875rem));
 }
 
 .formErrorMsg {
   color: var(--clr-accent-1, red);
-  /* font-style: italic; */
-  /* font-size: var(--fs-18, 1.125rem); */
+  font-style: italic;
+  font-size: clamp(
+    var(--space-12, 0.75rem),
+    0.571rem + 0.476vw,
+    var(--space-16, 1rem)
+  );
 }
 
 .scoresLink {
