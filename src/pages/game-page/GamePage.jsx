@@ -1,7 +1,7 @@
 /* -------------------- Styles -------------------- */
 import styles from './GamePage.module.css'
 /* -------------------- Icons -------------------- */
-import homeIcon from '../../assets/icons/icon-home-2.svg'
+import homeIcon from '../../assets/icons/icon-home.svg'
 /* ------------------------- Hooks -------------------------------- */
 import { useState } from 'react'
 /* -------------------- Context -------------------- */

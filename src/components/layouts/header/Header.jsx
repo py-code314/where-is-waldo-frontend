@@ -1,7 +1,7 @@
 /* -------------------- Styles -------------------- */
 import styles from './Header.module.css'
 /* -------------------- Images -------------------- */
-import wallyImg from '../../../assets/images/wally-waving.png'
+import wallyImg from '../../../assets/images/wally-waving.webp'
 /* -------------------- Components -------------------- */
 import { Link } from 'react-router'
 import Navbar from '../navbar/Navbar'
