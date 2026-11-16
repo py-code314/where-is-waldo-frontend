@@ -517,8 +517,13 @@ const GameScene = () => {
 
     /* Normalize to percentage of width and height instead of absolute 
      values for different screen widths which also works for zoom */
-    const xPercent = (imgClickX / imgRect.width) * 100
-    const yPercent = (imgClickY / imgRect.height) * 100
+    // const xPercent = (imgClickX / imgRect.width) * 100
+    // const yPercent = (imgClickY / imgRect.height) * 100
+
+    const xPercent = Math.floor((imgClickX / imgRect.width) * 10000) / 100
+    // console.log("🚀 ~ handleImageClick ~ xPercent:", xPercent)
+    const yPercent = Math.floor((imgClickY / imgRect.height) * 10000) / 100
+    // console.log("🚀 ~ handleImageClick ~ yPercent:", yPercent)
 
     /* -------------------- Dropdown ------------------------------ */
 
