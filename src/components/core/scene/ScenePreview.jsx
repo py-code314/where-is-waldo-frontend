@@ -5,17 +5,19 @@ import { Link } from 'react-router'
 
 /* Display previews of each scene */
 const ScenePreview = ({ cardData }) => {
-  const { title, description, image, difficulty, characters } = cardData
+  const { title, description, previewUrl, difficulty, characters } = cardData
+  const sceneCharacters = characters.map((character) => character.character)
+
   return (
     <>
       <Link className={styles.link}>
         <div className={styles.card}>
           {/* Image preview  */}
           <div className={styles.imageContainer}>
-            <img className={styles.image} src={image} alt="" />
+            <img className={styles.image} src={previewUrl} alt="" />
             {/* Change bg color based on difficulty level */}
             <span
-              className={`${styles.difficulty} ${difficulty === 'easy' ? styles.green : difficulty === 'medium' ? styles.blue : styles.red}`}>
+              className={`${styles.difficulty} ${difficulty === 'EASY' ? styles.green : difficulty === 'MEDIUM' ? styles.blue : styles.red}`}>
               {difficulty}
             </span>
           </div>
@@ -27,11 +29,11 @@ const ScenePreview = ({ cardData }) => {
             </div>
             {/* Head shots of characters  */}
             <div className={styles.characters}>
-              {characters.map((character) => (
+              {sceneCharacters.map((sceneCharacter) => (
                 <img
-                  key={character}
-                  className={styles.character}
-                  src={character}
+                  key={sceneCharacter.id}
+                  className={styles.sceneCharacter}
+                  src={sceneCharacter.avatarUrl}
                   alt=""
                   width={30}
                   height={30}
