@@ -1,5 +1,7 @@
 /* -------------------- Styles -------------------- */
 import styles from './SceneSelection.module.css'
+/* -------------------- Loaders -------------------- */
+import bouncingCircles from '../../../assets/loaders/bouncing-circles.svg'
 /* -------------------- Components -------------------- */
 import ScenePreview from '../../core/scene/ScenePreview'
 /* -------------------- Hooks -------------------- */
@@ -20,7 +22,20 @@ const LevelSelection = () => {
     return (
       <section className={styles.levels}>
         <h2 className={styles.sectionTitle}>Choose Your Where's Wally Level</h2>
-        <div className={styles.loader}></div>
+        <p className={styles.description}>
+          Pick a scene and start your Where's Wally game challenge. Each level
+          has a unique puzzle, different difficulty, and hidden characters
+          waiting to be found.
+        </p>
+        <div className={styles.loader}>
+          <img
+            className={styles.bouncingCircles}
+            src={bouncingCircles}
+            alt=""
+            width={70}
+            height={70}
+          />
+        </div>
       </section>
     )
 
@@ -29,6 +44,11 @@ const LevelSelection = () => {
     return (
       <section className={styles.levels}>
         <h2 className={styles.sectionTitle}>Choose Your Where's Wally Level</h2>
+        <p className={styles.description}>
+          Pick a scene and start your Where's Wally game challenge. Each level
+          has a unique puzzle, different difficulty, and hidden characters
+          waiting to be found.
+        </p>
         <p>{error}</p>
         {/* <ErrorMessage error={error} /> */}
       </section>

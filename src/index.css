@@ -317,6 +317,7 @@ a {
   --space-40: calc(var(--space-base-unit) * 10);
   --space-42: calc(var(--space-base-unit) * 10.5);
   --space-48: calc(var(--space-base-unit) * 12);
+  --space-50: calc(var(--space-base-unit) * 12.5);
   --space-56: calc(var(--space-base-unit) * 14);
   --space-58: calc(var(--space-base-unit) * 14.5);
   --space-60: calc(var(--space-base-unit) * 15);
