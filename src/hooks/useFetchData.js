@@ -45,7 +45,11 @@ export const useFetchData = (url) => {
         setError(err)
         setData(null)
       } finally {
-        setIsLoading(false)
+        /* Add condition to prevent isLoading becoming 'false'
+        when aborting first fetch request in strict mode */
+        if (!signal.aborted) {
+          setIsLoading(false)
+        }
       }
     }
 

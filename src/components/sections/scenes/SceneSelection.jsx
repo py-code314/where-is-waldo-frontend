@@ -16,8 +16,6 @@ const LevelSelection = () => {
 
   // Get scenes data
   let { data, isLoading, error } = useFetchData(apiEndpoint)
-  // console.log('🚀 ~ LevelSelection ~ error:', error)
-  // console.log("🚀 ~ LevelSelection ~ data:", data)
 
   return (
     <>
@@ -45,15 +43,14 @@ const LevelSelection = () => {
         {error && <ErrorMessage error={error} />}
 
         {/* Cards list  */}
-        {data && (
-          <ul className={styles.cards}>
-            {data.scenes.map((scene) => (
+        <ul className={styles.cards}>
+          {data &&
+            data.scenes.map((scene) => (
               <li key={scene.id} className={styles.card}>
                 <ScenePreview cardData={scene} />
               </li>
             ))}
-          </ul>
-        )}
+        </ul>
       </section>
     </>
   )
