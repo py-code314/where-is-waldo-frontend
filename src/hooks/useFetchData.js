@@ -18,8 +18,13 @@ export const useFetchData = (url) => {
         const response = await fetch(url, { signal })
         /* Catch 301, 400, 404, 403, 500, etc */
         if (!response.ok) {
-          const error = new Error(`HTTP error: Status ${response.status}`)
+          const errorData = await response.json()
+          const error = new Error(
+            errorData.errorMsg || `HTTP error: Status ${response.status}`,
+          )
           error.status = response.status
+          error.errorCode = errorData.errorCode
+          error.title = errorData.errorTitle
 
           throw error
         }
@@ -51,58 +56,3 @@ export const useFetchData = (url) => {
 
   return { isLoading, data, error }
 }
-
-// import { useState, useEffect } from 'react'
-
-// // 1. Optional helper function for delay
-// const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
-// export const useFetchData = (url, minDelay = 1000) => {
-//   const [isLoading, setIsLoading] = useState(true)
-//   const [data, setData] = useState(null)
-//   const [error, setError] = useState(null)
-
-//   useEffect(() => {
-//     const controller = new AbortController()
-//     const { signal } = controller
-
-//     const fetchData = async () => {
-//       setIsLoading(true)
-//       setError(null)
-
-//       try {
-//         // 2. Run the fetch request and the minimum delay timer side-by-side
-//         const [response] = await Promise.all([
-//           fetch(url, { signal }),
-//           wait(minDelay), // Ensures loading state lasts at least as long as minDelay
-//         ])
-
-//         if (!response.ok) {
-//           const error = new Error(`HTTP error: Status ${response.status}`)
-//           error.status = response.status
-//           throw error
-//         }
-
-//         const result = await response.json()
-//         setData(result)
-//       } catch (err) {
-//         if (err.name === 'AbortError') {
-//           console.log('Fetch request cancelled successfully')
-//           return
-//         }
-
-//         console.error('Error:', err)
-//         setError(err)
-//         setData(null)
-//       } finally {
-//         setIsLoading(false)
-//       }
-//     }
-
-//     fetchData()
-
-//     return () => controller.abort()
-//   }, [url, minDelay])
-
-//   return { isLoading, data, error }
-// }

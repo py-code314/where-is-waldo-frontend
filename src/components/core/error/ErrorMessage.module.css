@@ -1,0 +1,58 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(var(--space-8, 0.5rem), 0.357rem + 0.714vw, var(--space-16, 1rem));
+}
+
+.errorContainer {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--space-8, 0.5rem), 0.357rem + 0.714vw, var(--space-16, 1rem));
+}
+
+.imgWrapper {
+  width: clamp(
+    var(--space-48, 3rem),
+    2.018rem + 2.619vw,
+    var(--space-70, 4.375rem)
+  );
+  height: clamp(
+    var(--space-48, 3rem),
+    2.018rem + 2.619vw,
+    var(--space-70, 4.375rem)
+  );
+}
+
+.errorIcon {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.errorStatus {
+  font-size: clamp(
+    var(--space-18, 1.125rem),
+    0.857rem + 0.714vw,
+    var(--space24, 1.5rem)
+  );
+  font-weight: 700;
+}
+
+.errorTitle {
+  font-size: clamp(
+    var(--space-14, 0.875rem),
+    0.786rem + 0.238vw,
+    var(--space-16, 1rem)
+  );
+  font-weight: 600;
+}
+
+.errorMsg {
+  font-size: clamp(
+    var(--space-14, 0.875rem),
+    0.786rem + 0.238vw,
+    var(--space-16, 1rem)
+  );
+  text-align: center;
+}
