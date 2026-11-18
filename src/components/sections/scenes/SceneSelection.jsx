@@ -16,7 +16,7 @@ const LevelSelection = () => {
 
   // Get scenes data
   let { data, isLoading, error } = useFetchData(apiEndpoint)
-  console.log('🚀 ~ LevelSelection ~ error:', error)
+  // console.log('🚀 ~ LevelSelection ~ error:', error)
   // console.log("🚀 ~ LevelSelection ~ data:", data)
 
   return (

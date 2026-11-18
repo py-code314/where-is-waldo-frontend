@@ -16,7 +16,7 @@ const routes = [
         children: [
           { index: true, element: <DefaultMainLayout /> },
           { path: '/home', element: <DefaultMainLayout /> },
-          { path: '/scene', element: <GamePage /> },
+          { path: '/scenes/:sceneId', element: <GamePage /> },
         ],
       },
     ],

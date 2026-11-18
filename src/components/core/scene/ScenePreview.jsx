@@ -5,12 +5,15 @@ import { Link } from 'react-router'
 
 /* Display previews of each scene */
 const ScenePreview = ({ cardData }) => {
+  // console.log("🚀 ~ ScenePreview ~ cardData:", cardData)
   const { title, description, previewUrl, difficulty, characters } = cardData
   const sceneCharacters = characters.map((character) => character.character)
 
   return (
     <>
-      <Link className={styles.link}>
+      <Link className={styles.link}
+        to={`/scenes/${cardData.id}`}
+      >
         <div className={styles.card}>
           {/* Image preview  */}
           <div className={styles.imageContainer}>
