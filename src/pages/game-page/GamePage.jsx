@@ -55,14 +55,23 @@ const GamePage = () => {
       </div>
     )
 
+  // Data
   const { scene } = data
-  console.log('🚀 ~ GamePage ~ scene:', scene)
+  const { title, difficulty, imageUrl, imageAlt, characters } = scene
+  const sceneCharacters = characters.map((character) => character.character)
+  const characterNames = sceneCharacters.map(
+    (sceneCharacter) => sceneCharacter.name,
+  )
 
   return (
     <>
       <div className={styles.gamePage}>
         <StopwatchContext value={{ gameOver, setGameOver }}>
-          <GameHeader />
+          <GameHeader
+            title={title}
+            characterNames={characterNames}
+            difficulty={difficulty}
+          />
         </StopwatchContext>
 
         <CharacterIdsContext
@@ -72,12 +81,12 @@ const GamePage = () => {
           }}>
           <StopwatchContext value={{ gameOver, setGameOver }}>
             {/* Character head shots  */}
-            <CharactersList />
+            <CharactersList characters={characters} />
           </StopwatchContext>
 
           <ResultContext value={{ result, setResult }}>
             {/* Game image  */}
-            <GameScene />
+            <GameScene imageUrl={imageUrl} imageAlt={imageAlt} />
           </ResultContext>
         </CharacterIdsContext>
       </div>

@@ -1,4 +1,3 @@
-
 /* -------------------- Styles -------------------- */
 import styles from './GameHeader.module.css'
 /* -------------------- Icons -------------------- */
@@ -7,8 +6,15 @@ import homeIcon from '../../../assets/icons/icon-home.svg'
 import { Link } from 'react-router'
 import StopWatch from '../../../components/core/stopwatch/StopWatch'
 
+const GameHeader = ({ title, characterNames, difficulty }) => {
+  /* Intl.ListFormat is a native API which generates a string 
+  from an array of strings. Baseline is widely available */
+  const names = new Intl.ListFormat('en-GB', {
+    style: 'long',
+    type: 'conjunction',
+  }).format(characterNames)
+  const instructions = `Find ${names} to solve the puzzle.`
 
-const GameHeader = () => {
   return (
     <>
       <div className={styles.gameHeader}>
@@ -30,26 +36,23 @@ const GameHeader = () => {
         <div className={styles.gameInfo}>
           {/* Title and instructions  */}
           <div className={styles.sceneInfo}>
-            <h2 className={styles.title}>The Ski Slopes of Anarchy</h2>
-            <p className={styles.instructions}>
-              Find Wally, Wenda, Odlaw, and Wizard to solve the puzzle.
-            </p>
+            <h2 className={styles.title}>{title}</h2>
+            <p className={styles.instructions}>{instructions}</p>
           </div>
           <div className={styles.gameStats}>
             <div className={styles.difficulty}>
               <p className={styles.label}>Difficulty</p>
               <p className={styles.level}>
-                <strong>Easy</strong>
+                <strong>{difficulty}</strong>
               </p>
             </div>
 
             <StopWatch />
-
           </div>
         </div>
       </div>
     </>
   )
 }
- 
-export default GameHeader;
+
+export default GameHeader

@@ -8,14 +8,16 @@ import { useContext, useEffect } from 'react'
 import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
 import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
 import { ModalContext } from '../../../contexts/modal/ModalContext'
-/* -------------------- Data -------------------- */
-import { charactersData } from '../../../data/charactersData'
 
-const CharactersList = () => {
-  const {setGameOver} = useContext(StopwatchContext)
+const CharactersList = ({ characters }) => {
+  // Data
+  const sceneCharacters = characters.map((character) => character.character)
+
+  // Context
+  const { setGameOver } = useContext(StopwatchContext)
   const { foundCharacterIds } = useContext(CharacterIdsContext)
   const length = foundCharacterIds.length
-  const {setShowModal} = useContext(ModalContext)
+  const { setShowModal } = useContext(ModalContext)
 
   // Stop clock and show modal if all characters are found
   useEffect(() => {
@@ -38,12 +40,12 @@ const CharactersList = () => {
 
         {/* Loop through characters list  */}
         <ul className={styles.characters}>
-          {charactersData.map((character) => (
+          {sceneCharacters.map((character) => (
             <li className={styles.character} key={character.id}>
               <div className={styles.characterImgContainer}>
                 <img
                   className={styles.characterImg}
-                  src={character.imgUrl}
+                  src={character.avatarUrl}
                   alt=""
                   width={50}
                   height={50}

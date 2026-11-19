@@ -5,19 +5,18 @@ import { Link } from 'react-router'
 
 /* Display previews of each scene */
 const ScenePreview = ({ cardData }) => {
-  // console.log("🚀 ~ ScenePreview ~ cardData:", cardData)
-  const { title, description, previewUrl, difficulty, characters } = cardData
+  // Data
+  const { title, description, previewUrl, previewAlt, difficulty, characters } =
+    cardData
   const sceneCharacters = characters.map((character) => character.character)
 
   return (
     <>
-      <Link className={styles.link}
-        to={`/scenes/${cardData.id}`}
-      >
+      <Link className={styles.link} to={`/scenes/${cardData.id}`}>
         <div className={styles.card}>
           {/* Image preview  */}
           <div className={styles.imageContainer}>
-            <img className={styles.image} src={previewUrl} alt="" />
+            <img className={styles.image} src={previewUrl} alt={previewAlt} />
             {/* Change bg color based on difficulty level */}
             <span
               className={`${styles.difficulty} ${difficulty === 'EASY' ? styles.green : difficulty === 'MEDIUM' ? styles.blue : styles.red}`}>

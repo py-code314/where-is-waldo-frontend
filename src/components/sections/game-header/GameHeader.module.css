@@ -90,7 +90,7 @@
   text-transform: uppercase;
 }
 
-.level {
+.level  {
   font-size: clamp(
     var(--space-14, 0.875rem),
     0.786rem + 0.238vw,
