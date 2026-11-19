@@ -3,7 +3,7 @@ import styles from './GamePage.module.css'
 /* -------------------- Loaders -------------------- */
 import bouncingCircles from '../../assets/loaders/bouncing-circles.svg'
 /* ------------------------- Hooks -------------------------------- */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useFetchData } from '../../hooks/useFetchData'
 /* -------------------- Context -------------------- */
@@ -18,11 +18,14 @@ import Loader from '../../components/core/loader/Loader'
 import ErrorMessage from '../../components/core/error/ErrorMessage'
 
 const GamePage = () => {
-  const { sceneId } = useParams()
+  let { sceneId } = useParams()
+  sceneId = Number(sceneId)
+
 
   // Configure API
   const baseURL = import.meta.env.VITE_REACT_APP_API_URL
   const apiEndpoint = `${baseURL}/scenes/${sceneId}`
+  const sessionEndpoint = `${baseURL}/sessions`
 
   // Get scene data
   const { data, isLoading, error } = useFetchData(apiEndpoint)
@@ -31,6 +34,48 @@ const GamePage = () => {
   const [result, setResult] = useState({ isMatch: false, name: '' })
   const [foundCharacterIds, setFoundCharacterIds] = useState([])
   const [gameOver, setGameOver] = useState(false)
+
+  const [errorMsg, setErrorMsg] = useState('')
+
+  // Send scene id to backend
+  useEffect(() => {
+    const submitData = async () => {
+      try {
+        const response = await fetch(sessionEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ sceneId }),
+        })
+        // console.log('🚀 ~ submitData ~ response:', response)
+
+        const data = await response.json()
+        if (!response.ok) {
+          const backendMsg = data.errors[0].msg
+          // Fallback error message
+          let errorMsg = 'An unexpected error occurred. Please try again.'
+          // User friendly error message
+          if (backendMsg === 'Each scene ID must be a positive integer.') {
+            errorMsg = 'Failed to start a game session. Please try again.'
+          }
+
+          setErrorMsg(errorMsg)
+
+          return
+        }
+
+        console.log('Game session created successfully:', data)
+      } catch (err) {
+        console.error(err)
+
+        setErrorMsg('Something went wrong. Please try again.')
+      }
+      // finally {
+      // }
+    }
+    submitData()
+  }, [sceneId, sessionEndpoint])
 
   // Show loading spinner while fetching the data
   if (isLoading)
@@ -82,6 +127,12 @@ const GamePage = () => {
             {/* Character head shots  */}
             <CharactersList characters={characters} />
           </StopwatchContext>
+
+          {errorMsg && (
+            <div className={styles.errorBanner}>
+              <p className={styles.errorMsg}>{errorMsg}</p>
+            </div>
+          )}
 
           <ResultContext value={{ result, setResult }}>
             {/* Game image  */}

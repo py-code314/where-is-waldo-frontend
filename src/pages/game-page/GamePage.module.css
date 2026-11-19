@@ -12,3 +12,25 @@
   gap: clamp(var(--space-16, 1rem), 0.714rem + 1.429vw, var(--space-32, 2rem));
 }
 
+.errorBanner {
+  padding: clamp(
+    var(--space-8, 0.5rem),
+    0.357rem + 0.714vw,
+    var(--space-16, 1rem)
+  );
+  background-color: var(--clr-gray-1, white);
+  text-align: center;
+  border-radius: var(--radius-5, 0.3125rem);
+}
+
+.errorMsg {
+  /* align-self: center; */
+  color: var(--clr-red, red);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(
+    var(--space-12, 0.75rem),
+    0.571rem + 0.476vw,
+    var(--space-16, 1rem)
+  );
+}
