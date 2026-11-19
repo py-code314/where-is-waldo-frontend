@@ -1,7 +1,7 @@
 /* -------------------- Styles -------------------- */
 import styles from './GamePage.module.css'
 /* -------------------- Loaders -------------------- */
-import fillTheBox from '../../assets/loaders/fill-the-box.svg'
+import bouncingCircles from '../../assets/loaders/bouncing-circles.svg'
 /* ------------------------- Hooks -------------------------------- */
 import { useState } from 'react'
 import { useParams } from 'react-router'
@@ -14,6 +14,7 @@ import { StopwatchContext } from '../../contexts/game-scene/StopwatchContext'
 import GameHeader from '../../components/sections/game-header/GameHeader'
 import GameScene from '../../components/sections/game-scene/GameScene'
 import CharactersList from '../../components/core/characters/CharactersList'
+import Loader from '../../components/core/loader/Loader'
 import ErrorMessage from '../../components/core/error/ErrorMessage'
 
 const GamePage = () => {
@@ -35,15 +36,13 @@ const GamePage = () => {
   if (isLoading)
     return (
       <div className={styles.gamePage}>
-        <div className={styles.loader}>
-          <img
-            className={styles.fillTheBox}
-            src={fillTheBox}
-            alt=""
-            width={70}
-            height={70}
-          />
-        </div>
+        <Loader
+          className="loader"
+          imgClassName="bouncingCircles"
+          src={bouncingCircles}
+          width={70}
+          height={70}
+        />
       </div>
     )
 

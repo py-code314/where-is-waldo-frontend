@@ -6,6 +6,7 @@ import bouncingCircles from '../../../assets/loaders/bouncing-circles.svg'
 import { useFetchData } from '../../../hooks/useFetchData'
 /* -------------------- Components -------------------- */
 import ScenePreview from '../../core/scene/ScenePreview'
+import Loader from '../../core/loader/Loader'
 import ErrorMessage from '../../core/error/ErrorMessage'
 
 /* Display a list of scenes */
@@ -28,15 +29,13 @@ const LevelSelection = () => {
         </p>
         {/* Show loading spinner while fetching the data */}
         {isLoading && (
-          <div className={styles.loader}>
-            <img
-              className={styles.bouncingCircles}
-              src={bouncingCircles}
-              alt=""
-              width={70}
-              height={70}
-            />
-          </div>
+          <Loader
+            className="loader"
+            imgClassName="bouncingCircles"
+            src={bouncingCircles}
+            width={70}
+            height={70}
+          />
         )}
 
         {/* Show error message if data fetch fails */}

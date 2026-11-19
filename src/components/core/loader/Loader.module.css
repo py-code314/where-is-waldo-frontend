@@ -1,0 +1,12 @@
+.loader {
+  width: clamp(var(--space-50, 3.125rem), 2.232rem + 2.381vw, var(--space-70, 4.375rem));
+  height: clamp(var(--space-50, 3.125rem), 2.232rem + 2.381vw, var(--space-70, 4.375rem));
+  align-self: center;
+  justify-self: center;
+}
+
+.bouncingCircles {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
