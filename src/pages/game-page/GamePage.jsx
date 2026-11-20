@@ -10,6 +10,7 @@ import { useFetchData } from '../../hooks/useFetchData'
 import { ResultContext } from '../../contexts/game-scene/ResultContext'
 import { CharacterIdsContext } from '../../contexts/characters/CharacterIdsContext'
 import { StopwatchContext } from '../../contexts/game-scene/StopwatchContext'
+import { SceneDataContext } from '../../contexts/game-scene/SceneDataContext'
 /* -------------------- Components -------------------- */
 import GameHeader from '../../components/sections/game-header/GameHeader'
 import GameScene from '../../components/sections/game-scene/GameScene'
@@ -112,8 +113,11 @@ const GamePage = () => {
 
   // Data
   const { scene } = data
+  // console.log("🚀 ~ GamePage ~ scene:", scene)
   const { title, difficulty, imageUrl, imageAlt, characters } = scene
+  // console.log("🚀 ~ GamePage ~ imageAlt:", imageAlt)
   const sceneCharacters = characters.map((character) => character.character)
+  // console.log("🚀 ~ GamePage ~ sceneCharacters:", sceneCharacters)
   const characterNames = sceneCharacters.map(
     (sceneCharacter) => sceneCharacter.name,
   )
@@ -146,12 +150,10 @@ const GamePage = () => {
           )}
 
           <ResultContext value={{ result, setResult }}>
-            {/* Game image  */}
-            <GameScene
-              imageUrl={imageUrl}
-              imageAlt={imageAlt}
-              isActive={isActive}
-            />
+            <SceneDataContext value={{ imageUrl, imageAlt, sceneCharacters }}>
+              {/* Game image  */}
+              <GameScene isActive={isActive} />
+            </SceneDataContext>
           </ResultContext>
         </CharacterIdsContext>
       </div>

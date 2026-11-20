@@ -4,8 +4,7 @@ import styles from './Dropdown.module.css'
 import { useContext } from 'react'
 /* -------------------- Context -------------------- */
 import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
-/* -------------------- Data -------------------- */
-import { charactersData } from '../../../data/charactersData'
+import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext'
 /* -------------------- Components -------------------- */
 import Button from '../button/Button'
 
@@ -18,6 +17,7 @@ const Dropdown = ({
   imgContainerPosition,
 }) => {
   const { foundCharacterIds } = useContext(CharacterIdsContext)
+  const {sceneCharacters} = useContext(SceneDataContext)
 
   return (
     <>
@@ -32,13 +32,13 @@ const Dropdown = ({
         }}
         ref={dropdownRef}>
         <li className={styles.select}>Who is this?</li>
-        {charactersData.map((character) => {
+        {sceneCharacters.map((character) => {
           return (
             <li key={character.id}>
               <Button
+                id={character.id}
                 className="optionBtn"
-                dataId={character.id}
-                onClick={handleOptionClick}
+                onClick={() => handleOptionClick(character.id)}
                 disabled={foundCharacterIds.includes(character.id)}>
                 {character.name}
               </Button>

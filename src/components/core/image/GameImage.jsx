@@ -1,5 +1,9 @@
 /* ------------------------- Styles ------------------------------- */
 import styles from './GameImage.module.css'
+/* ------------------------- Hooks ------------------------------- */
+import { useContext } from 'react'
+/* ------------------------- Context ------------------------------- */
+import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext'
 
 const GameImage = ({
   imgRef,
@@ -8,9 +12,9 @@ const GameImage = ({
   handleMouseUp,
   handleTouchEnd,
   handleImageClick,
-  imageUrl,
-  imageAlt,
 }) => {
+  const { imageUrl, imageAlt } = useContext(SceneDataContext)
+
   return (
     <>
       <img

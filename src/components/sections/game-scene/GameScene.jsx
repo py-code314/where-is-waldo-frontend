@@ -13,7 +13,7 @@ import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
 
-const GameScene = ({ imageUrl, imageAlt, isActive }) => {
+const GameScene = ({ isActive }) => {
   const { setResult } = useContext(ResultContext)
   const { foundCharacterIds, setFoundCharacterIds } =
     useContext(CharacterIdsContext)
@@ -699,8 +699,6 @@ const GameScene = ({ imageUrl, imageAlt, isActive }) => {
               handleMouseUp={handleMouseUp}
               handleTouchEnd={handleTouchEnd}
               handleImageClick={handleImageClick}
-              imageUrl={imageUrl}
-              imageAlt={imageAlt}
             />
 
             {/* Popup message  */}
