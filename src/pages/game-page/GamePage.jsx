@@ -36,6 +36,9 @@ const GamePage = () => {
   const [foundCharacterIds, setFoundCharacterIds] = useState([])
   const [gameOver, setGameOver] = useState(false)
 
+  const [sessionData, setSessionData] = useState(null)
+  const [isActive, setIsActive] = useState(false)
+
   const [errorMsg, setErrorMsg] = useState('')
 
   // Send scene id to backend
@@ -69,7 +72,11 @@ const GamePage = () => {
           return
         }
 
-        // console.log('Game session created successfully:', data)
+        // console.log('Game session created successfully:', data.sessionData)
+        setSessionData(data.sessionData)
+        if (data.sessionData.status === 'ACTIVE') {
+          setIsActive(true)
+        }
       } catch (err) {
         console.error(err)
 
@@ -140,7 +147,11 @@ const GamePage = () => {
 
           <ResultContext value={{ result, setResult }}>
             {/* Game image  */}
-            <GameScene imageUrl={imageUrl} imageAlt={imageAlt} />
+            <GameScene
+              imageUrl={imageUrl}
+              imageAlt={imageAlt}
+              isActive={isActive}
+            />
           </ResultContext>
         </CharacterIdsContext>
       </div>

@@ -13,7 +13,7 @@ import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
 
-const GameScene = ({ imageUrl, imageAlt }) => {
+const GameScene = ({ imageUrl, imageAlt, isActive }) => {
   const { setResult } = useContext(ResultContext)
   const { foundCharacterIds, setFoundCharacterIds } =
     useContext(CharacterIdsContext)
@@ -496,7 +496,8 @@ const GameScene = ({ imageUrl, imageAlt }) => {
     dropdown */
   const handleImageClick = (e) => {
     // Don't show dropdown after panning the image
-    if (isDragging) return
+    // if (isDragging) return
+    if (isDragging || !isActive) return
 
     const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
     const dropdown = dropdownRef.current
