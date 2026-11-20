@@ -16,11 +16,12 @@ import GameScene from '../../components/sections/game-scene/GameScene'
 import CharactersList from '../../components/core/characters/CharactersList'
 import Loader from '../../components/core/loader/Loader'
 import ErrorMessage from '../../components/core/error/ErrorMessage'
+/* -------------------- Data -------------------- */
+import { ERROR_MESSAGES } from '../../data/errorMessages'
 
 const GamePage = () => {
   let { sceneId } = useParams()
   sceneId = Number(sceneId)
-
 
   // Configure API
   const baseURL = import.meta.env.VITE_REACT_APP_API_URL
@@ -39,7 +40,7 @@ const GamePage = () => {
 
   // Send scene id to backend
   useEffect(() => {
-    const submitData = async () => {
+    const fetchSessionData = async () => {
       try {
         const response = await fetch(sessionEndpoint, {
           method: 'POST',
@@ -48,24 +49,27 @@ const GamePage = () => {
           },
           body: JSON.stringify({ sceneId }),
         })
-        // console.log('🚀 ~ submitData ~ response:', response)
+        // console.log('🚀 ~ fetchSessionData ~ response:', response)
 
         const data = await response.json()
+        // console.log('🚀 ~ fetchSessionData ~ data:', data)
         if (!response.ok) {
-          const backendMsg = data.errors[0].msg
-          // Fallback error message
-          let errorMsg = 'An unexpected error occurred. Please try again.'
+          const backendMsg =
+            Array.isArray(data?.errors) && data.errors.length > 0
+              ? data.errors[0].msg
+              : data?.errorCode
+          // console.log('🚀 ~ fetchSessionData ~ backendMsg:', backendMsg)
           // User friendly error message
-          if (backendMsg === 'Each scene ID must be a positive integer.') {
-            errorMsg = 'Failed to start a game session. Please try again.'
-          }
+          let errorMsg =
+            ERROR_MESSAGES[backendMsg] ||
+            'An unexpected error occurred. Please try again.'
 
           setErrorMsg(errorMsg)
 
           return
         }
 
-        console.log('Game session created successfully:', data)
+        // console.log('Game session created successfully:', data)
       } catch (err) {
         console.error(err)
 
@@ -74,7 +78,7 @@ const GamePage = () => {
       // finally {
       // }
     }
-    submitData()
+    fetchSessionData()
   }, [sceneId, sessionEndpoint])
 
   // Show loading spinner while fetching the data
