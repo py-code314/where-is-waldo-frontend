@@ -5,6 +5,7 @@ import { useEffect, useState, useRef, useContext } from 'react'
 /* -------------------- Context -------------------- */
 import { ResultContext } from '../../../contexts/game-scene/ResultContext.jsx'
 import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext.jsx'
+import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext.jsx'
 /* ------------------------- Components --------------------------- */
 import PopupMessage from '../../core/popup/PopupMessage'
 import Dropdown from '../../core/dropdown/Dropdown'
@@ -17,6 +18,7 @@ const GameScene = ({ isActive }) => {
   const { setResult } = useContext(ResultContext)
   const { foundCharacterIds, setFoundCharacterIds } =
     useContext(CharacterIdsContext)
+  const { sceneId } = useContext(SceneDataContext)
 
   /* ----------------------- State -------------------------------- */
 
@@ -608,9 +610,13 @@ const GameScene = ({ isActive }) => {
   }
 
   /* Show success or fail message after player chooses a character */
-  const handleOptionClick = (e) => {
+  const handleOptionClick = async (characterId) => {
     // Get character name and it's match status
-    const { isMatch, characterId, name } = isCharacterFound(e, imgClickCoords)
+    const { data: verifyData } = await isCharacterFound(
+      characterId,
+      sceneId,
+      imgClickCoords,
+    )
 
     const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
     const popup = popupRef.current
@@ -630,10 +636,10 @@ const GameScene = ({ isActive }) => {
 
     /* Add correct guess to an array only if doesn't already has it */
     if (isMatch) {
-      if (!foundCharacterIds.includes(characterId)) {
+      if (!foundCharacterIds.includes(matchedCharacterId)) {
         setFoundCharacterIds((prevFoundCharacterIds) => [
           ...prevFoundCharacterIds,
-          characterId,
+          matchedCharacterId,
         ])
       }
     }

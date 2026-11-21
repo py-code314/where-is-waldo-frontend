@@ -1,34 +1,34 @@
-/* -------------------- Data -------------------- */
-import { charactersData } from '../../data/charactersData'
-
-export const isCharacterFound = (e, clickCoords) => {
-  let isMatch = false
-  let characterId = null
-  let name = ''
-
-  // Get id from clicked button
-  const id = parseInt(e.target.dataset.id)
+export const isCharacterFound = async (characterId, sceneId, clickCoords) => {
+  // Configure API
+  const baseURL = import.meta.env.VITE_REACT_APP_API_URL
+  const verifyEndPoint = `${baseURL}/sessions/verify`
 
   // Get coordinates from state
   const xCoord = clickCoords.x
   const yCoord = clickCoords.y
 
-  // Loop through each character and check for matching coordinates
-  charactersData.forEach((character) => {
-    if (character.id === id) {
-      name = character.name
-      if (
-        xCoord >= character.minX &&
-        xCoord <= character.maxX &&
-        yCoord >= character.minY &&
-        yCoord <= character.maxY
-      ) {
-        isMatch = true
-        characterId = character.id
-      }
-    }
-  })
+  const clickData = {
+    sceneId,
+    characterId,
+    x: xCoord,
+    y: yCoord,
+  }
 
-  // Return character id and name
-  return { isMatch, characterId, name }
+  try {
+    const response = await fetch(verifyEndPoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(clickData),
+    })
+    // console.log('🚀 ~ fetchValidationData ~ response:', response)
+
+    const data = await response.json()
+    // console.log('🚀 ~ fetchValidationData ~ data:', data)
+
+    return data
+  } catch (err) {
+    console.error('Verification failed:', err)
+  }
 }
