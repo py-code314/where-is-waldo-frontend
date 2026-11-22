@@ -43,7 +43,7 @@ export const validateOptionClick = async (
     // console.log('🚀 ~ fetchValidationData ~ response:', response)
 
     const data = await response.json()
-    // console.log('🚀 ~ fetchValidationData ~ data:', data)
+    // console.log("🚀 ~ validateOptionClick ~ data:", data)
 
     if (!response.ok) {
       const isInvalidClickData =
@@ -70,7 +70,8 @@ export const validateOptionClick = async (
 
     return data
   } catch (err) {
-    console.error('Verification failed:', err)
-    // TODO: show error message
+    console.error('System or Network Error:', err)
+
+    setErrorMsg('Something went wrong. Please try again.')
   }
 }
