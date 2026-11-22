@@ -2,9 +2,10 @@
 export const ERROR_MESSAGES = {
   // Validation errors
   'Each scene ID must be a positive integer.':
-    'Failed to start a game session. Please try again.',
- ' MISSING_FIELD': 'Failed to start a game session. Please try again.',
-  'DATABASE_SCHEMA_ERROR': 'Failed to start a game session. Please try again.',
+    'A technical error occurred. Please try again.',
+ 'MISSING_FIELD': 'A technical error occurred. Please try again.',
+  'DATABASE_SCHEMA_ERROR': 'A technical error occurred. Please try again.',
+  'Bad Input': 'We could not process the last click. Please try again.',
 
   // Not found errors
   'NOT_FOUND': 'This game does not exist any more. Please choose a different one.',

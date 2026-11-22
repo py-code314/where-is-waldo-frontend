@@ -150,9 +150,9 @@ const GamePage = () => {
           )}
 
           <ResultContext value={{ result, setResult }}>
-            <SceneDataContext value={{ imageUrl, imageAlt, sceneCharacters }}>
+            <SceneDataContext value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
               {/* Game image  */}
-              <GameScene isActive={isActive} />
+              <GameScene isActive={isActive} setIsActive={setIsActive} setErrorMsg={setErrorMsg} />
             </SceneDataContext>
           </ResultContext>
         </CharacterIdsContext>

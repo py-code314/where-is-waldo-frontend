@@ -12,13 +12,14 @@ import Dropdown from '../../core/dropdown/Dropdown'
 import GameImage from '../../core/image/GameImage.jsx'
 import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
-import { isCharacterFound, getUpdatedImgCoords } from '../../../utils/index.js'
+import { validateOptionClick, getUpdatedImgCoords } from '../../../utils/index.js'
 
-const GameScene = ({ isActive }) => {
+const GameScene = ({ isActive, setIsActive, setErrorMsg }) => {
   const { setResult } = useContext(ResultContext)
   const { foundCharacterIds, setFoundCharacterIds } =
     useContext(CharacterIdsContext)
   const { sceneId } = useContext(SceneDataContext)
+  // console.log("🚀 ~ GameScene ~ sceneId:", sceneId)
 
   /* ----------------------- State -------------------------------- */
 
@@ -612,78 +613,81 @@ const GameScene = ({ isActive }) => {
   /* Show success or fail message after player chooses a character */
   const handleOptionClick = async (characterId) => {
     // Get character name and it's match status
-    const { data: verifyData } = await isCharacterFound(
+    const { data: verifyData } = await validateOptionClick(
       characterId,
       sceneId,
       imgClickCoords,
+      setErrorMsg,
+      setIsActive,
     )
+    console.log("🚀 ~ handleOptionClick ~ verifyData:", verifyData)
 
-    const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
-    const popup = popupRef.current
-    const popupWidth = popup.clientWidth
-    const popupHeight = popup.clientHeight
+    // const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
+    // const popup = popupRef.current
+    // const popupWidth = popup.clientWidth
+    // const popupHeight = popup.clientHeight
 
-    /* Place popup in the top middle of game board and then center it
-    using 'translateX' */
-    const popupX = gameBoardRect.width / 2 - popupWidth / 2
-    let popupY = 0
+    // /* Place popup in the top middle of game board and then center it
+    // using 'translateX' */
+    // const popupX = gameBoardRect.width / 2 - popupWidth / 2
+    // let popupY = 0
 
-    setResult((prevResult) => ({
-      ...prevResult,
-      isMatch,
-      name,
-    }))
+    // setResult((prevResult) => ({
+    //   ...prevResult,
+    //   isMatch,
+    //   name,
+    // }))
 
-    /* Add correct guess to an array only if doesn't already has it */
-    if (isMatch) {
-      if (!foundCharacterIds.includes(matchedCharacterId)) {
-        setFoundCharacterIds((prevFoundCharacterIds) => [
-          ...prevFoundCharacterIds,
-          matchedCharacterId,
-        ])
-      }
-    }
+    // /* Add correct guess to an array only if doesn't already has it */
+    // if (isMatch) {
+    //   if (!foundCharacterIds.includes(matchedCharacterId)) {
+    //     setFoundCharacterIds((prevFoundCharacterIds) => [
+    //       ...prevFoundCharacterIds,
+    //       matchedCharacterId,
+    //     ])
+    //   }
+    // }
 
-    setPopupPosition((prevPopupPosition) => ({
-      ...prevPopupPosition,
-      x: popupX,
-      y: popupY,
-    }))
+    // setPopupPosition((prevPopupPosition) => ({
+    //   ...prevPopupPosition,
+    //   x: popupX,
+    //   y: popupY,
+    // }))
 
-    /* Reset */
-    setDropdownPosition((prevDropdownPosition) => ({
-      ...prevDropdownPosition,
-      x: -9999,
-      y: -9999,
-    }))
-    setTargetPosition((prevTargetPosition) => ({
-      ...prevTargetPosition,
-      x: -9999,
-      y: -9999,
-    }))
-    setImgClick(false)
-    // Show popup message
-    setIsOption(true)
+    // /* Reset */
+    // setDropdownPosition((prevDropdownPosition) => ({
+    //   ...prevDropdownPosition,
+    //   x: -9999,
+    //   y: -9999,
+    // }))
+    // setTargetPosition((prevTargetPosition) => ({
+    //   ...prevTargetPosition,
+    //   x: -9999,
+    //   y: -9999,
+    // }))
+    // setImgClick(false)
+    // // Show popup message
+    // setIsOption(true)
 
-    /* Hide popup message after 1 second */
-    const resetPopup = () => {
-      setIsOption(false)
+    // /* Hide popup message after 1 second */
+    // const resetPopup = () => {
+    //   setIsOption(false)
 
-      setTimeout(() => {
-        setPopupPosition((prevPopupPosition) => ({
-          ...prevPopupPosition,
-          x: popupX,
-          y: 0 - popupHeight,
-        }))
-        setResult((prevResult) => ({
-          ...prevResult,
-          isMatch: null,
-          name: '',
-        }))
-      }, 300)
-    }
+    //   setTimeout(() => {
+    //     setPopupPosition((prevPopupPosition) => ({
+    //       ...prevPopupPosition,
+    //       x: popupX,
+    //       y: 0 - popupHeight,
+    //     }))
+    //     setResult((prevResult) => ({
+    //       ...prevResult,
+    //       isMatch: null,
+    //       name: '',
+    //     }))
+    //   }, 300)
+    // }
 
-    window.setTimeout(resetPopup, 2000)
+    // window.setTimeout(resetPopup, 2000)
   }
 
   return (
