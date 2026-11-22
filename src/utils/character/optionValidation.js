@@ -7,6 +7,7 @@ export const validateOptionClick = async (
   clickCoords,
   setErrorMsg,
   setIsActive,
+  sessionId,
 ) => {
   // Configure API
   const baseURL = import.meta.env.VITE_REACT_APP_API_URL
@@ -25,8 +26,9 @@ export const validateOptionClick = async (
   const clickData = {
     sceneId,
     characterId,
-    x: xCoord,
-    y: yCoord,
+    clickX: xCoord,
+    clickY: yCoord,
+    sessionId,
   }
   // console.log("🚀 ~ isCharacterFound ~ clickData:", clickData)
 
@@ -41,21 +43,24 @@ export const validateOptionClick = async (
     // console.log('🚀 ~ fetchValidationData ~ response:', response)
 
     const data = await response.json()
-    console.log('🚀 ~ fetchValidationData ~ data:', data)
+    // console.log('🚀 ~ fetchValidationData ~ data:', data)
 
     if (!response.ok) {
       const isInvalidClickData =
         Array.isArray(data?.errors) && data.errors.length > 0
       const backendMsg = isInvalidClickData ? 'Bad Input' : data?.errorCode
-      console.log('🚀 ~ isCharacterFound ~ backendMsg:', backendMsg)
+      // console.log('🚀 ~ isCharacterFound ~ backendMsg:', backendMsg)
 
-      // User friendly error message
+      // Show user friendly error message
       let errorMsg =
         ERROR_MESSAGES[backendMsg] ||
         'An unexpected error occurred. Please try again.'
 
+      /* Show only error message if input backend validation
+      fails. Don't stop game play, allow player to continue playing */
       setErrorMsg(errorMsg)
 
+      /* Stop game play if there are any critical backend errors (disable clicks on the game image) */
       if (!isInvalidClickData) {
         setIsActive(false)
       }
@@ -66,5 +71,6 @@ export const validateOptionClick = async (
     return data
   } catch (err) {
     console.error('Verification failed:', err)
+    // TODO: show error message
   }
 }

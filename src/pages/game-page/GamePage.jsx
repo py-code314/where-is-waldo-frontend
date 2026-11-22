@@ -121,6 +121,8 @@ const GamePage = () => {
   const characterNames = sceneCharacters.map(
     (sceneCharacter) => sceneCharacter.name,
   )
+  const sessionId = sessionData?.id
+  // console.log("🚀 ~ GamePage ~ sessionId:", sessionId)
 
   return (
     <>
@@ -152,7 +154,7 @@ const GamePage = () => {
           <ResultContext value={{ result, setResult }}>
             <SceneDataContext value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
               {/* Game image  */}
-              <GameScene isActive={isActive} setIsActive={setIsActive} setErrorMsg={setErrorMsg} />
+              <GameScene isActive={isActive} setIsActive={setIsActive} setErrorMsg={setErrorMsg} sessionId={sessionId} />
             </SceneDataContext>
           </ResultContext>
         </CharacterIdsContext>

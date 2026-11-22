@@ -14,7 +14,7 @@ import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import { validateOptionClick, getUpdatedImgCoords } from '../../../utils/index.js'
 
-const GameScene = ({ isActive, setIsActive, setErrorMsg }) => {
+const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
   const { setResult } = useContext(ResultContext)
   const { foundCharacterIds, setFoundCharacterIds } =
     useContext(CharacterIdsContext)
@@ -619,8 +619,9 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg }) => {
       imgClickCoords,
       setErrorMsg,
       setIsActive,
+      sessionId,
     )
-    console.log("🚀 ~ handleOptionClick ~ verifyData:", verifyData)
+    // console.log("🚀 ~ handleOptionClick ~ verifyData:", verifyData)
 
     // const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
     // const popup = popupRef.current
