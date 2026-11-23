@@ -8,6 +8,7 @@ import { useContext, useEffect } from 'react'
 import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
 import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
 import { ModalContext } from '../../../contexts/modal/ModalContext'
+import { ResultContext } from '../../../contexts/game-scene/ResultContext'
 
 const CharactersList = ({ characters }) => {
   // Data
@@ -18,6 +19,8 @@ const CharactersList = ({ characters }) => {
   const { foundCharacterIds } = useContext(CharacterIdsContext)
   const length = foundCharacterIds.length
   const { setShowModal } = useContext(ModalContext)
+  const { result } = useContext(ResultContext)
+  const { foundCharacters } = result
 
   // Stop clock and show modal if all characters are found
   useEffect(() => {
@@ -51,7 +54,7 @@ const CharactersList = ({ characters }) => {
                   height={50}
                 />
                 {/* Loop through found characters array and add check marks  */}
-                {foundCharacterIds.map(
+                {foundCharacters.map(
                   (characterId) =>
                     characterId === character.id && (
                       <img

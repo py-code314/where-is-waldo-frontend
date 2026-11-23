@@ -7,6 +7,7 @@ import { ResultContext } from '../../../contexts/game-scene/ResultContext'
 
 const PopupMessage = ({ isOption, popupPosition, popupRef }) => {
   const { result } = useContext(ResultContext)
+  // console.log("🚀 ~ PopupMessage ~ result:", result)
 
   return (
     <>
@@ -22,9 +23,9 @@ const PopupMessage = ({ isOption, popupPosition, popupRef }) => {
         }}
         ref={popupRef}>
         {result.isMatch === true ? (
-          <p className={styles.message}>You found {result.name}! </p>
+          <p className={styles.message}>You found {result.characterName}! </p>
         ) : result.isMatch === false ? (
-          <p className={styles.message}> {result.name} is not there</p>
+          <p className={styles.message}> {result.characterName} is not there</p>
         ) : null}
       </div>
     </>

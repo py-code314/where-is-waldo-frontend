@@ -40,7 +40,9 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
   })
   // Track image click coordinates
   const [imgClickCoords, setImgClickCoords] = useState({ x: 0, y: 0 })
-  // Place dropdown, target, and popup off screen
+
+  /* Place dropdown, popup and target completely off the screen
+    to prevent flashing of those elements which can happen sometimes */
   const [dropdownPosition, setDropdownPosition] = useState({
     x: -9999,
     y: -9999,
@@ -615,7 +617,7 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
 
   /* Show success or fail message after player chooses a character */
   const handleOptionClick = async (characterId) => {
-    // Get character data and it's match status from backend
+    // Validate click coordinated on backend and get character data and it's match status
     const data = await validateOptionClick(
       characterId,
       sceneId,
@@ -624,11 +626,11 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
       setIsActive,
       sessionId,
     )
-    console.log('🚀 ~ handleOptionClick ~ data:', data)
-    const isMatch = data.isMatch
-    // console.log("🚀 ~ handleOptionClick ~ isMatch:", isMatch)
-    const characterName = data?.characterData.name
-    // console.log("🚀 ~ handleOptionClick ~ characterName:", characterName)
+    // console.log('🚀 ~ handleOptionClick ~ data:', data)
+    const isMatch = data?.isMatch
+    const charId = data?.characterData.id
+    const charName = data?.characterData.name
+    const foundCharacters = data?.foundCharacters
 
     const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
     const popup = popupRef.current
@@ -640,21 +642,14 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
     const popupX = gameBoardRect.width / 2 - popupWidth / 2
     let popupY = 0
 
+    // Save validation result in a state and access them in CharactersList and PopupMessage to display data dynamically
     setResult((prevResult) => ({
       ...prevResult,
       isMatch,
-      name: characterName,
+      characterId: charId,
+      characterName: charName,
+      foundCharacters,
     }))
-
-    // /* Add correct guess to an array only if doesn't already has it */
-    // if (isMatch) {
-    //   if (!foundCharacterIds.includes(matchedCharacterId)) {
-    //     setFoundCharacterIds((prevFoundCharacterIds) => [
-    //       ...prevFoundCharacterIds,
-    //       matchedCharacterId,
-    //     ])
-    //   }
-    // }
 
     setPopupPosition((prevPopupPosition) => ({
       ...prevPopupPosition,
@@ -686,11 +681,6 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
           ...prevPopupPosition,
           x: popupX,
           y: 0 - popupHeight,
-        }))
-        setResult((prevResult) => ({
-          ...prevResult,
-          isMatch: null,
-          name: '',
         }))
       }, 300)
     }

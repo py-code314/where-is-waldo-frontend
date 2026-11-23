@@ -33,7 +33,13 @@ const GamePage = () => {
   const { data, isLoading, error } = useFetchData(apiEndpoint)
 
   // State
-  const [result, setResult] = useState({ isMatch: false, name: '' })
+  const [result, setResult] = useState({
+    isMatch: false,
+    characterId: 0,
+    characterName: '',
+    foundCharacters: []
+  })
+  // const [result, setResult] = useState({ isMatch: false, name: '' })
   const [foundCharacterIds, setFoundCharacterIds] = useState([])
   const [gameOver, setGameOver] = useState(false)
 
@@ -141,9 +147,16 @@ const GamePage = () => {
             setFoundCharacterIds,
           }}>
           <StopwatchContext value={{ gameOver, setGameOver }}>
+            <ResultContext value={{result}}>
+              <CharactersList characters={characters} />
+            </ResultContext>
             {/* Character head shots  */}
-            <CharactersList characters={characters} />
           </StopwatchContext>
+
+          {/* <StopwatchContext value={{ gameOver, setGameOver }}>
+
+            <CharactersList characters={characters} />
+          </StopwatchContext> */}
 
           {errorMsg && (
             <div className={styles.errorBanner}>
@@ -152,9 +165,15 @@ const GamePage = () => {
           )}
 
           <ResultContext value={{ result, setResult }}>
-            <SceneDataContext value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
+            <SceneDataContext
+              value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
               {/* Game image  */}
-              <GameScene isActive={isActive} setIsActive={setIsActive} setErrorMsg={setErrorMsg} sessionId={sessionId} />
+              <GameScene
+                isActive={isActive}
+                setIsActive={setIsActive}
+                setErrorMsg={setErrorMsg}
+                sessionId={sessionId}
+              />
             </SceneDataContext>
           </ResultContext>
         </CharacterIdsContext>
