@@ -22,6 +22,7 @@ function App() {
     foundCharacters: [],
     isGameOver: false,
   })
+  // console.log("🚀 ~ App ~ result:", result)
   const modalRef = useRef(null)
 
   // Show and close modal based on result from backend

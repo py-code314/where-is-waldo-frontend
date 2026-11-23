@@ -3,8 +3,8 @@ import styles from './Dropdown.module.css'
 /* -------------------- Hooks -------------------- */
 import { useContext } from 'react'
 /* -------------------- Context -------------------- */
-// import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
 import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext'
+import { ResultContext } from '../../../contexts/game-scene/ResultContext'
 /* -------------------- Components -------------------- */
 import Button from '../button/Button'
 
@@ -16,10 +16,10 @@ const Dropdown = ({
   handleOptionClick,
   imgContainerPosition,
 }) => {
-  // const { foundCharacterIds } = useContext(CharacterIdsContext)
+  // Context
   const { sceneCharacters } = useContext(SceneDataContext)
-  
-  // TODO: Disable buttons after the match
+  const { result } = useContext(ResultContext)
+  const {foundCharacters} = result
 
   return (
     <>
@@ -36,12 +36,13 @@ const Dropdown = ({
         <li className={styles.select}>Who is this?</li>
         {sceneCharacters.map((character) => {
           return (
+            /* Disable character button to prevent selecting the same character after the match */
             <li key={character.id}>
               <Button
                 id={character.id}
                 className="optionBtn"
                 onClick={() => handleOptionClick(character.id)}
-                disabled={sceneCharacters.includes(character.id)}>
+                disabled={foundCharacters.includes(character.id)}>
                 {character.name}
               </Button>
             </li>

@@ -3,12 +3,10 @@ import styles from './GamePage.module.css'
 /* -------------------- Loaders -------------------- */
 import bouncingCircles from '../../assets/loaders/bouncing-circles.svg'
 /* ------------------------- Hooks -------------------------------- */
-import { useContext, useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useFetchData } from '../../hooks/useFetchData'
 /* -------------------- Context -------------------- */
-import { ResultContext } from '../../contexts/game-scene/ResultContext'
-import { CharacterIdsContext } from '../../contexts/characters/CharacterIdsContext'
 import { StopwatchContext } from '../../contexts/game-scene/StopwatchContext'
 import { SceneDataContext } from '../../contexts/game-scene/SceneDataContext'
 
@@ -24,7 +22,6 @@ import { ERROR_MESSAGES } from '../../data/errorMessages'
 const GamePage = () => {
   let { sceneId } = useParams()
   sceneId = Number(sceneId)
-  const { result } = useContext(ResultContext)
 
   // Configure API
   const baseURL = import.meta.env.VITE_REACT_APP_API_URL
@@ -35,7 +32,6 @@ const GamePage = () => {
   const { data, isLoading, error } = useFetchData(apiEndpoint)
 
   // State
-  const [foundCharacterIds, setFoundCharacterIds] = useState([])
   const [gameOver, setGameOver] = useState(false)
   const [sessionData, setSessionData] = useState(null)
   const [isActive, setIsActive] = useState(false)
