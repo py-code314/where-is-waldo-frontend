@@ -630,6 +630,11 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
     const foundCharacters = data?.foundCharacters
     const isGameOver = data?.isGameOver
 
+    // Disable play (image clicks) if 'isGameOver' true
+    if (isGameOver) {
+      setIsActive(false)
+    }
+
     const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
     const popup = popupRef.current
     const popupWidth = popup.clientWidth
