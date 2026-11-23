@@ -4,7 +4,6 @@ import styles from './GameScene.module.css'
 import { useEffect, useState, useRef, useContext } from 'react'
 /* -------------------- Context -------------------- */
 import { ResultContext } from '../../../contexts/game-scene/ResultContext.jsx'
-import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext.jsx'
 import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext.jsx'
 /* ------------------------- Components --------------------------- */
 import PopupMessage from '../../core/popup/PopupMessage'
@@ -19,10 +18,7 @@ import {
 
 const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
   const { setResult } = useContext(ResultContext)
-  const { foundCharacterIds, setFoundCharacterIds } =
-    useContext(CharacterIdsContext)
   const { sceneId } = useContext(SceneDataContext)
-  // console.log("🚀 ~ GameScene ~ sceneId:", sceneId)
 
   /* ----------------------- State -------------------------------- */
 
@@ -626,11 +622,13 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
       setIsActive,
       sessionId,
     )
-    // console.log('🚀 ~ handleOptionClick ~ data:', data)
+    console.log('🚀 ~ handleOptionClick ~ data:', data)
+    // Click validation result
     const isMatch = data?.isMatch
     const charId = data?.characterData.id
     const charName = data?.characterData.name
     const foundCharacters = data?.foundCharacters
+    const isGameOver = data?.isGameOver
 
     const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
     const popup = popupRef.current
@@ -642,13 +640,15 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
     const popupX = gameBoardRect.width / 2 - popupWidth / 2
     let popupY = 0
 
-    // Save validation result in a state and access them in CharactersList and PopupMessage to display data dynamically
+    /* Save validation result in a state and place it at App 
+    level so that all children can access it */
     setResult((prevResult) => ({
       ...prevResult,
       isMatch,
       characterId: charId,
       characterName: charName,
       foundCharacters,
+      isGameOver,
     }))
 
     setPopupPosition((prevPopupPosition) => ({

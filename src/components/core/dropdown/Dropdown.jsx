@@ -3,7 +3,7 @@ import styles from './Dropdown.module.css'
 /* -------------------- Hooks -------------------- */
 import { useContext } from 'react'
 /* -------------------- Context -------------------- */
-import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
+// import { CharacterIdsContext } from '../../../contexts/characters/CharacterIdsContext'
 import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext'
 /* -------------------- Components -------------------- */
 import Button from '../button/Button'
@@ -16,8 +16,10 @@ const Dropdown = ({
   handleOptionClick,
   imgContainerPosition,
 }) => {
-  const { foundCharacterIds } = useContext(CharacterIdsContext)
-  const {sceneCharacters} = useContext(SceneDataContext)
+  // const { foundCharacterIds } = useContext(CharacterIdsContext)
+  const { sceneCharacters } = useContext(SceneDataContext)
+  
+  // TODO: Disable buttons after the match
 
   return (
     <>
@@ -39,7 +41,7 @@ const Dropdown = ({
                 id={character.id}
                 className="optionBtn"
                 onClick={() => handleOptionClick(character.id)}
-                disabled={foundCharacterIds.includes(character.id)}>
+                disabled={sceneCharacters.includes(character.id)}>
                 {character.name}
               </Button>
             </li>

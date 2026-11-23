@@ -3,10 +3,9 @@ import styles from './CharactersList.module.css'
 /* -------------------- Icons -------------------- */
 import checkmarkIcon from '../../../assets/icons/icon-checkmark.svg'
 /* -------------------- Hooks -------------------- */
-import { useContext, useEffect } from 'react'
+import { useContext,  } from 'react'
 /* -------------------- Context -------------------- */
-import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
-import { ModalContext } from '../../../contexts/modal/ModalContext'
+// import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
 import { ResultContext } from '../../../contexts/game-scene/ResultContext'
 
 const CharactersList = ({ characters }) => {
@@ -14,19 +13,9 @@ const CharactersList = ({ characters }) => {
   const sceneCharacters = characters.map((character) => character.character)
 
   // Context
-  const { setGameOver } = useContext(StopwatchContext)
-  const { setShowModal } = useContext(ModalContext)
   const { result } = useContext(ResultContext)
-  const { foundCharacters } = result
+  const { foundCharacters,  } = result
   const length = foundCharacters.length
-
-  // Stop clock and show modal if all characters are found
-  useEffect(() => {
-    if (length === 4) {
-      setGameOver(true)
-      setShowModal(true)
-    }
-  }, [length, setGameOver, setShowModal])
 
   return (
     <>

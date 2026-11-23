@@ -3,7 +3,7 @@ import styles from './GamePage.module.css'
 /* -------------------- Loaders -------------------- */
 import bouncingCircles from '../../assets/loaders/bouncing-circles.svg'
 /* ------------------------- Hooks -------------------------------- */
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useFetchData } from '../../hooks/useFetchData'
 /* -------------------- Context -------------------- */
@@ -11,6 +11,7 @@ import { ResultContext } from '../../contexts/game-scene/ResultContext'
 import { CharacterIdsContext } from '../../contexts/characters/CharacterIdsContext'
 import { StopwatchContext } from '../../contexts/game-scene/StopwatchContext'
 import { SceneDataContext } from '../../contexts/game-scene/SceneDataContext'
+
 /* -------------------- Components -------------------- */
 import GameHeader from '../../components/sections/game-header/GameHeader'
 import GameScene from '../../components/sections/game-scene/GameScene'
@@ -23,6 +24,7 @@ import { ERROR_MESSAGES } from '../../data/errorMessages'
 const GamePage = () => {
   let { sceneId } = useParams()
   sceneId = Number(sceneId)
+  const { result } = useContext(ResultContext)
 
   // Configure API
   const baseURL = import.meta.env.VITE_REACT_APP_API_URL
@@ -33,19 +35,10 @@ const GamePage = () => {
   const { data, isLoading, error } = useFetchData(apiEndpoint)
 
   // State
-  const [result, setResult] = useState({
-    isMatch: false,
-    characterId: 0,
-    characterName: '',
-    foundCharacters: []
-  })
-  // const [result, setResult] = useState({ isMatch: false, name: '' })
   const [foundCharacterIds, setFoundCharacterIds] = useState([])
   const [gameOver, setGameOver] = useState(false)
-
   const [sessionData, setSessionData] = useState(null)
   const [isActive, setIsActive] = useState(false)
-
   const [errorMsg, setErrorMsg] = useState('')
 
   // Send scene id to backend
@@ -79,7 +72,6 @@ const GamePage = () => {
           return
         }
 
-        // console.log('Game session created successfully:', data.sessionData)
         setSessionData(data.sessionData)
         if (data.sessionData.status === 'ACTIVE') {
           setIsActive(true)
@@ -121,14 +113,11 @@ const GamePage = () => {
   const { scene } = data
   // console.log("🚀 ~ GamePage ~ scene:", scene)
   const { title, difficulty, imageUrl, imageAlt, characters } = scene
-  // console.log("🚀 ~ GamePage ~ imageAlt:", imageAlt)
   const sceneCharacters = characters.map((character) => character.character)
-  // console.log("🚀 ~ GamePage ~ sceneCharacters:", sceneCharacters)
   const characterNames = sceneCharacters.map(
     (sceneCharacter) => sceneCharacter.name,
   )
   const sessionId = sessionData?.id
-  // console.log("🚀 ~ GamePage ~ sessionId:", sessionId)
 
   return (
     <>
@@ -141,42 +130,25 @@ const GamePage = () => {
           />
         </StopwatchContext>
 
-        <CharacterIdsContext
-          value={{
-            foundCharacterIds,
-            setFoundCharacterIds,
-          }}>
-          <StopwatchContext value={{ gameOver, setGameOver }}>
-            <ResultContext value={{result}}>
-              <CharactersList characters={characters} />
-            </ResultContext>
-            {/* Character head shots  */}
-          </StopwatchContext>
+        {/* Character head shots  */}
+        <CharactersList characters={characters} />
 
-          {/* <StopwatchContext value={{ gameOver, setGameOver }}>
+        {errorMsg && (
+          <div className={styles.errorBanner}>
+            <p className={styles.errorMsg}>{errorMsg}</p>
+          </div>
+        )}
 
-            <CharactersList characters={characters} />
-          </StopwatchContext> */}
-
-          {errorMsg && (
-            <div className={styles.errorBanner}>
-              <p className={styles.errorMsg}>{errorMsg}</p>
-            </div>
-          )}
-
-          <ResultContext value={{ result, setResult }}>
-            <SceneDataContext
-              value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
-              {/* Game image  */}
-              <GameScene
-                isActive={isActive}
-                setIsActive={setIsActive}
-                setErrorMsg={setErrorMsg}
-                sessionId={sessionId}
-              />
-            </SceneDataContext>
-          </ResultContext>
-        </CharacterIdsContext>
+        <SceneDataContext
+          value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
+          {/* Game image  */}
+          <GameScene
+            isActive={isActive}
+            setIsActive={setIsActive}
+            setErrorMsg={setErrorMsg}
+            sessionId={sessionId}
+          />
+        </SceneDataContext>
       </div>
     </>
   )
