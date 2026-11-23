@@ -8,7 +8,6 @@ import trophyIcon from '../../../assets/icons/icon-trophy.svg'
 /* ---------------------- Hooks ------------------------------ */
 import { useContext, useRef, useState } from 'react'
 /* ---------------------- Context ------------------------------ */
-import { ModalContext } from '../../../contexts/modal/ModalContext'
 import { DurationContext } from '../../../contexts/stopwatch/DurationContext'
 /* ---------------------- Components ------------------------------ */
 import { Link } from 'react-router'
@@ -21,22 +20,22 @@ import {
 } from '../../../utils/index.js'
 
 const GameCompleteModal = ({ modalRef }) => {
-  const { setShowModal } = useContext(ModalContext)
   const { duration } = useContext(DurationContext)
+  const nameInputRef = useRef(null)
 
   // Format duration and dateTime
   const formattedDuration = formatDuration(duration)
   const formattedDatetime = formatDatetime(duration)
 
-  const nameInputRef = useRef(null)
-
-  // State variables
+  // State
   const [formData, setFormData] = useState({ name: '' })
   const [validFormData, setValidFormData] = useState({ name: null })
   const [errorMsgs, setErrorMsgs] = useState({ name: '' })
 
+  // Close modal when 'Close' button inside the modal is clicked
   const handleCloseModal = () => {
-    setShowModal(false)
+    const modal = modalRef.current
+    modal.close()
   }
 
   const handleNameChange = (e) => {
@@ -53,6 +52,7 @@ const GameCompleteModal = ({ modalRef }) => {
 
     const isValid = validateForm(formData, setValidFormData, setErrorMsgs)
 
+    // TODO: Send name to backend for saving
     if (isValid) {
       console.log('name is valid')
     } else {
