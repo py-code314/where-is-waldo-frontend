@@ -34,6 +34,7 @@ const GamePage = () => {
   const [sessionData, setSessionData] = useState(null)
   const [isActive, setIsActive] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [hasImgError, setHasImgError] = useState(true)
 
   // Send scene id to backend
   useEffect(() => {
@@ -116,7 +117,7 @@ const GamePage = () => {
   return (
     <>
       <div className={styles.gamePage}>
-        <GameSessionContext value={{ isActive }}>
+        <GameSessionContext value={{ isActive, hasImgError }}>
           <GameHeader
             title={title}
             characterNames={characterNames}
@@ -135,7 +136,7 @@ const GamePage = () => {
 
         <SceneDataContext
           value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
-          <GameSessionContext value={{ isActive }}>
+          <GameSessionContext value={{ isActive, hasImgError, setHasImgError }}>
             {/* Game image  */}
             <GameScene
               isActive={isActive}

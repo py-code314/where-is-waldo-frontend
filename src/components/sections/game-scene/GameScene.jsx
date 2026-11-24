@@ -1,5 +1,7 @@
 /* ------------------------- Styles ------------------------------- */
 import styles from './GameScene.module.css'
+/* ------------------------- Icons -------------------------------- */
+import reloadIcon from '../../../assets/icons/icon-reload.svg'
 /* ------------------------- Hooks -------------------------------- */
 import { useEffect, useState, useRef, useContext } from 'react'
 /* -------------------- Context -------------------- */
@@ -16,12 +18,14 @@ import {
   validateCharacterClick,
   getUpdatedImgCoords,
 } from '../../../utils/index.js'
+import Button from '../../core/button/Button.jsx'
 
 const GameScene = ({ setErrorMsg, sessionId }) => {
   // Context
   const { setResult } = useContext(ResultContext)
   const { sceneId } = useContext(SceneDataContext)
-  const { isActive, setIsActive } = useContext(GameSessionContext)
+  const { isActive, setIsActive, hasImgError,  } =
+    useContext(GameSessionContext)
 
   /* ----------------------- State -------------------------------- */
 
@@ -705,15 +709,31 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
               transformOrigin: '0 0',
               transform: `translate(${imgContainerPosition.x}px, ${imgContainerPosition.y}px) scale(${imgContainerPosition.scale})`,
             }}>
-            {/* Game image  */}
-            <GameImage
-              imgRef={imgRef}
-              handleMouseDown={handleMouseDown}
-              handleMouseMove={handleMouseMove}
-              handleMouseUp={handleMouseUp}
-              handleTouchEnd={handleTouchEnd}
-              handleImageClick={handleImageClick}
-            />
+            
+            {/* Show error message if image loading fails  */}
+            {hasImgError ? (
+              <div className={styles.imgErrorContainer}>
+                <p className={styles.imgErrorMsg}>
+                  Failed to load the image. Please check your connection.
+                </p>
+                <Button
+                  className="retryBtn"
+                  onClick={() => window.location.reload()}>
+                  <img  src={reloadIcon} alt="" width={15} height={15} />
+                  Retry
+                </Button>
+              </div>
+            ) : (
+              <GameImage
+                imgRef={imgRef}
+                handleMouseDown={handleMouseDown}
+                handleMouseMove={handleMouseMove}
+                handleMouseUp={handleMouseUp}
+                handleTouchEnd={handleTouchEnd}
+                handleImageClick={handleImageClick}
+                
+              />
+            )}
 
             {/* Popup message  */}
             <PopupMessage

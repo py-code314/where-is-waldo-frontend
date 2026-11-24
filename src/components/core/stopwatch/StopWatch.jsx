@@ -12,14 +12,14 @@ import { formatDuration, formatDatetime } from '../../../utils/index.js'
 
 const StopWatch = () => {
   const { result } = useContext(ResultContext)
-  const {isActive} = useContext(GameSessionContext)
+  const {isActive, hasImgError} = useContext(GameSessionContext)
 
   const [time, setTime] = useState(0)
   const timeRef = useRef(0)
 
   useEffect(() => {
-    /* Stop stopwatch if the game is over or game session is not successfully created in backend */
-    if (result.isGameOver || !isActive) return
+    /* Stop stopwatch if the game is over or game session is not successfully created in backend or if there's an error loading the game image */
+    if (result.isGameOver || !isActive || hasImgError) return
 
     // Start stopwatch
     const intervalId = setInterval(() => {
@@ -33,7 +33,7 @@ const StopWatch = () => {
     }, 1000)
 
     return () => clearInterval(intervalId)
-  }, [setTime, result.isGameOver, isActive])
+  }, [setTime, result.isGameOver, isActive, hasImgError])
 
   // Format duration and dateTime
   const formattedDuration = formatDuration(time)

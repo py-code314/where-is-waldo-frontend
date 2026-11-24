@@ -4,6 +4,7 @@ import styles from './GameImage.module.css'
 import { useContext } from 'react'
 /* ------------------------- Context ------------------------------- */
 import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext'
+import { GameSessionContext } from '../../../contexts/game-session/GameSessionContext'
 
 const GameImage = ({
   imgRef,
@@ -14,6 +15,7 @@ const GameImage = ({
   handleImageClick,
 }) => {
   const { imageUrl, imageAlt } = useContext(SceneDataContext)
+  const {setHasImgError} = useContext(GameSessionContext)
 
   return (
     <>
@@ -27,6 +29,7 @@ const GameImage = ({
         onMouseUp={handleMouseUp}
         onTouchEnd={handleTouchEnd}
         onClick={handleImageClick}
+        onError={() => setHasImgError(true)}
       />
     </>
   )
