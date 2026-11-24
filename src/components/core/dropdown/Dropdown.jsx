@@ -13,7 +13,7 @@ const Dropdown = ({
   imgClick,
   dropdownPosition,
   dropdownRef,
-  handleOptionClick,
+  handleCharacterClick,
   imgContainerPosition,
 }) => {
   // Context
@@ -41,7 +41,7 @@ const Dropdown = ({
               <Button
                 id={character.id}
                 className="optionBtn"
-                onClick={() => handleOptionClick(character.id)}
+                onClick={() => handleCharacterClick(character.id)}
                 disabled={foundCharacters.includes(character.id)}>
                 {character.name}
               </Button>

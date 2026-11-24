@@ -1,7 +1,7 @@
 /* -------------------- Data -------------------- */
 import { ERROR_MESSAGES } from '../../data/errorMessages'
 
-export const validateOptionClick = async (
+export const validateCharacterClick = async (
   characterId,
   sceneId,
   clickCoords,
@@ -43,7 +43,7 @@ export const validateOptionClick = async (
     // console.log('🚀 ~ fetchValidationData ~ response:', response)
 
     const data = await response.json()
-    // console.log("🚀 ~ validateOptionClick ~ data:", data)
+    // console.log("🚀 ~ validateCharacterClick ~ data:", data)
 
     if (!response.ok) {
       const isInvalidClickData =

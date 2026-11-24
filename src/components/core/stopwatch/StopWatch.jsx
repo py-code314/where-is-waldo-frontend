@@ -6,18 +6,20 @@ import stopwatchIcon from '../../../assets/icons/icon-stopwatch.svg'
 import { useContext, useEffect, useState, useRef } from 'react'
 /* -------------------- Context -------------------- */
 import { ResultContext } from '../../../contexts/game-scene/ResultContext.jsx'
+import { GameSessionContext } from '../../../contexts/game-session/GameSessionContext.jsx'
 /* -------------------- Functions -------------------- */
 import { formatDuration, formatDatetime } from '../../../utils/index.js'
 
 const StopWatch = () => {
   const { result } = useContext(ResultContext)
+  const {isActive} = useContext(GameSessionContext)
 
   const [time, setTime] = useState(0)
   const timeRef = useRef(0)
 
   useEffect(() => {
-    // Stop stopwatch if the game is over
-    if (result.isGameOver) return
+    /* Stop stopwatch if the game is over or game session is not successfully created in backend */
+    if (result.isGameOver || !isActive) return
 
     // Start stopwatch
     const intervalId = setInterval(() => {
@@ -31,7 +33,7 @@ const StopWatch = () => {
     }, 1000)
 
     return () => clearInterval(intervalId)
-  }, [setTime, result.isGameOver])
+  }, [setTime, result.isGameOver, isActive])
 
   // Format duration and dateTime
   const formattedDuration = formatDuration(time)

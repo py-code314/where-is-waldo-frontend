@@ -5,6 +5,7 @@ import { useEffect, useState, useRef, useContext } from 'react'
 /* -------------------- Context -------------------- */
 import { ResultContext } from '../../../contexts/game-scene/ResultContext.jsx'
 import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext.jsx'
+import { GameSessionContext } from '../../../contexts/game-session/GameSessionContext.jsx'
 /* ------------------------- Components --------------------------- */
 import PopupMessage from '../../core/popup/PopupMessage'
 import Dropdown from '../../core/dropdown/Dropdown'
@@ -12,13 +13,15 @@ import GameImage from '../../core/image/GameImage.jsx'
 import Target from '../../core/target/Target.jsx'
 /* ------------------------- Functions ---------------------------- */
 import {
-  validateOptionClick,
+  validateCharacterClick,
   getUpdatedImgCoords,
 } from '../../../utils/index.js'
 
-const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
+const GameScene = ({ setErrorMsg, sessionId }) => {
+  // Context
   const { setResult } = useContext(ResultContext)
   const { sceneId } = useContext(SceneDataContext)
+  const { isActive, setIsActive } = useContext(GameSessionContext)
 
   /* ----------------------- State -------------------------------- */
 
@@ -612,9 +615,9 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
   }
 
   /* Show success or fail message after player chooses a character */
-  const handleOptionClick = async (characterId) => {
+  const handleCharacterClick = async (characterId) => {
     // Validate click coordinated on backend and get character data and it's match status
-    const data = await validateOptionClick(
+    const data = await validateCharacterClick(
       characterId,
       sceneId,
       imgClickCoords,
@@ -622,44 +625,60 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
       setIsActive,
       sessionId,
     )
-    // console.log('🚀 ~ handleOptionClick ~ data:', data)
+    // console.log('🚀 ~ handleCharacterClick ~ data:', data)
 
-    const isGameOver = data?.isGameOver
+    if (data) {
+      // Disable play (image clicks) if 'isGameOver' true
+      if (data.isGameOver) {
+        setIsActive(false)
+      }
 
-    // Disable play (image clicks) if 'isGameOver' true
-    if (isGameOver) {
-      setIsActive(false)
+      const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
+      const popup = popupRef.current
+      const popupWidth = popup.clientWidth
+      const popupHeight = popup.clientHeight
+
+      /* Place popup in the top middle of game board and then center it
+    using 'translateX' */
+      const popupX = gameBoardRect.width / 2 - popupWidth / 2
+      let popupY = 0
+
+      /* Save validation result in a state and place it at App 
+    level so that all children can access it */
+      setResult((prevResult) => ({
+        ...prevResult,
+        isMatch: data.isMatch,
+        characterId: data.characterData.id,
+        characterName: data.characterData.name,
+        foundCharacters: data.foundCharacters,
+        isGameOver: data.isGameOver,
+        duration: data.duration,
+      }))
+
+      setPopupPosition((prevPopupPosition) => ({
+        ...prevPopupPosition,
+        x: popupX,
+        y: popupY,
+      }))
+
+      /* Hide popup message after 1 second */
+      const resetPopup = () => {
+        setIsOption(false)
+
+        setTimeout(() => {
+          setPopupPosition((prevPopupPosition) => ({
+            ...prevPopupPosition,
+            x: popupX,
+            y: 0 - popupHeight,
+          }))
+        }, 300)
+      }
+
+      window.setTimeout(resetPopup, 2000)
     }
 
-    const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
-    const popup = popupRef.current
-    const popupWidth = popup.clientWidth
-    const popupHeight = popup.clientHeight
-
-    /* Place popup in the top middle of game board and then center it
-    using 'translateX' */
-    const popupX = gameBoardRect.width / 2 - popupWidth / 2
-    let popupY = 0
-
-    /* Save validation result in a state and place it at App 
-    level so that all children can access it */
-    setResult((prevResult) => ({
-      ...prevResult,
-      isMatch: data.isMatch,
-      characterId: data.characterData.id,
-      characterName: data.characterData.name,
-      foundCharacters: data.foundCharacters,
-      isGameOver,
-      duration: data.duration,
-    }))
-
-    setPopupPosition((prevPopupPosition) => ({
-      ...prevPopupPosition,
-      x: popupX,
-      y: popupY,
-    }))
-
-    /* Reset */
+    /* Reset for both data is 'true' and is 'undefined' because
+    of backend errors */
     setDropdownPosition((prevDropdownPosition) => ({
       ...prevDropdownPosition,
       x: -9999,
@@ -673,21 +692,6 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
     setImgClick(false)
     // Show popup message
     setIsOption(true)
-
-    /* Hide popup message after 1 second */
-    const resetPopup = () => {
-      setIsOption(false)
-
-      setTimeout(() => {
-        setPopupPosition((prevPopupPosition) => ({
-          ...prevPopupPosition,
-          x: popupX,
-          y: 0 - popupHeight,
-        }))
-      }, 300)
-    }
-
-    window.setTimeout(resetPopup, 2000)
   }
 
   return (
@@ -740,7 +744,7 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
           imgClick={imgClick}
           dropdownPosition={dropdownPosition}
           dropdownRef={dropdownRef}
-          handleOptionClick={handleOptionClick}
+          handleCharacterClick={handleCharacterClick}
           imgContainerPosition={imgContainerPosition}
         />
       </div>

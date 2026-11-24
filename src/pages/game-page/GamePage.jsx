@@ -8,6 +8,7 @@ import { useParams } from 'react-router'
 import { useFetchData } from '../../hooks/useFetchData'
 /* -------------------- Context -------------------- */
 import { SceneDataContext } from '../../contexts/game-scene/SceneDataContext'
+import { GameSessionContext } from '../../contexts/game-session/GameSessionContext'
 /* -------------------- Components -------------------- */
 import GameHeader from '../../components/sections/game-header/GameHeader'
 import GameScene from '../../components/sections/game-scene/GameScene'
@@ -115,11 +116,13 @@ const GamePage = () => {
   return (
     <>
       <div className={styles.gamePage}>
-        <GameHeader
-          title={title}
-          characterNames={characterNames}
-          difficulty={difficulty}
-        />
+        <GameSessionContext value={{ isActive }}>
+          <GameHeader
+            title={title}
+            characterNames={characterNames}
+            difficulty={difficulty}
+          />
+        </GameSessionContext>
 
         {/* Character head shots  */}
         <CharactersList characters={characters} />
@@ -132,13 +135,15 @@ const GamePage = () => {
 
         <SceneDataContext
           value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
-          {/* Game image  */}
-          <GameScene
-            isActive={isActive}
-            setIsActive={setIsActive}
-            setErrorMsg={setErrorMsg}
-            sessionId={sessionId}
-          />
+          <GameSessionContext value={{ isActive }}>
+            {/* Game image  */}
+            <GameScene
+              isActive={isActive}
+              setIsActive={setIsActive}
+              setErrorMsg={setErrorMsg}
+              sessionId={sessionId}
+            />
+          </GameSessionContext>
         </SceneDataContext>
       </div>
     </>
