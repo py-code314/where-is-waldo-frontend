@@ -34,7 +34,7 @@ const GamePage = () => {
   const [sessionData, setSessionData] = useState(null)
   const [isActive, setIsActive] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
-  const [hasImgError, setHasImgError] = useState(true)
+  const [hasImgError, setHasImgError] = useState(false)
 
   // Send scene id to backend
   useEffect(() => {

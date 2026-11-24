@@ -709,7 +709,6 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
               transformOrigin: '0 0',
               transform: `translate(${imgContainerPosition.x}px, ${imgContainerPosition.y}px) scale(${imgContainerPosition.scale})`,
             }}>
-            
             {/* Show error message if image loading fails  */}
             {hasImgError ? (
               <div className={styles.imgErrorContainer}>
@@ -719,7 +718,13 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
                 <Button
                   className="retryBtn"
                   onClick={() => window.location.reload()}>
-                  <img  src={reloadIcon} alt="" width={15} height={15} />
+                  <img
+                    src={reloadIcon}
+                    alt=""
+                    width={15}
+                    height={15}
+                    aria-hidden="true"
+                  />
                   Retry
                 </Button>
               </div>
@@ -731,7 +736,6 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
                 handleMouseUp={handleMouseUp}
                 handleTouchEnd={handleTouchEnd}
                 handleImageClick={handleImageClick}
-                
               />
             )}
 

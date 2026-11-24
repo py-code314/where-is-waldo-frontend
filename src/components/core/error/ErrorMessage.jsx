@@ -2,6 +2,9 @@
 import styles from './ErrorMessage.module.css'
 /* -------------------- Icons -------------------- */
 import errorIcon from '../../../assets/icons/icon-error-6.svg'
+import backIcon from '../../../assets/icons/icon-back.svg'
+/* -------------------- Components -------------------- */
+import { Link } from 'react-router'
 
 /* Component to display error message when fetching data fails */
 const ErrorMessage = ({ error }) => {
@@ -25,6 +28,18 @@ const ErrorMessage = ({ error }) => {
           </div>
         </div>
         <p className={styles.errorMsg}>{error.message}</p>
+        {/* Back to Home link  */}
+        <Link className={styles.homeLink} to={'/home'} aria-label="Go to home">
+          <img
+            className={styles.backIcon}
+            src={backIcon}
+            alt=""
+            width={20}
+            height={20}
+            aria-hidden="true"
+          />
+          Back to Home
+        </Link>
       </div>
     </>
   )
