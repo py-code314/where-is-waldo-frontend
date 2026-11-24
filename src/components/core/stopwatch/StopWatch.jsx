@@ -5,23 +5,19 @@ import stopwatchIcon from '../../../assets/icons/icon-stopwatch.svg'
 /* -------------------- Hooks -------------------- */
 import { useContext, useEffect, useState, useRef } from 'react'
 /* -------------------- Context -------------------- */
-import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
-import { DurationContext } from '../../../contexts/stopwatch/DurationContext'
+import { ResultContext } from '../../../contexts/game-scene/ResultContext.jsx'
 /* -------------------- Functions -------------------- */
 import { formatDuration, formatDatetime } from '../../../utils/index.js'
 
 const StopWatch = () => {
-  const { gameOver } = useContext(StopwatchContext)
-  const { setDuration } = useContext(DurationContext)
+  const { result } = useContext(ResultContext)
 
   const [time, setTime] = useState(0)
   const timeRef = useRef(0)
 
   useEffect(() => {
-    if (gameOver) {
-      setDuration(timeRef.current)
-      return
-    }
+    // Stop stopwatch if the game is over
+    if (result.isGameOver) return
 
     // Start stopwatch
     const intervalId = setInterval(() => {
@@ -35,7 +31,7 @@ const StopWatch = () => {
     }, 1000)
 
     return () => clearInterval(intervalId)
-  }, [gameOver, setTime, setDuration])
+  }, [setTime, result.isGameOver])
 
   // Format duration and dateTime
   const formattedDuration = formatDuration(time)

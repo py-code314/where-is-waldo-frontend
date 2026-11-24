@@ -3,13 +3,11 @@ import styles from './GamePage.module.css'
 /* -------------------- Loaders -------------------- */
 import bouncingCircles from '../../assets/loaders/bouncing-circles.svg'
 /* ------------------------- Hooks -------------------------------- */
-import {  useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { useFetchData } from '../../hooks/useFetchData'
 /* -------------------- Context -------------------- */
-import { StopwatchContext } from '../../contexts/game-scene/StopwatchContext'
 import { SceneDataContext } from '../../contexts/game-scene/SceneDataContext'
-
 /* -------------------- Components -------------------- */
 import GameHeader from '../../components/sections/game-header/GameHeader'
 import GameScene from '../../components/sections/game-scene/GameScene'
@@ -32,7 +30,6 @@ const GamePage = () => {
   const { data, isLoading, error } = useFetchData(apiEndpoint)
 
   // State
-  const [gameOver, setGameOver] = useState(false)
   const [sessionData, setSessionData] = useState(null)
   const [isActive, setIsActive] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
@@ -118,13 +115,11 @@ const GamePage = () => {
   return (
     <>
       <div className={styles.gamePage}>
-        <StopwatchContext value={{ gameOver, setGameOver }}>
-          <GameHeader
-            title={title}
-            characterNames={characterNames}
-            difficulty={difficulty}
-          />
-        </StopwatchContext>
+        <GameHeader
+          title={title}
+          characterNames={characterNames}
+          difficulty={difficulty}
+        />
 
         {/* Character head shots  */}
         <CharactersList characters={characters} />
