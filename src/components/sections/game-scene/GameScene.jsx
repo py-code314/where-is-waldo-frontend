@@ -622,12 +622,8 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
       setIsActive,
       sessionId,
     )
-    console.log('🚀 ~ handleOptionClick ~ data:', data)
-    // Click validation result
-    const isMatch = data?.isMatch
-    const charId = data?.characterData.id
-    const charName = data?.characterData.name
-    const foundCharacters = data?.foundCharacters
+    // console.log('🚀 ~ handleOptionClick ~ data:', data)
+
     const isGameOver = data?.isGameOver
 
     // Disable play (image clicks) if 'isGameOver' true
@@ -649,11 +645,12 @@ const GameScene = ({ isActive, setIsActive, setErrorMsg, sessionId }) => {
     level so that all children can access it */
     setResult((prevResult) => ({
       ...prevResult,
-      isMatch,
-      characterId: charId,
-      characterName: charName,
-      foundCharacters,
+      isMatch: data.isMatch,
+      characterId: data.characterData.id,
+      characterName: data.characterData.name,
+      foundCharacters: data.foundCharacters,
       isGameOver,
+      duration: data.duration,
     }))
 
     setPopupPosition((prevPopupPosition) => ({

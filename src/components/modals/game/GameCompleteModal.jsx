@@ -8,7 +8,7 @@ import trophyIcon from '../../../assets/icons/icon-trophy.svg'
 /* ---------------------- Hooks ------------------------------ */
 import { useContext, useRef, useState } from 'react'
 /* ---------------------- Context ------------------------------ */
-import { DurationContext } from '../../../contexts/stopwatch/DurationContext'
+import { ResultContext } from '../../../contexts/game-scene/ResultContext'
 /* ---------------------- Components ------------------------------ */
 import { Link } from 'react-router'
 import Button from '../../core/button/Button'
@@ -20,7 +20,9 @@ import {
 } from '../../../utils/index.js'
 
 const GameCompleteModal = ({ modalRef }) => {
-  const { duration } = useContext(DurationContext)
+  const { result } = useContext(ResultContext)
+  const duration = Math.floor(result.duration/1000)
+  // console.log("🚀 ~ GameCompleteModal ~ duration:", duration)
   const nameInputRef = useRef(null)
 
   // Format duration and dateTime
