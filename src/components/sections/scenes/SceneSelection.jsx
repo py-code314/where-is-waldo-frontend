@@ -42,14 +42,22 @@ const LevelSelection = () => {
         {error && <ErrorMessage error={error} />}
 
         {/* Cards list  */}
-        <ul className={styles.cards}>
-          {data &&
-            data.scenes.map((scene) => (
-              <li key={scene.id} className={styles.card}>
-                <ScenePreview cardData={scene} />
-              </li>
-            ))}
-        </ul>
+        <div className={styles.cardsContainer}>
+          {data && data.scenes.length > 0 ? (
+            <ul>
+              {data.scenes.map((scene) => (
+                <li key={scene.id} className={styles.card}>
+                  <ScenePreview cardData={scene} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className={styles.note}>
+              <span>❗</span> It looks like there are no games available to play
+              yet. Try again later.
+            </p>
+          )}
+        </div>
       </section>
     </>
   )
