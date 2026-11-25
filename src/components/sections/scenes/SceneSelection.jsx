@@ -17,13 +17,14 @@ const LevelSelection = () => {
 
   // Get scenes data
   let { data, isLoading, error } = useFetchData(apiEndpoint)
+  // data.scenes = []
 
   return (
     <>
       <section className={styles.levels}>
-        <h2 className={styles.sectionTitle}>Choose Your Where's Wally Level</h2>
+        <h2 className={styles.sectionTitle}>Choose Your Where&apos;s Wally Level</h2>
         <p className={styles.description}>
-          Pick a scene and start your Where's Wally game challenge. Each level
+          Pick a scene and start your Where&apos;s Wally game challenge. Each level
           has a unique puzzle, different difficulty, and hidden characters
           waiting to be found.
         </p>
@@ -44,7 +45,7 @@ const LevelSelection = () => {
         {/* Cards list  */}
         <div className={styles.cardsContainer}>
           {data && data.scenes.length > 0 ? (
-            <ul>
+            <ul className={styles.cards}>
               {data.scenes.map((scene) => (
                 <li key={scene.id} className={styles.card}>
                   <ScenePreview cardData={scene} />
