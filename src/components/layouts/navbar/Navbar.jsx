@@ -3,7 +3,7 @@ import styles from './Navbar.module.css'
 /* -------------------- Icons -------------------- */
 import menuIcon from '../../../assets/icons/icon-menu.svg'
 /* -------------------- Hooks -------------------- */
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 /* -------------------- Components -------------------- */
 import { Link } from 'react-router'
 import Button from '../../core/button/Button'
@@ -13,16 +13,21 @@ const Navbar = () => {
   // State
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  // Opens and closes menu on button click and press of 'Enter' and 'Space bar' buttons
-  const handleClick = () => {
+  /* Use 'useCallback' to prevent re-renders of the component */
+  // Open and close menu on button click and press of 'Enter' and 'Space bar' buttons
+  const handleClick = useCallback(() => {
     setIsMenuOpen((prev) => !prev) // Toggle state
-  }
+  }, [setIsMenuOpen])
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape' && isMenuOpen) {
-      setIsMenuOpen(false)
-    }
-  }
+  // Close menu on pressing 'Esc' button
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false)
+      }
+    },
+    [setIsMenuOpen, isMenuOpen]
+  )
 
   return (
     <>
@@ -30,9 +35,8 @@ const Navbar = () => {
       {/* Add 'onKeyDown' for 'Esc' key as pressing it doesn't fire 'click' event  */}
       <Button
         className="menuToggleBtn"
-        // title="Toggle menu"
-        onClick={() => handleClick()}
-        onKeyDown={(e) => handleKeyDown(e)}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
         ariaLabel="Main navigation menu"
         ariaExpanded={isMenuOpen}>
         <img
@@ -55,7 +59,7 @@ const Navbar = () => {
           <li className={styles.navItem}>
             {/* Home link  */}
             <Link className={styles.link} to={`/home`}>
-              Where's Wally
+              Where&apos;s Wally
             </Link>
           </li>
           {/* Inactive links  */}
