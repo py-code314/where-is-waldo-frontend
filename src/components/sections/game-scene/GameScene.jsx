@@ -3,7 +3,7 @@ import styles from './GameScene.module.css'
 /* ------------------------- Icons -------------------------------- */
 import reloadIcon from '../../../assets/icons/icon-reload.svg'
 /* ------------------------- Hooks -------------------------------- */
-import { useEffect, useState, useRef, useContext } from 'react'
+import { useEffect, useState, useRef, useContext, useCallback } from 'react'
 /* -------------------- Context -------------------- */
 import { ResultContext } from '../../../contexts/game-scene/ResultContext.jsx'
 import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext.jsx'
@@ -24,8 +24,7 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
   // Context
   const { setResult } = useContext(ResultContext)
   const { sceneId } = useContext(SceneDataContext)
-  const { isActive, setIsActive, hasImgError,  } =
-    useContext(GameSessionContext)
+  const { isActive, setIsActive, hasImgError } = useContext(GameSessionContext)
 
   /* ----------------------- State -------------------------------- */
 
@@ -97,7 +96,7 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
       // Limit zoom between 1x and 4x
       const newScale = Math.max(
         1,
-        Math.min(imgContainerPosition.scale + delta, 4),
+        Math.min(imgContainerPosition.scale + delta, 4)
       )
 
       // Growth or shrink factor
@@ -202,7 +201,7 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
         // Update previous difference value for multi-step pinch to zoom
         const initialDifference = Math.hypot(
           touchOne.clientX - touchTwo.clientX,
-          touchOne.clientY - touchTwo.clientY,
+          touchOne.clientY - touchTwo.clientY
         )
         prevDifferenceRef.current = initialDifference
       }
@@ -231,7 +230,7 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
           gameBoardRef,
           imgContainerRef,
           imgContainerPosition,
-          startRef,
+          startRef
         )
 
         const gameBoard = gameBoardRef.current
@@ -275,7 +274,7 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
 
         const currentDifference = Math.hypot(
           touchOne.clientX - touchTwo.clientX,
-          touchOne.clientY - touchTwo.clientY,
+          touchOne.clientY - touchTwo.clientY
         )
 
         const prevDifference = prevDifferenceRef.current
@@ -298,7 +297,7 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
               doesn't zoom-out less than the original 1x size */
             const newScale = Math.max(
               1,
-              Math.min(imgContainerPosition.scale + delta, 6),
+              Math.min(imgContainerPosition.scale + delta, 6)
             )
 
             // Growth or shrink factor
@@ -380,323 +379,342 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
   /* ------------------------- Desktop ---------------------------- */
 
   /* Handlers for panning the image */
-  const handleMouseDown = (e) => {
-    // Prevent default drag and drop
-    e.preventDefault()
+  const handleMouseDown = useCallback(
+    (e) => {
+      // Prevent default drag and drop
+      e.preventDefault()
 
-    /* 'getBoundingClientRect()' method returns object containing the
+      /* 'getBoundingClientRect()' method returns object containing the
      size and position of an element relative to the viewport */
-    const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
+      const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
 
-    // Current click coordinates relative to wrapper
-    const currentX = e.clientX - gameBoardRect.left
-    const currentY = e.clientY - gameBoardRect.top
+      // Current click coordinates relative to wrapper
+      const currentX = e.clientX - gameBoardRect.left
+      const currentY = e.clientY - gameBoardRect.top
 
-    /* Store starting click position relative to the previous offset
+      /* Store starting click position relative to the previous offset
       position either because of zoom or drag. This prevents image
       jumping back to the starting position (0, 0) on subsequent clicks
       (mouse downs) */
-    dragStartRef.current = {
-      x: currentX - imgContainerPosition.x,
-      y: currentY - imgContainerPosition.y,
-    }
-
-    setIsPanning(true)
-    setIsDragging(false)
-  }
-
-  const handleMouseMove = (e) => {
-    // Prevent default drag and drop
-    e.preventDefault()
-
-    // Prevent dragging if image isn't zoomed-in
-    if (imgContainerPosition.scale <= 1 || !isPanning) return
-
-    // If LMB is not held, the pan can't be active
-    if (e.buttons % 2 === 0) {
-      setIsPanning(false)
-      return
-    }
-
-    // Assign them to variables to call the function 'getUpdatedImgCoords'
-    const event = e
-    const startRef = dragStartRef
-
-    // Get up-to-date image coordinates with each mouse move
-    let [newX, newY] = getUpdatedImgCoords(
-      event,
-      gameBoardRef,
-      imgContainerRef,
-      imgContainerPosition,
-      startRef,
-    )
-
-    const gameBoard = gameBoardRef.current
-    const gameBoardWidth = gameBoard.clientWidth
-    const gameBoardHeight = gameBoard.clientHeight
-
-    const imgContainerRect = imgContainerRef.current.getBoundingClientRect()
-    const imgContainerWidth = imgContainerRect.width
-    const imgContainerHeight = imgContainerRect.height
-
-    /* Set boundaries to prevent gaps between the imgContainer and
-        wrapper at corners when zooming out */
-    const maxX = 0
-    const maxY = 0
-    const minX = gameBoardWidth - imgContainerWidth
-    const minY = gameBoardHeight - imgContainerHeight
-
-    // Update newX and newY if they go out of boundaries
-    if (newX > maxX) {
-      newX = maxX
-    } else if (newX < minX) {
-      newX = minX
-    }
-    if (newY > maxY) {
-      newY = maxY
-    } else if (newY < minY) {
-      newY = minY
-    }
-
-    setImgContainerPosition((prevImgContainerPosition) => ({
-      ...prevImgContainerPosition,
-      x: newX,
-      y: newY,
-    }))
-
-    setIsDragging(true)
-  }
-
-  const handleMouseUp = () => {
-    if (!isPanning) return
-
-    setIsPanning(false)
-  }
-
-  /* --------------------- Touch screens -------------------------- */
-
-  const handleTouchEnd = (e) => {
-    /* Single finger is off the touch screen after panning is
-      concluded or all fingers are off the screen */
-    if (e.touches.length === 0) {
-      setIsPanning(false)
-      prevDifferenceRef.current = null
-    } else if (e.touches.length === 1) {
-      /* Initiate single finger touch panning after player finished
-        pinch to zoom and lifted one finger off the screen */
-      // Reset value after two finger pinch gesture concludes
-      prevDifferenceRef.current = null
-
-      const touchOne = e.touches[0]
-
-      const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
-
-      // Current touch position relative to wrapper after touch
-      const currentX = touchOne.clientX - gameBoardRect.left
-      const currentY = touchOne.clientY - gameBoardRect.top
-      touchOneStartRef.current = {
+      dragStartRef.current = {
         x: currentX - imgContainerPosition.x,
         y: currentY - imgContainerPosition.y,
       }
 
       setIsPanning(true)
-    }
-  }
+      setIsDragging(false)
+    },
+    [imgContainerPosition]
+  )
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      // Prevent default drag and drop
+      e.preventDefault()
+
+      // Prevent dragging if image isn't zoomed-in
+      if (imgContainerPosition.scale <= 1 || !isPanning) return
+
+      // If LMB is not held, the pan can't be active
+      if (e.buttons % 2 === 0) {
+        setIsPanning(false)
+        return
+      }
+
+      // Assign them to variables to call the function 'getUpdatedImgCoords'
+      const event = e
+      const startRef = dragStartRef
+
+      // Get up-to-date image coordinates with each mouse move
+      let [newX, newY] = getUpdatedImgCoords(
+        event,
+        gameBoardRef,
+        imgContainerRef,
+        imgContainerPosition,
+        startRef
+      )
+
+      const gameBoard = gameBoardRef.current
+      const gameBoardWidth = gameBoard.clientWidth
+      const gameBoardHeight = gameBoard.clientHeight
+
+      const imgContainerRect = imgContainerRef.current.getBoundingClientRect()
+      const imgContainerWidth = imgContainerRect.width
+      const imgContainerHeight = imgContainerRect.height
+
+      /* Set boundaries to prevent gaps between the imgContainer and
+        wrapper at corners when zooming out */
+      const maxX = 0
+      const maxY = 0
+      const minX = gameBoardWidth - imgContainerWidth
+      const minY = gameBoardHeight - imgContainerHeight
+
+      // Update newX and newY if they go out of boundaries
+      if (newX > maxX) {
+        newX = maxX
+      } else if (newX < minX) {
+        newX = minX
+      }
+      if (newY > maxY) {
+        newY = maxY
+      } else if (newY < minY) {
+        newY = minY
+      }
+
+      setImgContainerPosition((prevImgContainerPosition) => ({
+        ...prevImgContainerPosition,
+        x: newX,
+        y: newY,
+      }))
+
+      setIsDragging(true)
+    },
+    [imgContainerPosition, isPanning]
+  )
+
+  const handleMouseUp = useCallback(() => {
+    if (!isPanning) return
+
+    setIsPanning(false)
+  }, [isPanning])
+
+  /* --------------------- Touch screens -------------------------- */
+
+  const handleTouchEnd = useCallback(
+    (e) => {
+      /* Single finger is off the touch screen after panning is
+      concluded or all fingers are off the screen */
+      if (e.touches.length === 0) {
+        setIsPanning(false)
+        prevDifferenceRef.current = null
+      } else if (e.touches.length === 1) {
+        /* Initiate single finger touch panning after player finished
+        pinch to zoom and lifted one finger off the screen */
+        // Reset value after two finger pinch gesture concludes
+        prevDifferenceRef.current = null
+
+        const touchOne = e.touches[0]
+
+        const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
+
+        // Current touch position relative to wrapper after touch
+        const currentX = touchOne.clientX - gameBoardRect.left
+        const currentY = touchOne.clientY - gameBoardRect.top
+        touchOneStartRef.current = {
+          x: currentX - imgContainerPosition.x,
+          y: currentY - imgContainerPosition.y,
+        }
+
+        setIsPanning(true)
+      }
+    },
+    [imgContainerPosition]
+  )
 
   /* Save click coordinates for character validation and to display
     dropdown */
-  const handleImageClick = (e) => {
-    // Don't show dropdown after panning the image
-    // if (isDragging) return
-    if (isDragging || !isActive) return
-
-    const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
-    const dropdown = dropdownRef.current
-    /* Using 'imgRect' variable instead of 'imgContainerRect' for
-    convenience as their values are same */
-    const imgRect = e.target.getBoundingClientRect()
-
-    // Get click positions relative to browser
-    const clientX = e.clientX
-    const clientY = e.clientY
-
-    /* -------------------- Click coordinates --------------------- */
-
-    /* Get click co-ordinates relative to image to find characters at
-     any zoom level */
-    const imgClickX = clientX - imgRect.left
-    const imgClickY = clientY - imgRect.top
-
-    /* Normalize to percentage of width and height instead of absolute 
-     values for different screen widths which also works for zoom */
-    // const xPercent = (imgClickX / imgRect.width) * 100
-    // const yPercent = (imgClickY / imgRect.height) * 100
-
-    const xPercent = Math.floor((imgClickX / imgRect.width) * 10000) / 100
-    // console.log("🚀 ~ handleImageClick ~ xPercent:", xPercent)
-    const yPercent = Math.floor((imgClickY / imgRect.height) * 10000) / 100
-    // console.log("🚀 ~ handleImageClick ~ yPercent:", yPercent)
-
-    /* -------------------- Dropdown ------------------------------ */
-
-    /* Get click co-ordinates relative to wrapper to place dropdown
-     at the click position */
-    const clickX = clientX - gameBoardRect.left
-    const clickY = clientY - gameBoardRect.top
-
-    const dropdownWidth = dropdown.clientWidth
-    const dropdownHeight = dropdown.clientHeight
-
-    /* Calculate the remaining width and height of wrapper
-    from click position */
-    const widthDiff = gameBoardRect.right - clientX
-    const heightDiff = gameBoardRect.bottom - clientY
-
-    // Flip dropdown based on how much width/bottom left
-    let dropdownX = clickX
-    if (widthDiff < dropdownWidth) {
-      dropdownX = clickX - dropdownWidth
-    }
-
-    let dropdownY = clickY
-    if (heightDiff < dropdownHeight) {
-      dropdownY = clickY - dropdownHeight
-    }
-
-    /* Get raw pixels which can be used to calculate the position at
-    render time */
-    const unscaledX =
-      (dropdownX - imgContainerPosition.x) / imgContainerPosition.scale
-    const unscaledY =
-      (dropdownY - imgContainerPosition.y) / imgContainerPosition.scale
-
-    /* --------------------- Target --------------------- */
-
-    const unscaledTargetX =
-      (clickX - imgContainerPosition.x) / imgContainerPosition.scale
-    const unscaledTargetY =
-      (clickY - imgContainerPosition.y) / imgContainerPosition.scale
-
-    /* --------------------- Setter functions --------------------- */
-
-    /* Reset dropdown position on every second click to prevent 
-    scroll bars when screen width changes from wide to narrow */
-    if (imgClick) {
-      setDropdownPosition((prevDropdownPosition) => ({
-        ...prevDropdownPosition,
-        x: -9999,
-        y: -9999,
-      }))
-      setTargetPosition((prevTargetPosition) => ({
-        ...prevTargetPosition,
-        x: -9999,
-        y: -9999,
-      }))
-    } else {
-      setImgClickCoords((prevImgClickCoords) => ({
-        ...prevImgClickCoords,
-        x: xPercent,
-        y: yPercent,
-      }))
-
-      /* Save unscaled values to recalculate position on every click
-      because it is outside of image container */
-      setDropdownPosition((prevDropdownPosition) => ({
-        ...prevDropdownPosition,
-        x: unscaledX,
-        y: unscaledY,
-      }))
-
-      // Target anchors to click position
-      setTargetPosition((prevTargetPosition) => ({
-        ...prevTargetPosition,
-        x: unscaledTargetX,
-        y: unscaledTargetY,
-      }))
-    }
-
-    setImgClick(!imgClick)
-  }
-
-  /* Show success or fail message after player chooses a character */
-  const handleCharacterClick = async (characterId) => {
-    // Validate click coordinated on backend and get character data and it's match status
-    const data = await validateCharacterClick(
-      characterId,
-      sceneId,
-      imgClickCoords,
-      setErrorMsg,
-      setIsActive,
-      sessionId,
-    )
-    // console.log('🚀 ~ handleCharacterClick ~ data:', data)
-
-    if (data) {
-      // Disable play (image clicks) if 'isGameOver' true
-      if (data.isGameOver) {
-        setIsActive(false)
-      }
+  const handleImageClick = useCallback(
+    (e) => {
+      // Don't show dropdown after panning the image
+      // if (isDragging) return
+      if (isDragging || !isActive) return
 
       const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
-      const popup = popupRef.current
-      const popupWidth = popup.clientWidth
-      const popupHeight = popup.clientHeight
+      const dropdown = dropdownRef.current
+      /* Using 'imgRect' variable instead of 'imgContainerRect' for
+    convenience as their values are same */
+      const imgRect = e.target.getBoundingClientRect()
 
-      /* Place popup in the top middle of game board and then center it
-    using 'translateX' */
-      const popupX = gameBoardRect.width / 2 - popupWidth / 2
-      let popupY = 0
+      // Get click positions relative to browser
+      const clientX = e.clientX
+      const clientY = e.clientY
 
-      /* Save validation result in a state and place it at App 
-    level so that all children can access it */
-      setResult((prevResult) => ({
-        ...prevResult,
-        isMatch: data.isMatch,
-        characterId: data.characterData.id,
-        characterName: data.characterData.name,
-        foundCharacters: data.foundCharacters,
-        isGameOver: data.isGameOver,
-        duration: data.duration,
-      }))
+      /* -------------------- Click coordinates --------------------- */
 
-      setPopupPosition((prevPopupPosition) => ({
-        ...prevPopupPosition,
-        x: popupX,
-        y: popupY,
-      }))
+      /* Get click co-ordinates relative to image to find characters at
+     any zoom level */
+      const imgClickX = clientX - imgRect.left
+      const imgClickY = clientY - imgRect.top
 
-      /* Hide popup message after 1 second */
-      const resetPopup = () => {
-        setIsOption(false)
+      /* Normalize to percentage of width and height instead of absolute 
+     values for different screen widths which also works for zoom */
+      // const xPercent = (imgClickX / imgRect.width) * 100
+      // const yPercent = (imgClickY / imgRect.height) * 100
 
-        setTimeout(() => {
-          setPopupPosition((prevPopupPosition) => ({
-            ...prevPopupPosition,
-            x: popupX,
-            y: 0 - popupHeight,
-          }))
-        }, 300)
+      const xPercent = Math.floor((imgClickX / imgRect.width) * 10000) / 100
+      // console.log("🚀 ~ handleImageClick ~ xPercent:", xPercent)
+      const yPercent = Math.floor((imgClickY / imgRect.height) * 10000) / 100
+      // console.log("🚀 ~ handleImageClick ~ yPercent:", yPercent)
+
+      /* -------------------- Dropdown ------------------------------ */
+
+      /* Get click co-ordinates relative to wrapper to place dropdown
+     at the click position */
+      const clickX = clientX - gameBoardRect.left
+      const clickY = clientY - gameBoardRect.top
+
+      const dropdownWidth = dropdown.clientWidth
+      const dropdownHeight = dropdown.clientHeight
+
+      /* Calculate the remaining width and height of wrapper
+    from click position */
+      const widthDiff = gameBoardRect.right - clientX
+      const heightDiff = gameBoardRect.bottom - clientY
+
+      // Flip dropdown based on how much width/bottom left
+      let dropdownX = clickX
+      if (widthDiff < dropdownWidth) {
+        dropdownX = clickX - dropdownWidth
       }
 
-      window.setTimeout(resetPopup, 2000)
-    }
+      let dropdownY = clickY
+      if (heightDiff < dropdownHeight) {
+        dropdownY = clickY - dropdownHeight
+      }
 
-    /* Reset for both data is 'true' and is 'undefined' because
+      /* Get raw pixels which can be used to calculate the position at
+    render time */
+      const unscaledX =
+        (dropdownX - imgContainerPosition.x) / imgContainerPosition.scale
+      const unscaledY =
+        (dropdownY - imgContainerPosition.y) / imgContainerPosition.scale
+
+      /* --------------------- Target --------------------- */
+
+      const unscaledTargetX =
+        (clickX - imgContainerPosition.x) / imgContainerPosition.scale
+      const unscaledTargetY =
+        (clickY - imgContainerPosition.y) / imgContainerPosition.scale
+
+      /* --------------------- Setter functions --------------------- */
+
+      /* Reset dropdown position on every second click to prevent 
+    scroll bars when screen width changes from wide to narrow */
+      if (imgClick) {
+        setDropdownPosition((prevDropdownPosition) => ({
+          ...prevDropdownPosition,
+          x: -9999,
+          y: -9999,
+        }))
+        setTargetPosition((prevTargetPosition) => ({
+          ...prevTargetPosition,
+          x: -9999,
+          y: -9999,
+        }))
+      } else {
+        setImgClickCoords((prevImgClickCoords) => ({
+          ...prevImgClickCoords,
+          x: xPercent,
+          y: yPercent,
+        }))
+
+        /* Save unscaled values to recalculate position on every click
+      because it is outside of image container */
+        setDropdownPosition((prevDropdownPosition) => ({
+          ...prevDropdownPosition,
+          x: unscaledX,
+          y: unscaledY,
+        }))
+
+        // Target anchors to click position
+        setTargetPosition((prevTargetPosition) => ({
+          ...prevTargetPosition,
+          x: unscaledTargetX,
+          y: unscaledTargetY,
+        }))
+      }
+
+      setImgClick(!imgClick)
+    },
+    [imgClick, imgContainerPosition, isActive, isDragging]
+  )
+
+  /* Show success or fail message after player chooses a character */
+  const handleCharacterClick = useCallback(
+    async (characterId) => {
+      // Validate click coordinated on backend and get character data and it's match status
+      const data = await validateCharacterClick(
+        characterId,
+        sceneId,
+        imgClickCoords,
+        setErrorMsg,
+        setIsActive,
+        sessionId
+      )
+      // console.log('🚀 ~ handleCharacterClick ~ data:', data)
+
+      if (data) {
+        // Disable play (image clicks) if 'isGameOver' true
+        if (data.isGameOver) {
+          setIsActive(false)
+        }
+
+        const gameBoardRect = gameBoardRef.current.getBoundingClientRect()
+        const popup = popupRef.current
+        const popupWidth = popup.clientWidth
+        const popupHeight = popup.clientHeight
+
+        /* Place popup in the top middle of game board and then center it
+    using 'translateX' */
+        const popupX = gameBoardRect.width / 2 - popupWidth / 2
+        let popupY = 0
+
+        /* Save validation result in a state and place it at App 
+    level so that all children can access it */
+        setResult((prevResult) => ({
+          ...prevResult,
+          isMatch: data.isMatch,
+          characterId: data.characterData.id,
+          characterName: data.characterData.name,
+          foundCharacters: data.foundCharacters,
+          isGameOver: data.isGameOver,
+          duration: data.duration,
+        }))
+
+        setPopupPosition((prevPopupPosition) => ({
+          ...prevPopupPosition,
+          x: popupX,
+          y: popupY,
+        }))
+
+        /* Hide popup message after 1 second */
+        const resetPopup = () => {
+          setIsOption(false)
+
+          setTimeout(() => {
+            setPopupPosition((prevPopupPosition) => ({
+              ...prevPopupPosition,
+              x: popupX,
+              y: 0 - popupHeight,
+            }))
+          }, 300)
+        }
+
+        window.setTimeout(resetPopup, 2000)
+      }
+
+      /* Reset for both data is 'true' and is 'undefined' because
     of backend errors */
-    setDropdownPosition((prevDropdownPosition) => ({
-      ...prevDropdownPosition,
-      x: -9999,
-      y: -9999,
-    }))
-    setTargetPosition((prevTargetPosition) => ({
-      ...prevTargetPosition,
-      x: -9999,
-      y: -9999,
-    }))
-    setImgClick(false)
-    // Show popup message
-    setIsOption(true)
-  }
+      setDropdownPosition((prevDropdownPosition) => ({
+        ...prevDropdownPosition,
+        x: -9999,
+        y: -9999,
+      }))
+      setTargetPosition((prevTargetPosition) => ({
+        ...prevTargetPosition,
+        x: -9999,
+        y: -9999,
+      }))
+      setImgClick(false)
+      // Show popup message
+      setIsOption(true)
+    },
+    [imgClickCoords, sceneId, sessionId, setErrorMsg, setIsActive, setResult]
+  )
+
+  const handleRetry = useCallback(() => {
+    window.location.reload()
+  }, [])
 
   return (
     <>
@@ -717,7 +735,9 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
                 </p>
                 <Button
                   className="retryBtn"
-                  onClick={() => window.location.reload()}>
+                  onClick={handleRetry}
+                  // onClick={() => window.location.reload()}
+                >
                   <img
                     src={reloadIcon}
                     alt=""
