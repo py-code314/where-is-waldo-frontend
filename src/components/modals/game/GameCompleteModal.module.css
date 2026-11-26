@@ -122,7 +122,7 @@
   );
 }
 
-.duration {
+.completionTime {
   font-family: var(--ff-time);
   font-size: clamp(
     var(--space-20, 1.25rem),
