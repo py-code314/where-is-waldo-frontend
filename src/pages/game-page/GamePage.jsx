@@ -136,11 +136,11 @@ const GamePage = () => {
 
         <SceneDataContext
           value={{ sceneId, imageUrl, imageAlt, sceneCharacters }}>
-          <GameSessionContext value={{ isActive, hasImgError, setHasImgError }}>
+          <GameSessionContext value={{ isActive, setIsActive, hasImgError, setHasImgError }}>
             {/* Game image  */}
             <GameScene
-              isActive={isActive}
-              setIsActive={setIsActive}
+              // isActive={isActive}
+              // setIsActive={setIsActive}
               setErrorMsg={setErrorMsg}
               sessionId={sessionId}
             />

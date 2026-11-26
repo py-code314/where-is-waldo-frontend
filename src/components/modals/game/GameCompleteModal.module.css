@@ -209,8 +209,16 @@
   );
 }
 
-.scoresLink {
+.linksContainer {
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8, 0.5rem);
+}
+
+.scoresLink,
+.homeLink {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -233,7 +241,8 @@
   color: var(--clr-white, white);
 }
 
-.trophyIcon {
+.trophyIcon,
+.backIcon {
   width: clamp(var(--space-14, 0.875rem), 0.607rem + 0.714vw, var(--space-20, 1.25rem));
   height: clamp(var(--space-14, 0.875rem), 0.607rem + 0.714vw, var(--space-20, 1.25rem));
 

@@ -5,6 +5,7 @@ import closeIcon from '../../../assets/icons/icon-close.svg'
 import successIcon from '../../../assets/icons/icon-success.svg'
 import errorIcon from '../../../assets/icons/icon-error.svg'
 import trophyIcon from '../../../assets/icons/icon-trophy.svg'
+import backIcon from '../../../assets/icons/icon-back.svg'
 /* ---------------------- Hooks ------------------------------ */
 import { useContext, useRef, useState } from 'react'
 /* ---------------------- Context ------------------------------ */
@@ -21,7 +22,7 @@ import {
 
 const GameCompleteModal = ({ modalRef }) => {
   const { result } = useContext(ResultContext)
-  const duration = Math.floor(result.duration/1000)
+  const duration = Math.floor(result.duration / 1000)
   // console.log("🚀 ~ GameCompleteModal ~ duration:", duration)
   const nameInputRef = useRef(null)
 
@@ -141,17 +142,32 @@ const GameCompleteModal = ({ modalRef }) => {
                   Save to Leaderboard
                 </Button>
               </form>
-              {/* Link to top scores  */}
-              <Link className={styles.scoresLink}>
-                <img
-                  className={styles.trophyIcon}
-                  src={trophyIcon}
-                  alt=""
-                  width={20}
-                  height={20}
-                />
-                Top Scores
-              </Link>
+              <div className={styles.linksContainer}>
+                {/* Link to home  */}
+                <Link className={styles.homeLink} to={'/home'}>
+                  <img
+                    className={styles.backIcon}
+                    src={backIcon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  />
+                  Home
+                </Link>
+                {/* Link to top scores  */}
+                <Link className={styles.scoresLink}>
+                  <img
+                    className={styles.trophyIcon}
+                    src={trophyIcon}
+                    alt=""
+                    width={20}
+                    height={20}
+                    aria-hidden="true"
+                  />
+                  Top Scores
+                </Link>
+              </div>
             </div>
           </div>
         </div>

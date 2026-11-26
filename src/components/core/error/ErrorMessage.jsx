@@ -29,7 +29,7 @@ const ErrorMessage = ({ error }) => {
         </div>
         <p className={styles.errorMsg}>{error.message}</p>
         {/* Back to Home link  */}
-        <Link className={styles.homeLink} to={'/home'} aria-label="Go to home">
+        <Link className={styles.homeLink} to={'/home'}>
           <img
             className={styles.backIcon}
             src={backIcon}
