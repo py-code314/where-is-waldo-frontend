@@ -20,7 +20,7 @@ const Button = ({
 
   return (
     <button
-      type={type}
+      type={type === 'submit' ? 'submit' : 'button'}
       id={id}
       className={combinedClassName}
       data-id={dataId}
