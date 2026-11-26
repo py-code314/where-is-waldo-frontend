@@ -35,9 +35,10 @@ const GameHeader = ({ title, characterNames, difficulty }) => {
         {/* Top bar with all Header info  */}
         <div className={styles.gameInfo}>
           {/* Title and instructions  */}
+          {/* Add ids for 'aria-labelledby' */}
           <div className={styles.sceneInfo}>
-            <h2 className={styles.title}>{title}</h2>
-            <p className={styles.instructions}>{instructions}</p>
+            <h2 id='title' className={styles.title}>{title}</h2>
+            <p id='instructions' className={styles.instructions}>{instructions}</p>
           </div>
           <div className={styles.gameStats}>
             <div className={styles.difficulty}>

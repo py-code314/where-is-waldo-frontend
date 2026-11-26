@@ -719,7 +719,14 @@ const GameScene = ({ setErrorMsg, sessionId }) => {
   return (
     <>
       <div className={styles.gameBoardContainer}>
-        <div className={styles.gameBoard} ref={gameBoardRef}>
+        <div
+          /* Make the div focusable */
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
+          role="region"
+          aria-labelledby='title instructions'
+          className={styles.gameBoard}
+          ref={gameBoardRef}>
           <div
             className={styles.imgContainer}
             ref={imgContainerRef}
