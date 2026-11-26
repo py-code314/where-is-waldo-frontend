@@ -10,7 +10,7 @@ import Navbar from '../navbar/Navbar'
 const Header = () => {
   return (
     <header className={styles.header}>
-      <title>Where's Wally</title>
+      <title>Where&apos;s Wally</title>
 
       <Link to={`/home`} className={styles.link}>
         {/* Logo  */}
