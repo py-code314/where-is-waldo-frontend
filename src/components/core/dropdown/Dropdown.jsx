@@ -1,7 +1,7 @@
 /* -------------------- Styles -------------------- */
 import styles from './Dropdown.module.css'
 /* -------------------- Hooks -------------------- */
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 /* -------------------- Context -------------------- */
 import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext'
 import { ResultContext } from '../../../contexts/game-scene/ResultContext'
@@ -19,7 +19,16 @@ const Dropdown = ({
   // Context
   const { sceneCharacters } = useContext(SceneDataContext)
   const { result } = useContext(ResultContext)
-  const {foundCharacters} = result
+  const { foundCharacters } = result
+
+  /* Using arrow functions in JSX props leads to unnecessary re-renders */
+  const handleClick = useCallback(
+    (e) => {
+      const id = e.target.dataset.id
+      handleCharacterClick(id)
+    },
+    [handleCharacterClick]
+  )
 
   return (
     <>
@@ -40,8 +49,9 @@ const Dropdown = ({
             <li key={character.id}>
               <Button
                 id={character.id}
+                dataId={character.id}
                 className="optionBtn"
-                onClick={() => handleCharacterClick(character.id)}
+                onClick={handleClick}
                 disabled={foundCharacters.includes(character.id)}>
                 {character.name}
               </Button>
