@@ -1,7 +1,7 @@
 /* ------------------------- Styles ------------------------------- */
 import styles from './GameImage.module.css'
 /* ------------------------- Hooks ------------------------------- */
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 /* ------------------------- Context ------------------------------- */
 import { SceneDataContext } from '../../../contexts/game-scene/SceneDataContext'
 import { GameSessionContext } from '../../../contexts/game-session/GameSessionContext'
@@ -14,11 +14,18 @@ const GameImage = ({
   handleTouchEnd,
   handleImageClick,
 }) => {
+  // Context
   const { imageUrl, imageAlt } = useContext(SceneDataContext)
-  const {setHasImgError} = useContext(GameSessionContext)
+  const { setHasImgError } = useContext(GameSessionContext)
+
+  const handleError = useCallback(() => {
+    setHasImgError(true)
+  }, [setHasImgError])
 
   return (
     <>
+      {/* 'onError' fires when image fails to load  */}
+      {/* Don't use arrow functions in props  to prevent unnecessary re-renders */}
       <img
         ref={imgRef}
         className={styles.gameImg}
@@ -29,7 +36,7 @@ const GameImage = ({
         onMouseUp={handleMouseUp}
         onTouchEnd={handleTouchEnd}
         onClick={handleImageClick}
-        onError={() => setHasImgError(true)}
+        onError={handleError}
       />
     </>
   )
