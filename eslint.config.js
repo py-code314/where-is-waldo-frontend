@@ -35,6 +35,9 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     rules: {
+      // Disable react prop types rule as prop-types is deprecated
+      'react/prop-types': 'off',
+      
       /* Vite React Refresh rules */
       'react-refresh/only-export-components': [
         'warn',
