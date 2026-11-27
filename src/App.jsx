@@ -2,8 +2,10 @@
 import styles from './App.module.css'
 /* -------------------- Hooks -------------------- */
 import { useState, useEffect, useRef } from 'react'
+import { useOnClickOutside } from './hooks/useClick'
 /* -------------------- Context -------------------- */
 import { ResultContext } from './contexts/game-scene/ResultContext'
+import { NavbarContext } from './contexts/navbar/NavbarContext'
 /* -------------------- Components -------------------- */
 import { Outlet } from 'react-router'
 import Header from './components/layouts/header/Header'
@@ -21,8 +23,14 @@ function App() {
     isGameOver: false,
     duration: 0,
   })
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   // console.log('🚀 ~ App ~ result:', result)
+  // Ref
+  const navbarRef = useRef(null)
   const modalRef = useRef(null)
+
+  // Close menu if clicked outside of Navbar
+  useOnClickOutside(navbarRef, () => setIsMenuOpen(false))
 
   // Show and close modal based on result from backend
   useEffect(() => {
@@ -39,7 +47,9 @@ function App() {
   return (
     <>
       <div className={styles.app}>
-        <Header />
+        <NavbarContext value={{ navbarRef, isMenuOpen, setIsMenuOpen }}>
+          <Header />
+        </NavbarContext>
 
         <ResultContext value={{ result, setResult }}>
           <Outlet />
