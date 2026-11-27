@@ -5,7 +5,6 @@ import checkmarkIcon from '../../../assets/icons/icon-checkmark.svg'
 /* -------------------- Hooks -------------------- */
 import { useContext,  } from 'react'
 /* -------------------- Context -------------------- */
-// import { StopwatchContext } from '../../../contexts/game-scene/StopwatchContext'
 import { ResultContext } from '../../../contexts/game-scene/ResultContext'
 
 const CharactersList = ({ characters }) => {

@@ -20,11 +20,11 @@ import {
 } from '../../../utils/index.js'
 import Button from '../../core/button/Button.jsx'
 
-const GameScene = ({ setErrorMsg, sessionId }) => {
+const GameScene = ({ setErrorMsg,  }) => {
   // Context
   const { setResult } = useContext(ResultContext)
   const { sceneId } = useContext(SceneDataContext)
-  const { isActive, setIsActive, hasImgError } = useContext(GameSessionContext)
+  const { isActive, setIsActive, hasImgError, sessionId } = useContext(GameSessionContext)
 
   /* ----------------------- State -------------------------------- */
 

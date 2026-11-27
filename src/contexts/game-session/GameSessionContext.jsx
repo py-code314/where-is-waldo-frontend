@@ -5,5 +5,6 @@ export const GameSessionContext = createContext({
   isActive: false,
   setIsActive: () => {},
   hasImgError: false,
-  setHasImgError: () => {},
+  setHasImgError: () => { },
+  sessionId: 0,
 })
