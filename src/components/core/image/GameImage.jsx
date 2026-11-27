@@ -1,3 +1,12 @@
+/* ------------------------
+
+ Might add keyboard support for game play later. Adding inline disable comments for now to suppress the warnings/errors 
+ 
+------------------------ */
+
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 /* ------------------------- Styles ------------------------------- */
 import styles from './GameImage.module.css'
 /* ------------------------- Hooks ------------------------------- */
