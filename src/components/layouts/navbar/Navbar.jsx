@@ -61,7 +61,6 @@ const Navbar = () => {
         )}
       </Button>
 
-      {/* //  TODO: Hide menu when clicked on a nav link */}
       {/* Add 'open' class when the 'toggle menu' button is clicked */}
       <nav
         className={`${styles.navbar}  ${isMenuOpen ? styles.open : styles.hidden}`}
@@ -71,11 +70,12 @@ const Navbar = () => {
         <ul className={styles.navList}>
           <li className={styles.navItem}>
             {/* Home link  */}
-            <Link className={styles.link} to={`/home`}>
+            <Link className={styles.link} to={`/home`} onClick={handleClick}>
               Where&apos;s Wally
             </Link>
           </li>
           {/* Inactive links  */}
+          {/* // TODO: Make this a link  */}
           <li className={styles.navItem}>
             <span className={styles.placeholderLink}>Leaderboard</span>
           </li>
