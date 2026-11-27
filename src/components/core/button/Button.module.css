@@ -4,7 +4,6 @@
   border: transparent;
   cursor: pointer;
   font-family: var(--ff-primary);
-  /* font-size: var(--fs-20, 1.25rem); */
 }
 
 .btn:disabled {
@@ -95,8 +94,16 @@
 }
 
 .retryBtn img {
-  width: clamp(var(--space-10, 0.625rem), 0.402rem + 0.595vw, var(--space-15, 0.938rem));
-  height: clamp(var(--space-10, 0.625rem), 0.402rem + 0.595vw, var(--space-15, 0.938rem));
+  width: clamp(
+    var(--space-10, 0.625rem),
+    0.402rem + 0.595vw,
+    var(--space-15, 0.938rem)
+  );
+  height: clamp(
+    var(--space-10, 0.625rem),
+    0.402rem + 0.595vw,
+    var(--space-15, 0.938rem)
+  );
 }
 
 /* Mobile styles */
@@ -105,13 +112,14 @@
   .menuToggleBtn {
     display: block;
     position: relative;
+    width: var(--space-42, 2.625rem);
+    height: var(--space-42, 2.625rem);
   }
 }
 
 /* Add this to reset hover styles on touch screens */
 @media (hover: none) {
   .optionBtn:hover {
-    /* cursor: auto; */
     background-color: var(--clr-white, white);
   }
 }

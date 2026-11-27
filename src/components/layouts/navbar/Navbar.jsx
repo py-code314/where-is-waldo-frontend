@@ -2,6 +2,7 @@
 import styles from './Navbar.module.css'
 /* -------------------- Icons -------------------- */
 import menuIcon from '../../../assets/icons/icon-menu.svg'
+import closeIcon from '../../../assets/icons/icon-close-1.svg'
 /* -------------------- Hooks -------------------- */
 import { useCallback, useState } from 'react'
 /* -------------------- Components -------------------- */
@@ -39,16 +40,28 @@ const Navbar = () => {
         onKeyDown={handleKeyDown}
         ariaLabel="Main navigation menu"
         ariaExpanded={isMenuOpen}>
-        <img
-          className={styles.menuIcon}
-          src={menuIcon}
-          alt=""
-          width={40}
-          height={40}
-          aria-hidden="true"
-        />
+        {isMenuOpen ? (
+          <img
+            className={styles.closeIcon}
+            src={closeIcon}
+            alt=""
+            width={40}
+            height={40}
+            aria-hidden="true"
+          />
+        ) : (
+          <img
+            className={styles.menuIcon}
+            src={menuIcon}
+            alt=""
+            width={40}
+            height={40}
+            aria-hidden="true"
+          />
+        )}
       </Button>
 
+      {/* //  TODO: Hide menu when clicked on a nav link */}
       {/* Add 'open' class when the 'toggle menu' button is clicked */}
       <nav
         className={`${styles.navbar}  ${isMenuOpen ? styles.open : styles.hidden}`}

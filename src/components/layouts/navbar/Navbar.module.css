@@ -1,16 +1,3 @@
-.menuIcon {
-  width: clamp(
-    var(--space-32, 2rem),
-    1.795rem + 1.026vw,
-    var(--space-40, 2.5rem)
-  );
-  height: clamp(
-    var(--space-32, 2rem),
-    1.795rem + 1.026vw,
-    var(--space-40, 2.5rem)
-  );
-}
-
 .navList {
   display: flex;
   align-items: center;
@@ -52,6 +39,34 @@
 
 /* Tablet and mobile styles */
 @media (max-width: 68.75rem /* 1100px  */) {
+  .menuIcon {
+    width: clamp(
+      var(--space-28, 1.75rem),
+      1.391rem + 1.795vw,
+      var(--space-42, 2.625rem)
+    );
+    height: clamp(
+      var(--space-28, 1.75rem),
+      1.391rem + 1.795vw,
+      var(--space-42, 2.625rem)
+    );
+    margin: auto;
+  }
+
+  .closeIcon {
+    width: clamp(
+      var(--space-24, 1.5rem),
+      1.141rem + 1.795vw,
+      var(--space-38, 2.375rem)
+    );
+    height: clamp(
+      var(--space-24, 1.5rem),
+      1.141rem + 1.795vw,
+      var(--space-38, 2.375rem)
+    );
+    margin: auto;
+  }
+
   .hidden {
     /* Hide the element */
     opacity: 0;
@@ -60,19 +75,18 @@
     /* Placement */
     position: absolute;
     right: clamp(
-      var(--space-32, 2rem),
-      1.59rem + 2.051vw,
-      var(--space-48, 3rem)
+      var(--space-34, 2.25rem),
+      1.994rem + 1.282vw,
+      var(--space-46, 2.875rem)
     );
     top: clamp(
       var(--space-56, 3.5rem),
       2.885rem + 3.077vw,
       var(--space-80, 5rem)
     );
-
     width: clamp(
-      var(--space-160, 10rem),
-      8.974rem + 5.128vw,
+      var(--space-140, 8.75rem),
+      6.071rem + 7.143vw,
       var(--space-200, 12.5rem)
     );
     padding: clamp(
