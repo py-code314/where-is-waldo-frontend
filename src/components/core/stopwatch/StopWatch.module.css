@@ -10,8 +10,8 @@
 
 .label {
   font-size: clamp(
-    var(--space-10, 0.625rem),
-    0.536rem + 0.238vw,
+    var(--space-11, 0.688rem),
+    0.67rem + 0.089vw,
     var(--space-12, 0.75rem)
   );
   text-transform: uppercase;
@@ -38,7 +38,7 @@
   }
 }
 
-@media (max-width: 33.75rem /* 540px  */) {
+@media (max-width: 35rem /* 560px  */) {
   .stopwatch {
     padding: 0;
     border: transparent; /* Remove border  */

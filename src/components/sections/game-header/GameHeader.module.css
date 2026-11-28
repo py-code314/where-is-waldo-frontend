@@ -1,54 +1,57 @@
 .gameHeader {
   display: flex;
   align-items: center;
-  gap: clamp(
+  gap: clamp(var(--space-16, 1rem), -1rem + 10vw, var(--space-128, 8rem));
+  padding: clamp(
     var(--space-8, 0.5rem),
-    -0.571rem + 2.857vw,
-    var(--space-32, 2rem)
+    0.357rem + 0.714vw,
+    var(--space-16, 1rem)
   );
-  color: var(--clr-white, white);
+  background-color: var(--clr-accent-2, midnightblue);
+  border-radius: var(--radius-10, 0.625rem);
 }
 
 .homeLink {
   padding: clamp(
-    var(--space-8, 0.5rem),
-    0.357rem + 0.714vw,
+    var(--space-4, 0.25rem),
+    0.036rem + 1.071vw,
     var(--space-16, 1rem)
   );
   display: flex;
   align-items: center;
-  gap: var(--space-8, 0.5rem);
+  gap: clamp(
+    var(--space-4, 0.25rem),
+    0.179rem + 0.357vw,
+    var(--space-8, 0.5rem)
+  );
   font-weight: 600;
-  color: var(--clr-white, white);
-  background-color: var(--clr-accent-2, midnightblue);
+  color: var(--clr-accent-2, midnightblue);
+  background-color: var(--clr-gray-2, white);
   border-radius: var(--radius-10, 0.625rem);
 }
 
-.homeText {
-  font-size: var(--space-16, 1rem);
-}
-
-.homeIconContainer {
-  padding: var(--space-4, 0.25rem);
-  background-color: var(--clr-white, white);
-  border-radius: var(--radius-round, 50%);
+.linkText {
+  font-size: clamp(
+    var(--space-16, 1rem),
+    0.929rem + 0.357vw,
+    var(--space-20, 1.25rem)
+  );
 }
 
 .gameInfo {
   flex: 1;
-  padding: clamp(
-    var(--space-8, 0.5rem),
-    0.357rem + 0.714vw,
-    var(--space-16, 1rem)
-  );
   display: flex;
-  gap: clamp(var(--space-4, 0.25rem), -0.286rem + 1.429vw, (--space-16, 1rem));
+  gap: clamp(var(--space-4, 0.25rem), -0.25rem + 2.5vw, var(--space-32, 2rem));
   background-color: var(--clr-accent-2, midnightblue);
   border-radius: var(--radius-10, 0.625rem);
+  color: var(--clr-white, white);
 }
 
 .sceneInfo {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .title {
@@ -83,14 +86,14 @@
 
 .label {
   font-size: clamp(
-    var(--space-10, 0.625rem),
-    0.536rem + 0.238vw,
+    var(--space-11, 0.688rem),
+    0.67rem + 0.089vw,
     var(--space-12, 0.75rem)
   );
   text-transform: uppercase;
 }
 
-.level  {
+.level {
   font-size: clamp(
     var(--space-14, 0.875rem),
     0.786rem + 0.238vw,
@@ -99,38 +102,21 @@
 }
 
 /* Tablet and mobile styles */
-@media (max-width: 68.75rem /* 1100px  */) {
-  .homeLink {
-    flex-direction: column;
-    justify-content: center;
-    gap: 0;
-  }
 
-  .homeText {
-    color: var(--clr-accent-2, midnightblue);
-  }
-
-  .homeLink,
-  .homeIconContainer {
-    background-color: transparent;
-  }
-}
-
-@media (max-width: 43.75rem /* 700px  */) {
+@media (max-width: 48.75rem /* 780px  */) {
   .instructions {
     display: none;
   }
-
-  .sceneInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
 }
 
-@media (max-width: 33.75rem /* 540px  */) {
+@media (max-width: 35rem /* 560px  */) {
   /* Only icon is visible at this width. An accessible icon size should be 44 x 44. Though the icon is only 30 x 30, the whole link size is 54 x 54. That's enough area to click the link on mobile  */
-  .homeText {
+  .homeLink {
+    width: var(--space-42, 2.625rem);
+    height: var(--space-42, 2.625rem);
+    justify-content: center;
+  }
+  .linkText {
     display: none;
   }
 

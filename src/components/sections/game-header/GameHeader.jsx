@@ -20,16 +20,15 @@ const GameHeader = ({ title, characterNames, difficulty }) => {
       <div className={styles.gameHeader}>
         {/* Back to Home link  */}
         <Link className={styles.homeLink} to={'/home'} aria-label="Go to home">
-          <div className={styles.homeIconContainer}>
-            <img
-              src={homeIcon}
-              alt=""
-              width={30}
-              height={30}
-              aria-hidden="true"
-            />
-          </div>
-          <span className={styles.homeText}>Home</span>
+          <img
+            className={styles.homeIcon}
+            src={homeIcon}
+            alt=""
+            width={30}
+            height={30}
+            aria-hidden="true"
+          />
+          <span className={styles.linkText}>Home</span>
         </Link>
 
         {/* Top bar with all Header info  */}
@@ -37,8 +36,12 @@ const GameHeader = ({ title, characterNames, difficulty }) => {
           {/* Title and instructions  */}
           {/* Add ids for 'aria-labelledby' */}
           <div className={styles.sceneInfo}>
-            <h2 id='title' className={styles.title}>{title}</h2>
-            <p id='instructions' className={styles.instructions}>{instructions}</p>
+            <h2 id="title" className={styles.title}>
+              {title}
+            </h2>
+            <p id="instructions" className={styles.instructions}>
+              {instructions}
+            </p>
           </div>
           <div className={styles.gameStats}>
             <div className={styles.difficulty}>
